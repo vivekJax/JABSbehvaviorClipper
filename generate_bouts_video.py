@@ -445,6 +445,10 @@ def extract_clip(bout: Dict, index: int) -> Optional[str]:
     # Use -ss before -i for faster seeking
     # When -ss is before -i, 'n' in filters refers to OUTPUT frame numbers (0-indexed from clip start)
     # So we use relative frame numbers (frame_num - start_f) in enable expressions
+    
+    # Prepare video name for metadata (escape quotes and special chars)
+    video_name_meta = bout['video_name'].replace("'", "\\'").replace(":", "\\:")
+    
     cmd = [
         'ffmpeg',
         '-y',
@@ -456,6 +460,8 @@ def extract_clip(bout: Dict, index: int) -> Optional[str]:
         '-c:a', 'aac',
         '-r', '30',
         '-preset', 'fast',
+        '-metadata', f"title={video_name_meta}",
+        '-metadata', f"comment=Source: {video_name_meta} | Mouse ID: {bout['identity']} | Frames: {bout['start_frame']}-{bout['end_frame']}",
         output_path
     ]
     
@@ -565,8 +571,9 @@ Examples:
             shutil.rmtree(TEMP_DIR)
         return
 
-    # Sort bouts by video name and start frame
-    bouts.sort(key=lambda x: (x['video_name'], x['start_frame']))
+    # Sort bouts by video name, then by animal identity, then by start frame
+    # This ensures all bouts for one animal are processed before moving to the next animal
+    bouts.sort(key=lambda x: (x['video_name'], x['identity'], x['start_frame']))
     
     concat_list_path = os.path.join(TEMP_DIR, 'concat_list.txt')
     created_clips = []
@@ -616,6 +623,21 @@ Examples:
         if not args.keep_temp and os.path.exists(TEMP_DIR):
             shutil.rmtree(TEMP_DIR)
         return
+    
+    # Create video name mapping file for easy copy/paste
+    mapping_file = os.path.splitext(OUTPUT_FILENAME)[0] + '_video_names.txt'
+    logging.info(f"Creating video name mapping file: {mapping_file}")
+    with open(mapping_file, 'w') as f:
+        f.write("# Video Name Mapping - Copy/paste video names from this file\n")
+        f.write("# Format: Clip_Index | Video_Name | Mouse_ID | Frame_Range\n")
+        f.write("# " + "="*80 + "\n\n")
+        for i, clip_name in enumerate(created_clips):
+            # Find the corresponding bout
+            clip_index = int(clip_name.replace('clip_', '').replace('.mp4', ''))
+            bout = bouts[clip_index]
+            video_name_short = os.path.splitext(bout['video_name'])[0]
+            f.write(f"{clip_index:05d} | {bout['video_name']} | Mouse {bout['identity']} | Frames {bout['start_frame']}-{bout['end_frame']}\n")
+    logging.info(f"Video name mapping saved to: {mapping_file}")
     
     # Create concat list
     logging.info("Creating concat list...")
