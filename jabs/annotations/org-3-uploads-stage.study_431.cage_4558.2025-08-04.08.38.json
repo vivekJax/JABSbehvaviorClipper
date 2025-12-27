@@ -1,0 +1,498 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_431.cage_4558.2025-08-04.08.38.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1253,
+          "end": 1259,
+          "present": false
+        },
+        {
+          "start": 1261,
+          "end": 1261,
+          "present": false
+        },
+        {
+          "start": 1266,
+          "end": 1266,
+          "present": false
+        },
+        {
+          "start": 1269,
+          "end": 1279,
+          "present": false
+        },
+        {
+          "start": 1281,
+          "end": 1283,
+          "present": false
+        },
+        {
+          "start": 1345,
+          "end": 1346,
+          "present": false
+        },
+        {
+          "start": 1348,
+          "end": 1350,
+          "present": false
+        },
+        {
+          "start": 1353,
+          "end": 1355,
+          "present": false
+        },
+        {
+          "start": 1357,
+          "end": 1373,
+          "present": false
+        },
+        {
+          "start": 1426,
+          "end": 1446,
+          "present": true
+        },
+        {
+          "start": 1448,
+          "end": 1451,
+          "present": true
+        },
+        {
+          "start": 1473,
+          "end": 1480,
+          "present": false
+        },
+        {
+          "start": 1485,
+          "end": 1486,
+          "present": false
+        },
+        {
+          "start": 1488,
+          "end": 1499,
+          "present": false
+        },
+        {
+          "start": 1501,
+          "end": 1502,
+          "present": false
+        },
+        {
+          "start": 1504,
+          "end": 1513,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 1439,
+          "end": 1446,
+          "present": false
+        },
+        {
+          "start": 1448,
+          "end": 1466,
+          "present": false
+        },
+        {
+          "start": 1468,
+          "end": 1469,
+          "present": false
+        },
+        {
+          "start": 1473,
+          "end": 1479,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 1160,
+          "end": 1185,
+          "present": false
+        },
+        {
+          "start": 1187,
+          "end": 1188,
+          "present": false
+        },
+        {
+          "start": 1191,
+          "end": 1193,
+          "present": false
+        },
+        {
+          "start": 1195,
+          "end": 1200,
+          "present": false
+        },
+        {
+          "start": 1457,
+          "end": 1458,
+          "present": false
+        },
+        {
+          "start": 1460,
+          "end": 1469,
+          "present": false
+        },
+        {
+          "start": 1471,
+          "end": 1477,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 74,
+          "end": 74,
+          "present": false
+        },
+        {
+          "start": 76,
+          "end": 89,
+          "present": false
+        },
+        {
+          "start": 91,
+          "end": 93,
+          "present": false
+        },
+        {
+          "start": 95,
+          "end": 95,
+          "present": false
+        },
+        {
+          "start": 100,
+          "end": 102,
+          "present": false
+        },
+        {
+          "start": 106,
+          "end": 106,
+          "present": false
+        },
+        {
+          "start": 109,
+          "end": 113,
+          "present": false
+        },
+        {
+          "start": 135,
+          "end": 137,
+          "present": false
+        },
+        {
+          "start": 139,
+          "end": 147,
+          "present": false
+        },
+        {
+          "start": 149,
+          "end": 150,
+          "present": false
+        },
+        {
+          "start": 152,
+          "end": 164,
+          "present": false
+        },
+        {
+          "start": 194,
+          "end": 224,
+          "present": false
+        },
+        {
+          "start": 254,
+          "end": 294,
+          "present": false
+        },
+        {
+          "start": 324,
+          "end": 344,
+          "present": false
+        },
+        {
+          "start": 1450,
+          "end": 1458,
+          "present": false
+        },
+        {
+          "start": 1460,
+          "end": 1469,
+          "present": false
+        },
+        {
+          "start": 1471,
+          "end": 1479,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 136,
+          "end": 156,
+          "present": true
+        },
+        {
+          "start": 185,
+          "end": 199,
+          "present": true
+        },
+        {
+          "start": 213,
+          "end": 233,
+          "present": false
+        },
+        {
+          "start": 253,
+          "end": 308,
+          "present": false
+        },
+        {
+          "start": 383,
+          "end": 403,
+          "present": true
+        },
+        {
+          "start": 406,
+          "end": 426,
+          "present": true
+        },
+        {
+          "start": 449,
+          "end": 469,
+          "present": true
+        },
+        {
+          "start": 486,
+          "end": 491,
+          "present": false
+        },
+        {
+          "start": 493,
+          "end": 495,
+          "present": false
+        },
+        {
+          "start": 497,
+          "end": 506,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 186,
+          "end": 216,
+          "present": false
+        },
+        {
+          "start": 227,
+          "end": 287,
+          "present": false
+        },
+        {
+          "start": 330,
+          "end": 420,
+          "present": false
+        },
+        {
+          "start": 658,
+          "end": 668,
+          "present": false
+        },
+        {
+          "start": 670,
+          "end": 678,
+          "present": false
+        },
+        {
+          "start": 738,
+          "end": 740,
+          "present": true
+        },
+        {
+          "start": 742,
+          "end": 742,
+          "present": true
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1253,
+          "end": 1283,
+          "present": false
+        },
+        {
+          "start": 1343,
+          "end": 1373,
+          "present": false
+        },
+        {
+          "start": 1426,
+          "end": 1451,
+          "present": true
+        },
+        {
+          "start": 1473,
+          "end": 1513,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 1439,
+          "end": 1479,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 1160,
+          "end": 1200,
+          "present": false
+        },
+        {
+          "start": 1457,
+          "end": 1477,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 74,
+          "end": 114,
+          "present": false
+        },
+        {
+          "start": 134,
+          "end": 164,
+          "present": false
+        },
+        {
+          "start": 194,
+          "end": 224,
+          "present": false
+        },
+        {
+          "start": 254,
+          "end": 294,
+          "present": false
+        },
+        {
+          "start": 324,
+          "end": 344,
+          "present": false
+        },
+        {
+          "start": 1449,
+          "end": 1479,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 136,
+          "end": 156,
+          "present": true
+        },
+        {
+          "start": 185,
+          "end": 199,
+          "present": true
+        },
+        {
+          "start": 213,
+          "end": 233,
+          "present": false
+        },
+        {
+          "start": 253,
+          "end": 308,
+          "present": false
+        },
+        {
+          "start": 383,
+          "end": 403,
+          "present": true
+        },
+        {
+          "start": 406,
+          "end": 426,
+          "present": true
+        },
+        {
+          "start": 449,
+          "end": 469,
+          "present": true
+        },
+        {
+          "start": 486,
+          "end": 506,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 186,
+          "end": 216,
+          "present": false
+        },
+        {
+          "start": 227,
+          "end": 287,
+          "present": false
+        },
+        {
+          "start": 330,
+          "end": 420,
+          "present": false
+        },
+        {
+          "start": 658,
+          "end": 678,
+          "present": false
+        },
+        {
+          "start": 738,
+          "end": 746,
+          "present": true
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_431/2025v3.3/stream/cage_4558/2025-08-04/08.38/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4558,
+      "date": "2025-08-04",
+      "org_id": 3,
+      "start_time": "08.38",
+      "study_id": 431,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_431/cage_4558/video/2025-08-04/08.38.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}
