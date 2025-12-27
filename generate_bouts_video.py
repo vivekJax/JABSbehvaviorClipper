@@ -380,12 +380,17 @@ def extract_clip(bout: Dict, index: int) -> Optional[str]:
     else:
         logging.debug(f"Extracted {len(bboxes)} bounding boxes for bout {index} (frames {bout['start_frame']}-{bout['end_frame']})")
     
-    # Overlay text info (top-left)
-    text = f"File: {bout['video_name']} | ID: {bout['identity']} | Frames: {bout['start_frame']}-{bout['end_frame']}"
-    text_clean = text.replace(":", "\\:").replace("'", "\\'")
+    # Overlay text info (bottom center)
+    # Display video name at bottom center
+    video_name_short = os.path.splitext(bout['video_name'])[0]  # Remove .mp4 extension
+    text_line1 = f"{video_name_short}"
+    
+    # Clean text for ffmpeg (escape special characters)
+    text_line1_clean = text_line1.replace(":", "\\:").replace("'", "\\'")
     
     # Build filter chain
-    filters = [f"drawtext=fontfile={FONT_FILE}:text='{text_clean}':fontcolor=white:fontsize=24:box=1:boxcolor=black@0.5:boxborderw=5:x=10:y=10"]
+    # Video name at bottom center: x=(w-text_w)/2 centers horizontally, y=h-th-10 positions at bottom with 10px margin
+    filters = [f"drawtext=fontfile={FONT_FILE}:text='{text_line1_clean}':fontcolor=white:fontsize=20:box=1:boxcolor=black@0.7:boxborderw=3:x=(w-text_w)/2:y=h-th-10"]
     
     # Add bounding boxes using drawbox filters
     if bboxes:
@@ -525,7 +530,7 @@ Examples:
         '--workers',
         type=int,
         default=None,
-        help='Number of parallel workers for clip extraction (default: number of CPU cores)'
+        help='Number of parallel workers for clip extraction (default: CPU cores - 1)'
     )
     
     args = parser.parse_args()
@@ -567,7 +572,9 @@ Examples:
     created_clips = []
     
     # Extract clips (parallel or sequential)
-    num_workers = args.workers if args.workers is not None else multiprocessing.cpu_count()
+    # Default to n-1 cores to leave one core free for system responsiveness
+    default_workers = max(1, multiprocessing.cpu_count() - 1)
+    num_workers = args.workers if args.workers is not None else default_workers
     use_parallel = num_workers > 1 and len(bouts) > 1
     
     if use_parallel:

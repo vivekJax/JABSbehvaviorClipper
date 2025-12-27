@@ -7,6 +7,8 @@
 python3 generate_bouts_video.py
 ```
 
+**Note:** By default, the application uses **multicore processing** with `n-1` CPU cores (leaves one core free for system responsiveness).
+
 ### With Options
 ```bash
 # Extract specific behavior
@@ -67,10 +69,13 @@ python3 generate_bouts_video.py --verbose
 # Keep temp files for debugging (useful for checking bounding boxes)
 python3 generate_bouts_video.py --keep-temp --verbose
 
-# Use parallel processing (4 workers)
+# Use custom number of workers (default is CPU cores - 1)
 python3 generate_bouts_video.py --workers 4
 
-# Disable parallel processing
+# Use all CPU cores
+python3 generate_bouts_video.py --workers $(python3 -c "import multiprocessing; print(multiprocessing.cpu_count())")
+
+# Disable parallel processing (sequential)
 python3 generate_bouts_video.py --workers 1
 ```
 

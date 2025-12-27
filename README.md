@@ -59,7 +59,7 @@ python3 generate_bouts_video.py [OPTIONS]
 - `--video-dir DIR`: Directory containing video files (default: `.`)
 - `--keep-temp`: Keep temporary files after processing (for debugging)
 - `--verbose`: Enable verbose logging (DEBUG level)
-- `--workers N`: Number of parallel workers for clip extraction (default: number of CPU cores)
+- `--workers N`: Number of parallel workers for clip extraction (default: CPU cores - 1, leaves one core free for system responsiveness)
 - `--help`: Show help message
 
 ### Examples
@@ -207,7 +207,7 @@ DEFAULT_BEHAVIOR = 'turn_left'
 
 The script supports parallel processing for clip extraction, which can significantly speed up processing when you have many clips:
 
-- **Default**: Automatically uses all available CPU cores
+- **Default**: Automatically uses `n-1` CPU cores (leaves one core free for system responsiveness)
 - **Custom**: Specify number of workers with `--workers N`
 - **Sequential**: Use `--workers 1` to disable parallel processing
 

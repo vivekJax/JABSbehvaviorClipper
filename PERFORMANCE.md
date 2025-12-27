@@ -8,7 +8,7 @@ The Behavior Video Generator supports multiprocessing to speed up clip extractio
 
 - **Clip extraction is parallelized**: Each video clip is processed independently, making it ideal for parallelization
 - **Uses multiprocessing**: CPU-bound tasks benefit from separate processes (not threads)
-- **Automatic worker count**: Defaults to number of CPU cores available
+- **Automatic worker count**: Defaults to `n-1` CPU cores (leaves one core free for system responsiveness)
 - **Maintains order**: Clips are concatenated in the correct order regardless of processing order
 
 ## Usage
@@ -17,7 +17,7 @@ The Behavior Video Generator supports multiprocessing to speed up clip extractio
 ```bash
 python3 generate_bouts_video.py --behavior turn_left
 ```
-Uses all available CPU cores automatically.
+Uses `n-1` CPU cores automatically (leaves one core free for system responsiveness).
 
 ### Custom Worker Count
 ```bash
@@ -54,11 +54,11 @@ python3 generate_bouts_video.py --behavior turn_left --workers 1
 
 ### Optimal Settings
 
-**Rule of thumb**: Number of workers = Number of CPU cores
+**Rule of thumb**: Number of workers = Number of CPU cores - 1 (default behavior)
 
 ```python
 import multiprocessing
-optimal_workers = multiprocessing.cpu_count()
+optimal_workers = max(1, multiprocessing.cpu_count() - 1)  # Default: n-1 cores
 ```
 
 ### Considerations
