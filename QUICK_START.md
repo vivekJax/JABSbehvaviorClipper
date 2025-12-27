@@ -1,4 +1,6 @@
 # Quick Start Guide
+## Purpose
+This script will take a JABS project and make clips of all labeled behaviors. This will allow the labeler to quickly check all the labeled bouts to get an idea of the behavior. 
 
 ## Running the Application
 
