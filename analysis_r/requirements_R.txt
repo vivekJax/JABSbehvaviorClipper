@@ -1,0 +1,13 @@
+rhdf5
+dplyr
+jsonlite
+optparse
+ggplot2
+Rtsne
+factoextra
+pheatmap
+cluster
+NbClust
+gridExtra
+dbscan
+

@@ -1,6 +1,8 @@
 # Behavior Video Generator
 
-A Python tool for generating video montages from labeled behavior bouts in annotation files. Extracts video clips where specific behaviors are marked as `present=True`, adds bounding boxes from pose estimation data, and concatenates them into a single output video.
+A Python tool for generating video clip movivies from labeled JABS behavior bouts in annotation files. Extracts video clips where specific behaviors are marked as `present=True`, adds bounding boxes from pose estimation data, and concatenates them into a single output video.
+
+The goal is to allow the labeler to quickly generate a movie to view how the labeler is annotating the beahvior. 
 
 ## Features
 
