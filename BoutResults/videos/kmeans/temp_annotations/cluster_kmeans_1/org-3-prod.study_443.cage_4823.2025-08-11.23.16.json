@@ -1,0 +1,33 @@
+{
+  "file": "org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4",
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 989,
+          "end": 1011,
+          "present": true
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 1462,
+          "end": 1479,
+          "present": true
+        },
+        {
+          "start": 1552,
+          "end": 1571,
+          "present": true
+        },
+        {
+          "start": 1650,
+          "end": 1667,
+          "present": true
+        }
+      ]
+    }
+  }
+}

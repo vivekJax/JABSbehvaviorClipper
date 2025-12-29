@@ -1,0 +1,28 @@
+{
+  "file": "org-3-uploads-stage.study_470.cage_5049.2025-09-09.00.30.mp4",
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 413,
+          "end": 433,
+          "present": true
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 360,
+          "end": 390,
+          "present": true
+        },
+        {
+          "start": 474,
+          "end": 486,
+          "present": true
+        }
+      ]
+    }
+  }
+}

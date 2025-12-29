@@ -1,0 +1,19 @@
+{
+  "file": "org-3-uploads-stage.study_507.cage_5502.2025-10-15.22.32.mp4",
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 812,
+          "end": 827,
+          "present": true
+        },
+        {
+          "start": 1640,
+          "end": 1680,
+          "present": true
+        }
+      ]
+    }
+  }
+}

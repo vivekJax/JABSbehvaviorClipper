@@ -1,294 +1,180 @@
-# Behavior Video Generator
+---
+title: "JABS Behavior Clipper"
+description: "Complete analysis pipeline for behavior bout clustering and outlier detection"
+version: "1.0.0"
+last_updated: "2025-12-26"
+category: "overview"
+audience: ["users", "developers"]
+tags: ["getting-started", "overview", "quick-start"]
+documentation_id: "readme"
+---
 
-A Python tool for generating video clip movivies from labeled JABS behavior bouts in annotation files. Extracts video clips where specific behaviors are marked as `present=True`, adds bounding boxes from pose estimation data, and concatenates them into a single output video.
+# JABS Behavior Clipper
 
-The goal is to allow the labeler to quickly generate a movie to view how the labeler is annotating the beahvior. 
+Complete analysis pipeline for behavior bout clustering and outlier detection.
 
-## Features
+## Quick Start
 
-- Extract behavior bouts from JSON annotation files
-- Generate video clips with bounding box overlays
-- **Parallel processing** for faster clip extraction (multiprocessing)
-- Support for multiple behaviors (configurable)
-- Automatic bounding box extraction from HDF5 pose estimation files
-- Metadata overlays (video file, identity ID, frame ranges)
-- Graceful handling of missing pose files
-- Comprehensive logging and error handling
+Run the complete analysis pipeline:
 
-## Requirements
+```bash
+cd JABSbehvaviorClipper
+python3 run_complete_analysis.py --behavior turn_left
+```
 
-### Python Dependencies
-- Python 3.6+
-- Standard library only (no external Python packages required)
+This will:
+1. Extract features from HDF5 files
+2. Create video of all bouts
+3. Detect outliers (multiple methods + consensus)
+4. Create video of outliers
+5. Apply PCA (95% variance) and cluster with multiple methods
+6. Generate PDF reports and cluster videos
 
-### External Tools
-- **ffmpeg**: For video processing and encoding
-  - Install: `brew install ffmpeg` (macOS) or `apt-get install ffmpeg` (Linux)
-- **h5dump**: For extracting bounding boxes from HDF5 files (optional)
-  - Part of HDF5 tools: `brew install hdf5` (macOS) or `apt-get install hdf5-tools` (Linux)
-  - If not installed, the script will continue without bounding boxes
+## Main Scripts
 
-### System Requirements
-- macOS or Linux (font path is macOS-specific, adjust `FONT_FILE` for other systems)
+### Pipeline Scripts
+- **`run_complete_analysis.py`** - Complete pipeline (recommended)
+  - Order: Extract features → All bouts video → Outlier detection → Outlier video → PCA → Clustering → PDFs & videos
+- **`run_analysis_pipeline.py`** - Unified pipeline (alternative)
 
-## Installation
+### Core Scripts
+- **`scripts/extract_bout_features.py`** - Extract bout features from HDF5 files (with caching & parallel processing)
+- **`scripts/generate_bouts_video.py`** - Generate behavior bout videos with bounding boxes
+- **`scripts/check_h5_structure.py`** - Check HDF5 file structure (utility)
 
-1. Clone or download this repository
-2. Ensure ffmpeg is installed: `ffmpeg -version`
-3. (Optional) Install HDF5 tools for bounding box extraction: `h5dump -V`
+## Directory Structure
+
+```
+JABSbehvaviorClipper/
+├── run_complete_analysis.py      # Main pipeline script
+├── run_analysis_pipeline.py      # Alternative pipeline
+├── scripts/                      # Python scripts
+│   ├── extract_bout_features.py
+│   ├── generate_bouts_video.py
+│   └── check_h5_structure.py
+├── BoutAnalysisScripts/          # R analysis scripts
+│   ├── scripts/
+│   │   ├── core/                 # Core analysis
+│   │   ├── visualization/        # Visualization
+│   │   └── video/                # Video generation
+│   ├── docs/                     # Documentation
+│   ├── utils/                    # Utility functions
+│   ├── config/                   # Configuration
+│   └── setup/                    # Setup scripts
+├── docs/                         # Project documentation
+│   ├── user-guides/              # User guides
+│   ├── technical/                # Technical docs
+│   └── documentation_registry.yaml
+├── BoutResults/                  # Output directory (created when running)
+│   ├── bout_features.csv
+│   ├── videos/
+│   ├── outliers/
+│   └── clustering/
+└── README.md                     # This file
+```
 
 ## Usage
 
-### Basic Usage
-
-Generate a video for the default behavior (`turn_left`):
+### Complete Pipeline (Recommended)
 
 ```bash
-python3 generate_bouts_video.py
+cd JABSbehvaviorClipper
+python3 run_complete_analysis.py --behavior turn_left
 ```
 
-### Command-Line Options
+### Individual Steps
 
 ```bash
-python3 generate_bouts_video.py [OPTIONS]
+# Extract features
+python3 scripts/extract_bout_features.py --behavior turn_left
+
+# Generate video of all bouts
+python3 scripts/generate_bouts_video.py --behavior turn_left
+
+# Cluster bouts
+Rscript BoutAnalysisScripts/scripts/core/cluster_bouts.R \
+  --input BoutResults/bout_features.csv \
+  --method kmeans
+
+# Detect outliers
+Rscript BoutAnalysisScripts/scripts/core/detect_outliers_consensus.R \
+  --features BoutResults/bout_features.csv
 ```
-
-**Options:**
-
-- `--behavior BEHAVIOR`: Behavior name to extract (default: `turn_left`)
-- `--output FILENAME`: Output video filename (default: `all_bouts.mp4`)
-- `--annotations-dir DIR`: Directory containing annotation JSON files (default: `jabs/annotations`)
-- `--video-dir DIR`: Directory containing video files (default: `.`)
-- `--keep-temp`: Keep temporary files after processing (for debugging)
-- `--verbose`: Enable verbose logging (DEBUG level)
-- `--workers N`: Number of parallel workers for clip extraction (default: CPU cores - 1, leaves one core free for system responsiveness)
-- `--help`: Show help message
-
-### Examples
-
-```bash
-# Extract turn_left behavior bouts
-python3 generate_bouts_video.py --behavior turn_left
-
-# Extract jumping behavior with custom output
-python3 generate_bouts_video.py --behavior jumping --output jumping_bouts.mp4
-
-# Verbose mode for debugging
-python3 generate_bouts_video.py --behavior turn_left --verbose
-
-# Custom directories
-python3 generate_bouts_video.py --annotations-dir /path/to/annotations --video-dir /path/to/videos
-
-# Parallel processing with 4 workers
-python3 generate_bouts_video.py --behavior turn_left --workers 4
-
-# Disable parallel processing (use 1 worker)
-python3 generate_bouts_video.py --behavior turn_left --workers 1
-```
-
-## Project Structure
-
-```
-.
-├── generate_bouts_video.py    # Main script
-├── jabs/
-│   ├── annotations/             # JSON annotation files
-│   │   └── *.json
-│   └── project.json            # Project configuration
-├── *.mp4                       # Source video files
-├── *_pose_est_v8.h5           # Pose estimation files (optional)
-├── all_bouts.mp4               # Output video
-├── tests/                       # Test suite
-│   ├── test_validation.py
-│   ├── test_data_extraction.py
-│   └── test_video_processing.py
-└── README.md                    # This file
-```
-
-## Annotation File Format
-
-Annotation files should be JSON files with the following structure:
-
-```json
-{
-  "version": 1,
-  "file": "video_filename.mp4",
-  "num_frames": 1800,
-  "labels": {
-    "identity_id": {
-      "behavior_name": [
-        {
-          "start": 12,
-          "end": 32,
-          "present": true
-        }
-      ]
-    }
-  },
-  "unfragmented_labels": {
-    "identity_id": {
-      "behavior_name": [
-        {
-          "start": 12,
-          "end": 32,
-          "present": true
-        }
-      ]
-    }
-  }
-}
-```
-
-**Key Fields:**
-- `file`: Name of the video file (must exist in video directory)
-- `num_frames`: Total number of frames in the video (optional, used for validation)
-- `labels`: Dictionary mapping identity IDs to behaviors (fragmented bouts - broken up to exclude frames missing pose)
-- `unfragmented_labels`: Dictionary mapping identity IDs to behaviors (original bout boundaries - matches GUI counts)
-- `behavior_name`: Name of the behavior (e.g., "turn_left", "jumping")
-- `start`/`end`: Frame numbers for the behavior bout
-- `present`: Boolean indicating if the behavior is present
-
-**Note for Analysis:**
-- The R analysis scripts (`analysis_r/`) use `unfragmented_labels` to match GUI bout counts
-- The Python video clipper (`generate_bouts_video.py`) uses `labels` and extracts only `present=true` bouts
-
-## Pose Estimation Files
-
-Pose estimation files should be HDF5 files named: `<video_basename>_pose_est_v8.h5`
-
-The script expects bounding box data at path `/poseest/bbox` with shape `(frame, identity, point, 0)` where:
-- `point=0`: Top-left corner (x, y)
-- `point=1`: Bottom-right corner (x, y)
-
-**Bounding Box Rendering:**
-- Boxes are drawn as **yellow rectangles** with 3-pixel thick outlines
-- Each box is labeled with "Mouse {identity_id}" text above it
-- Boxes are drawn only for frames where bounding box data exists
-- Invalid boxes (negative coordinates, zero width/height) are automatically skipped
-- Frame numbering uses absolute input stream frame numbers (works correctly with `-ss` seeking)
-
-If pose files are missing, the script will continue without bounding boxes and log a debug message.
 
 ## Output
 
-The script generates:
-1. **Temporary clips**: Individual video clips in `temp_clips/` directory (deleted by default)
-2. **Final video**: Concatenated video with all bouts (`all_bouts.mp4` by default)
+All output is organized in `BoutResults/` directory:
+- `BoutResults/bout_features.csv` - Feature matrix
+- `BoutResults/videos/all_bouts.mp4` - Video of all bouts
+- `BoutResults/videos/outliers.mp4` - Video of outliers
+- `BoutResults/videos/kmeans/` - Cluster videos for K-means
+- `BoutResults/videos/hierarchical/` - Cluster videos for hierarchical
+- `BoutResults/videos/dbscan/` - Cluster videos for DBSCAN
+- `BoutResults/outliers/consensus_outliers.csv` - Consensus outliers
+- `BoutResults/clustering/*/clustering_*_report.pdf` - PDF reports
 
-Each clip includes:
-- **Bounding boxes**: Yellow outline rectangles around tracked mice (when pose estimation data is available)
-- **Identity labels**: Text labels showing which mouse (ID) is performing the behavior
-- **Metadata overlay**: Source video file, identity ID, and frame ranges displayed in the top-left corner
+## Key Features
 
-## Logging
+- ✅ Uses `unfragmented_labels` to match GUI counts
+- ✅ Only processes `present=True` bouts
+- ✅ Multi-method outlier detection with consensus voting
+- ✅ PCA dimensionality reduction (95% variance)
+- ✅ Multiple clustering methods (K-means, Hierarchical, DBSCAN)
+- ✅ PDF reports for each clustering method
+- ✅ Cluster videos for visualization
+- ✅ Parallel processing (n-1 cores) throughout
+- ✅ Caching to avoid recomputation
 
-The script uses Python's logging module with two levels:
+## Requirements
 
-- **INFO** (default): Progress updates, warnings, and errors
-- **DEBUG** (--verbose): Detailed information including:
-  - Bounding box extraction counts per bout
-  - Number of filters applied per clip
-  - Example filter commands for debugging
-  - Pose file lookup results
+- Python 3 with: pandas, numpy, h5py
+- R with packages: optparse, dplyr, jsonlite, ggplot2, Rtsne, factoextra, pheatmap, cluster, parallel, MASS
+- ffmpeg (for video generation)
+- h5dump (for bounding box extraction)
 
-Log format: `YYYY-MM-DD HH:MM:SS - LEVEL - MESSAGE`
-
-**Tip**: Use `--verbose` when troubleshooting bounding box issues to see detailed extraction and filter information.
-
-## Error Handling
-
-The script handles various error conditions gracefully:
-
-- Missing video files: Logs warning and skips
-- Missing pose files: Continues without bounding boxes
-- Invalid frame ranges: Validates and clamps to video bounds
-- Missing external tools: Provides helpful error messages
-- Invalid JSON: Logs error and continues with other files
-
-## Configuration
-
-Default configuration (can be overridden via command-line):
-
-```python
-ANNOTATIONS_DIR = 'jabs/annotations'
-VIDEO_DIR = '.'
-OUTPUT_FILENAME = 'all_bouts.mp4'
-TEMP_DIR = 'temp_clips'
-FPS = 30.0
-FONT_FILE = '/System/Library/Fonts/Helvetica.ttc'  # macOS-specific
-DEFAULT_BEHAVIOR = 'turn_left'
-```
-
-## Performance
-
-### Parallel Processing
-
-The script supports parallel processing for clip extraction, which can significantly speed up processing when you have many clips:
-
-- **Default**: Automatically uses `n-1` CPU cores (leaves one core free for system responsiveness)
-- **Custom**: Specify number of workers with `--workers N`
-- **Sequential**: Use `--workers 1` to disable parallel processing
-
-**Example performance improvements:**
-- 10 clips, 4 cores: ~2.5x faster than sequential
-- 50 clips, 8 cores: ~6-7x faster than sequential
-
-**When to use parallel processing:**
-- ✅ Many clips to process (>5)
-- ✅ Multiple CPU cores available
-- ✅ Sufficient RAM (each worker uses memory)
-
-**When to use sequential processing:**
-- ⚠️ Limited RAM
-- ⚠️ Very few clips (<3)
-- ⚠️ Debugging (easier to track progress)
-
-## Troubleshooting
-
-### No bouts found
-- Check that annotation files exist in `jabs/annotations/`
-- Verify annotation files have `present: true` bouts for the specified behavior
-- Use `--verbose` to see detailed processing information
-
-### No bounding boxes appearing in video
-- Verify pose estimation files exist (named `*_pose_est_v8.h5`)
-- Check that `h5dump` is installed: `h5dump -V`
-- Use `--verbose` to see bounding box extraction details:
-  ```bash
-  python3 generate_bouts_video.py --verbose --keep-temp
-  ```
-- Check debug output for:
-  - "Extracted X bounding boxes" messages
-  - "Adding X bounding box filters" messages
-  - Any warnings about missing pose files or failed extractions
-- Verify bounding box coordinates are valid (not negative or zero width/height)
-- Bounding boxes are drawn as **yellow rectangles** with **3-pixel thick outlines**
-- Each box includes a label showing the mouse identity ID above it
-
-### Video encoding errors
-- Ensure `ffmpeg` is installed and in PATH: `ffmpeg -version`
-- Check that source video files are valid and accessible
-- Verify font file exists (adjust `FONT_FILE` for your system)
-
-### Performance issues
-- Use `--keep-temp` to preserve intermediate files for debugging
-- Check disk space (temporary clips can be large)
-- Consider processing fewer bouts at a time
-
-## Testing
-
-See [TESTING.md](TESTING.md) for detailed testing instructions.
-
-Quick test run:
+Install R packages:
 ```bash
-python3 -m pytest tests/ -v
+Rscript BoutAnalysisScripts/setup/install_packages.R
 ```
 
-## License
+## Path Configuration
 
-[Add your license information here]
+Scripts assume data is in the parent directory:
+- Annotations: `../jabs/annotations/`
+- Features: `../jabs/features/`
+- Videos: `../` (parent directory)
 
-## Contributing
+You can override these with command-line arguments:
+```bash
+python3 run_complete_analysis.py \
+    --behavior turn_left \
+    --annotations-dir /path/to/annotations \
+    --features-dir /path/to/features \
+    --video-dir /path/to/videos
+```
 
-[Add contribution guidelines here]
+## Documentation
 
+For complete documentation, see the [Documentation Registry](docs/documentation_registry.yaml) for a machine-readable index of all documentation.
+
+### Quick Links
+
+- **`docs/user-guides/QUICK_START.md`** - Quick start guide
+- **`docs/user-guides/ANALYSIS_PIPELINE.md`** - Complete pipeline documentation
+- **`docs/user-guides/PERFORMANCE.md`** - Performance optimization guide
+- **`BoutAnalysisScripts/README.md`** - Analysis scripts overview
+- **`BoutAnalysisScripts/docs/`** - Complete analysis documentation
+- **`docs/documentation_registry.yaml`** - Machine-readable documentation index
+
+### Documentation Categories
+
+- **User Guides**: Quick start, usage guides, troubleshooting
+- **Technical**: Statistical methodology, distance metrics, implementation details
+- **API Reference**: Script documentation, parameter references
+
+## Notes
+
+- All scripts use `unfragmented_labels` from annotation JSON files
+- Only `present=True` bouts are included in feature extraction
+- Output is organized in `BoutResults/` directory for cleanliness
+- Cache is automatically invalidated when annotation files change

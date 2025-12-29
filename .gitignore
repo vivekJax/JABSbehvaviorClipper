@@ -1,5 +1,6 @@
 # Virtual environments
-analysis_r/venv/
+BoutAnalysisScripts/venv/
+venv/
 __pycache__/
 *.pyc
 

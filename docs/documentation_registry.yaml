@@ -1,0 +1,214 @@
+# Documentation Registry
+# Machine-readable index of all documentation files
+# Last updated: 2025-12-26
+
+metadata:
+  version: "1.0.0"
+  last_updated: "2025-12-26"
+  maintainer: "JABS Behavior Clipper Team"
+
+documentation:
+  # Main Documentation
+  - id: "readme"
+    title: "JABS Behavior Clipper - Main Documentation"
+    path: "../README.md"
+    category: "overview"
+    audience: ["users", "developers"]
+    tags: ["getting-started", "overview", "quick-start"]
+    description: "Main entry point documentation with quick start guide and overview"
+    
+  # User Guides
+  - id: "quick-start"
+    title: "Quick Start Guide"
+    path: "../docs/user-guides/QUICK_START.md"
+    category: "user-guide"
+    audience: ["users"]
+    tags: ["getting-started", "tutorial"]
+    description: "Quick reference for common commands and basic usage"
+    
+  - id: "analysis-pipeline"
+    title: "Analysis Pipeline Documentation"
+    path: "../docs/user-guides/ANALYSIS_PIPELINE.md"
+    category: "user-guide"
+    audience: ["users", "analysts"]
+    tags: ["pipeline", "workflow", "features"]
+    description: "Complete documentation of the analysis pipeline workflow"
+    
+  - id: "performance"
+    title: "Performance Optimization Guide"
+    path: "../docs/user-guides/PERFORMANCE.md"
+    category: "user-guide"
+    audience: ["users", "developers"]
+    tags: ["performance", "optimization", "parallel-processing"]
+    description: "Performance tuning and optimization guidelines"
+    
+  # Technical Documentation
+  - id: "bbox-fix"
+    title: "Bounding Box Fix Explanation"
+    path: "../docs/technical/BBOX_FIX_EXPLANATION.md"
+    category: "technical"
+    audience: ["developers"]
+    tags: ["video-processing", "bounding-boxes", "technical"]
+    description: "Technical details about bounding box extraction and fixes"
+    
+  - id: "video-name-extraction"
+    title: "Video Name Extraction"
+    path: "../docs/technical/VIDEO_NAME_EXTRACTION.md"
+    category: "technical"
+    audience: ["developers"]
+    tags: ["video-processing", "metadata", "technical"]
+    description: "How video names are extracted and processed"
+    
+  - id: "testing"
+    title: "Testing Guide"
+    path: "../docs/technical/TESTING.md"
+    category: "technical"
+    audience: ["developers", "testers"]
+    tags: ["testing", "quality-assurance"]
+    description: "Testing procedures and test suite documentation"
+    
+  # Bout Analysis Scripts Documentation
+  - id: "bout-analysis-readme"
+    title: "Bout Analysis Scripts - README"
+    path: "../BoutAnalysisScripts/README.md"
+    category: "overview"
+    audience: ["users", "developers"]
+    tags: ["analysis", "scripts", "overview"]
+    description: "Main entry point for analysis scripts"
+    
+  - id: "bout-analysis-structure"
+    title: "Bout Analysis Scripts - Structure"
+    path: "../BoutAnalysisScripts/STRUCTURE.md"
+    category: "reference"
+    audience: ["developers", "maintainers"]
+    tags: ["structure", "organization", "reference"]
+    description: "Directory structure and organization guide"
+    
+  - id: "bout-analysis-docs-readme"
+    title: "Bout Analysis Scripts - Documentation"
+    path: "../BoutAnalysisScripts/docs/README.md"
+    category: "user-guide"
+    audience: ["users", "analysts"]
+    tags: ["r", "analysis", "getting-started"]
+    description: "Main documentation entry point"
+    
+  - id: "bout-analysis-user-guide"
+    title: "Bout Analysis - User Guide"
+    path: "../BoutAnalysisScripts/docs/USER_GUIDE.md"
+    category: "user-guide"
+    audience: ["users", "analysts"]
+    tags: ["r", "usage", "workflow", "examples"]
+    description: "Complete usage guide with examples and step-by-step workflows"
+    
+  - id: "bout-analysis-technical-guide"
+    title: "Bout Analysis - Technical Guide"
+    path: "../BoutAnalysisScripts/docs/TECHNICAL_GUIDE.md"
+    category: "technical"
+    audience: ["analysts", "researchers", "developers"]
+    tags: ["statistics", "methodology", "clustering", "outliers", "distance-metrics"]
+    description: "Comprehensive statistical methodology and technical details"
+    
+  - id: "bout-analysis-troubleshooting"
+    title: "Bout Analysis - Troubleshooting Guide"
+    path: "../BoutAnalysisScripts/docs/TROUBLESHOOTING.md"
+    category: "user-guide"
+    audience: ["users", "developers"]
+    tags: ["troubleshooting", "debugging", "faq"]
+    description: "Common issues and solutions"
+
+scripts:
+  python:
+    - name: "run_complete_analysis.py"
+      description: "Complete analysis pipeline (recommended)"
+      category: "pipeline"
+      documentation: ["readme", "analysis-pipeline"]
+      
+    - name: "run_analysis_pipeline.py"
+      description: "Unified pipeline (alternative)"
+      category: "pipeline"
+      documentation: ["analysis-pipeline"]
+      
+    - name: "extract_bout_features.py"
+      description: "Extract bout features from HDF5 files"
+      category: "feature-extraction"
+      documentation: ["analysis-pipeline", "performance"]
+      
+    - name: "generate_bouts_video.py"
+      description: "Generate behavior bout videos with bounding boxes"
+      category: "video-generation"
+      documentation: ["quick-start", "performance", "bbox-fix"]
+      
+    - name: "check_h5_structure.py"
+      description: "Check HDF5 file structure"
+      category: "utility"
+      documentation: []
+      
+  r:
+    - name: "cluster_bouts.R"
+      path: "BoutAnalysisScripts/scripts/core/cluster_bouts.R"
+      description: "Clustering analysis"
+      category: "analysis"
+      documentation: ["bout-analysis-docs-readme", "bout-analysis-user-guide", "bout-analysis-technical-guide"]
+      
+    - name: "detect_outliers_consensus.R"
+      path: "BoutAnalysisScripts/scripts/core/detect_outliers_consensus.R"
+      description: "Multi-method outlier detection with consensus"
+      category: "analysis"
+      documentation: ["bout-analysis-user-guide", "bout-analysis-technical-guide"]
+      
+    - name: "find_outliers.R"
+      path: "BoutAnalysisScripts/scripts/core/find_outliers.R"
+      description: "Single-method outlier detection"
+      category: "analysis"
+      documentation: ["bout-analysis-technical-guide"]
+      
+    - name: "visualize_clusters.R"
+      path: "BoutAnalysisScripts/scripts/visualization/visualize_clusters.R"
+      description: "Cluster visualizations"
+      category: "visualization"
+      documentation: ["bout-analysis-docs-readme", "bout-analysis-user-guide"]
+      
+    - name: "visualize_clusters_pdf.R"
+      path: "BoutAnalysisScripts/scripts/visualization/visualize_clusters_pdf.R"
+      description: "PDF report generation"
+      category: "visualization"
+      documentation: ["bout-analysis-docs-readme", "bout-analysis-user-guide"]
+      
+    - name: "generate_cluster_videos.R"
+      path: "BoutAnalysisScripts/scripts/video/generate_cluster_videos.R"
+      description: "Cluster video generation"
+      category: "video-generation"
+      documentation: ["bout-analysis-docs-readme", "bout-analysis-user-guide"]
+      
+    - name: "extract_bout_features.R"
+      path: "BoutAnalysisScripts/scripts/core/extract_bout_features.R"
+      description: "R-based feature extraction"
+      category: "feature-extraction"
+      documentation: ["bout-analysis-docs-readme", "bout-analysis-user-guide"]
+      
+    - name: "run_full_analysis.R"
+      path: "BoutAnalysisScripts/scripts/core/run_full_analysis.R"
+      description: "Complete analysis pipeline orchestrator"
+      category: "pipeline"
+      documentation: ["bout-analysis-docs-readme", "bout-analysis-user-guide"]
+
+output_structure:
+  base_directory: "BehaviorBoutAnalysis"
+  directories:
+    - name: "videos"
+      description: "All generated videos"
+      subdirectories: ["all_bouts.mp4", "outliers.mp4", "kmeans/", "hierarchical/", "dbscan/"]
+      
+    - name: "outliers"
+      description: "Outlier detection results"
+      files: ["consensus_outliers.csv", "outlier_scores.csv"]
+      
+    - name: "clustering"
+      description: "Clustering results and PDFs"
+      subdirectories: ["kmeans/", "hierarchical/", "dbscan/"]
+      files: ["*_report.pdf", "cluster_assignments_*.csv"]
+      
+    - name: "cache"
+      description: "Cached feature extraction results"
+      files: ["bout_features_*.pkl"]
+

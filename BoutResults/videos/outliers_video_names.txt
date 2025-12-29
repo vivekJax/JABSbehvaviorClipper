@@ -1,0 +1,22 @@
+# Video Name Mapping - Copy/paste video names from this file
+# Format: Clip_Index | Video_Name | Mouse_ID | Frame_Range
+# ================================================================================
+
+00000 | org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4 | Mouse 1 | Frames 539-547
+00001 | org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4 | Mouse 1 | Frames 1317-1333
+00002 | org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4 | Mouse 1 | Frames 1356-1386
+00003 | org-3-prod.study_443.cage_4823.2025-08-11.23.07.mp4 | Mouse 1 | Frames 1328-1335
+00004 | org-3-prod.study_443.cage_4823.2025-08-11.23.10.mp4 | Mouse 0 | Frames 515-525
+00005 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 340-359
+00006 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 482-503
+00007 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 549-572
+00008 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 611-636
+00009 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 699-715
+00010 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 822-869
+00011 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 1 | Frames 1411-1421
+00012 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 1 | Frames 1462-1479
+00013 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 1 | Frames 1650-1667
+00014 | org-3-prod.study_443.cage_4823.2025-08-11.23.22.mp4 | Mouse 0 | Frames 99-109
+00015 | org-3-uploads-stage.study_447.cage_4840.2025-08-23.14.43.mp4 | Mouse 2 | Frames 1028-1058
+00016 | org-3-uploads-stage.study_476.cage_5056.2025-09-24.22.45.mp4 | Mouse 1 | Frames 883-903
+00017 | org-9-uploads-stage.study_1013.cage_4995.2025-03-17.00.08.mp4 | Mouse 2 | Frames 871-921

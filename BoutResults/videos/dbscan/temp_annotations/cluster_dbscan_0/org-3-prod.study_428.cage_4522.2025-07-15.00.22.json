@@ -1,0 +1,32 @@
+{
+  "file": "org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4",
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 102,
+          "end": 132,
+          "present": true
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 430,
+          "end": 446,
+          "present": true
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 450,
+          "end": 470,
+          "present": true
+        }
+      ]
+    }
+  }
+}

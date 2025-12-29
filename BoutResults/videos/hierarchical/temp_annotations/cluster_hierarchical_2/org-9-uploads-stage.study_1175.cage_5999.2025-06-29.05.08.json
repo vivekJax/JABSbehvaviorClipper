@@ -1,0 +1,23 @@
+{
+  "file": "org-9-uploads-stage.study_1175.cage_5999.2025-06-29.05.08.mp4",
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1531,
+          "end": 1550,
+          "present": true
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 32,
+          "end": 45,
+          "present": true
+        }
+      ]
+    }
+  }
+}
