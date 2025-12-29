@@ -1,348 +1,386 @@
 #!/usr/bin/env Rscript
-# Cluster behavior bouts to identify sub-behaviors
+# Cluster behavior bouts based on extracted features.
 #
 # This script:
-# 1. Loads feature data
-# 2. Performs data preprocessing
-# 3. Applies PCA for dimensionality reduction
-# 4. Performs clustering using K-means, hierarchical, and DBSCAN methods
-# 5. Saves cluster assignments
-#
-# Usage:
-#   Rscript analysis_r/cluster_bouts.R --input bout_features.csv --output-dir results/
+# 1. Loads extracted bout features
+# 2. Preprocesses and scales features
+# 3. Performs clustering using multiple algorithms
+# 4. Evaluates cluster quality
+# 5. Saves cluster assignments and statistics
 
-# Add default library paths
+# Add default library paths (user library first)
 .libPaths(c("/Users/vkumar/Library/R/arm64/4.5/library", .libPaths()))
 
 suppressPackageStartupMessages({
   library(optparse)
   library(dplyr)
-  library(factoextra)
   library(cluster)
-  library(dbscan)
-  library(parallel)
+  library(factoextra)
+  library(NbClust)
+  library(jsonlite)
 })
-
-# Source utility functions
-source("analysis_r/utils/data_preprocessing.R")
 
 # Parse command line arguments
 option_list <- list(
-  make_option(c("-i", "--input"), type="character", default="results/bout_features_filtered.csv",
-              help="Input CSV file with bout features (default: results/bout_features_filtered.csv)"),
-  make_option(c("-o", "--output-dir"), type="character", default="results",
-              help="Output directory for cluster assignments (default: results)"),
-  make_option(c("-m", "--method"), type="character", default="all",
-              help="Clustering method: kmeans, hierarchical, dbscan, or all (default: all)"),
+  make_option(c("-i", "--input"), type="character", default="bout_features.csv",
+              help="Input CSV file with bout features (default: bout_features.csv)"),
+  make_option(c("-m", "--method"), type="character", default="kmeans",
+              help="Clustering method: kmeans, hierarchical, dbscan, gmm, or all (default: kmeans)"),
   make_option(c("-k", "--n-clusters"), type="integer", default=NULL,
-              help="Number of clusters for K-means (default: auto-detect using silhouette)"),
-  make_option(c("--pca-variance"), type="numeric", default=0.95,
-              help="Proportion of variance to retain in PCA (default: 0.95)"),
-  make_option(c("--workers"), type="integer", default=NULL,
-              help="Number of parallel workers (default: detect_cores() - 1)"),
+              help="Number of clusters (auto-detect if not specified)"),
+  make_option(c("-s", "--scale-method"), type="character", default="standard",
+              help="Feature scaling method: standard, minmax, or robust (default: standard)"),
+  make_option(c("-o", "--output-dir"), type="character", default=".",
+              help="Output directory for results (default: current directory)"),
   make_option(c("-v", "--verbose"), action="store_true", default=FALSE,
               help="Enable verbose logging")
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))
 
-# Perform PCA dimensionality reduction
-perform_pca <- function(df_features, variance_threshold = 0.95) {
-  cat("Performing PCA dimensionality reduction...\n")
+# Separate metadata and features
+separate_metadata_and_features <- function(df) {
+  metadata_cols <- c("bout_id", "video_name", "animal_id", "start_frame", 
+                     "end_frame", "behavior", "duration_frames")
   
-  # Remove any remaining constant columns
-  df_features <- remove_constant_features(df_features, numeric_only = TRUE)
+  existing_metadata_cols <- intersect(metadata_cols, colnames(df))
+  feature_cols <- setdiff(colnames(df), existing_metadata_cols)
   
-  # Check for sufficient data
-  if (ncol(df_features) == 0) {
-    stop("No features available after removing constant columns")
-  }
+  metadata_df <- df[, existing_metadata_cols, drop=FALSE]
+  features_df <- df[, feature_cols, drop=FALSE]
   
-  if (nrow(df_features) < 2) {
-    stop("Insufficient data for PCA (need at least 2 samples)")
-  }
-  
-  # Perform PCA
-  pca_result <- prcomp(df_features, center = TRUE, scale. = TRUE)
-  
-  # Calculate cumulative variance
-  cumvar <- cumsum(pca_result$sdev^2) / sum(pca_result$sdev^2)
-  
-  # Find number of components to retain
-  n_components <- which(cumvar >= variance_threshold)[1]
-  if (is.na(n_components)) {
-    n_components <- min(length(cumvar), ncol(df_features))
-  }
-  
-  cat(sprintf("Retaining %d PCA components (%.1f%% variance explained)\n", 
-             n_components, cumvar[n_components] * 100))
-  
-  # Extract reduced features
-  reduced_features <- pca_result$x[, 1:n_components, drop = FALSE]
-  
-  return(list(
-    reduced_features = reduced_features,
-    pca_result = pca_result,
-    n_components = n_components,
-    variance_explained = cumvar[n_components]
-  ))
+  return(list(metadata=metadata_df, features=features_df))
 }
 
-# K-means clustering
-cluster_kmeans <- function(features, k = NULL, n_workers = NULL) {
-  cat("\n[K-means Clustering]\n")
-  
-  # Get number of workers (default: detectCores() - 1)
-  if (is.null(n_workers)) {
-    n_workers <- max(1, detectCores() - 1)
-  }
-  
-  if (is.null(k)) {
-    cat("Finding optimal k using silhouette score...\n")
-    # Try k from 2 to min(10, n_samples/2)
-    max_k <- min(10, floor(nrow(features) / 2))
-    if (max_k < 2) {
-      k <- 2
-    } else {
-      # Parallelize k-means trials for different k values
-      k_candidates <- 2:max_k
-      
-      if (length(k_candidates) > 1 && n_workers > 1) {
-        cat(sprintf("Testing %d k values in parallel using %d workers...\n", length(k_candidates), n_workers))
-        cl <- makeCluster(n_workers)
-        
-        # Function to test one k value
-        test_k <- function(k_val) {
-          tryCatch({
-            km <- kmeans(features, centers = k_val, nstart = 10, iter.max = 100)
-            sil <- silhouette(km$cluster, dist(features))
-            return(mean(sil[, 3]))
-          }, error = function(e) {
-            return(-1)
-          })
-        }
-        
-        # Export features to cluster workers
-        clusterExport(cl, "features", envir = environment())
-        silhouette_scores <- parSapply(cl, k_candidates, test_k)
-        stopCluster(cl)
-      } else {
-        # Sequential processing
-        silhouette_scores <- numeric(max_k - 1)
-        for (k_candidate in k_candidates) {
-          tryCatch({
-            km <- kmeans(features, centers = k_candidate, nstart = 10, iter.max = 100)
-            sil <- silhouette(km$cluster, dist(features))
-            silhouette_scores[k_candidate - 1] <- mean(sil[, 3])
-          }, error = function(e) {
-            silhouette_scores[k_candidate - 1] <<- -1
-          })
+# Handle missing values
+handle_missing_values <- function(df, strategy = "mean") {
+  if (strategy == "drop") {
+    # Drop columns with all NA
+    df <- df[, colSums(!is.na(df)) > 0, drop=FALSE]
+    # Drop rows with any NA
+    df <- df[complete.cases(df), , drop=FALSE]
+    cat(sprintf("Dropped rows/columns with missing values. Remaining shape: %d, %d\n", 
+               nrow(df), ncol(df)))
+  } else if (strategy == "mean") {
+    # Fill missing values with column means
+    for (col in colnames(df)) {
+      if (any(is.na(df[[col]]))) {
+        col_mean <- mean(df[[col]], na.rm=TRUE)
+        if (!is.na(col_mean)) {
+          df[[col]][is.na(df[[col]])] <- col_mean
+        } else {
+          # If mean is NA (all values NA), fill with 0
+          df[[col]][is.na(df[[col]])] <- 0
         }
       }
-      
-      k <- which.max(silhouette_scores) + 1
-      cat(sprintf("Optimal k = %d (silhouette score: %.3f)\n", k, max(silhouette_scores)))
     }
+    cat("Filled missing values with mean\n")
+  } else if (strategy == "median") {
+    # Fill missing values with column medians
+    for (col in colnames(df)) {
+      if (any(is.na(df[[col]]))) {
+        col_median <- median(df[[col]], na.rm=TRUE)
+        if (!is.na(col_median)) {
+          df[[col]][is.na(df[[col]])] <- col_median
+        } else {
+          df[[col]][is.na(df[[col]])] <- 0
+        }
+      }
+    }
+    cat("Filled missing values with median\n")
   }
   
-  cat(sprintf("Running K-means with k = %d...\n", k))
-  # K-means already uses multiple starts internally, but we can increase nstart
-  km_result <- kmeans(features, centers = k, nstart = max(25, n_workers * 5), iter.max = 100)
-  
-  return(list(
-    clusters = km_result$cluster,
-    centers = km_result$centers,
-    withinss = km_result$withinss,
-    totss = km_result$totss,
-    betweenss = km_result$betweenss
-  ))
+  return(df)
 }
 
-# Hierarchical clustering
-cluster_hierarchical <- function(features, k = NULL) {
-  cat("\n[Hierarchical Clustering]\n")
-  
-  cat("Computing distance matrix...\n")
-  dist_matrix <- dist(features, method = "euclidean")
-  
-  cat("Building dendrogram (Ward's method)...\n")
-  hc_result <- hclust(dist_matrix, method = "ward.D2")
-  
-  if (is.null(k)) {
-    # Use dynamic tree cutting or default to 5
-    k <- 5
-    cat(sprintf("Using k = %d clusters\n", k))
+# Scale features
+scale_features <- function(X, method = "standard") {
+  if (method == "standard") {
+    X_scaled <- scale(X)
+  } else if (method == "minmax") {
+    min_vals <- apply(X, 2, min, na.rm=TRUE)
+    max_vals <- apply(X, 2, max, na.rm=TRUE)
+    X_scaled <- sweep(sweep(X, 2, min_vals, "-"), 2, max_vals - min_vals, "/")
+  } else if (method == "robust") {
+    median_vals <- apply(X, 2, median, na.rm=TRUE)
+    mad_vals <- apply(X, 2, mad, na.rm=TRUE)
+    X_scaled <- sweep(sweep(X, 2, median_vals, "-"), 2, mad_vals, "/")
   }
   
-  cat(sprintf("Cutting tree at k = %d...\n", k))
-  clusters <- cutree(hc_result, k = k)
-  
-  return(list(
-    clusters = clusters,
-    dendrogram = hc_result
-  ))
+  cat(sprintf("Scaled features using %s scaling\n", method))
+  return(X_scaled)
 }
 
-# DBSCAN clustering
-cluster_dbscan <- function(features, eps = NULL, minPts = 5) {
-  cat("\n[DBSCAN Clustering]\n")
-  
-  if (is.null(eps)) {
-    cat("Estimating eps using k-distance graph...\n")
-    # Use kth nearest neighbor distance
-    k_dist <- kNNdist(features, k = minPts)
-    k_dist_sorted <- sort(k_dist)
-    
-    # Use elbow method: find point where distance increases sharply
-    # Use median of k-distances as initial estimate
-    eps <- median(k_dist_sorted)
-    cat(sprintf("Estimated eps = %.3f\n", eps))
+# Find optimal number of clusters
+find_optimal_k <- function(X, max_k = 10) {
+  n_samples <- nrow(X)
+  if (n_samples < max_k) {
+    max_k <- max(2, n_samples - 1)
   }
   
-  cat(sprintf("Running DBSCAN (eps = %.3f, minPts = %d)...\n", eps, minPts))
-  dbscan_result <- dbscan(features, eps = eps, minPts = minPts)
+  k_range <- 2:max_k
+  silhouette_scores <- numeric(length(k_range))
   
-  n_clusters <- length(unique(dbscan_result$cluster[dbscan_result$cluster != 0]))
-  n_noise <- sum(dbscan_result$cluster == 0)
+  for (i in seq_along(k_range)) {
+    k <- k_range[i]
+    km <- kmeans(X, centers=k, nstart=10)
+    sil <- silhouette(km$cluster, dist(X))
+    silhouette_scores[i] <- mean(sil[, "sil_width"])
+  }
   
-  cat(sprintf("Found %d clusters and %d noise points\n", n_clusters, n_noise))
+  best_k_idx <- which.max(silhouette_scores)
+  optimal_k <- k_range[best_k_idx]
   
-  return(list(
-    clusters = dbscan_result$cluster,
+  cat(sprintf("Optimal k based on silhouette score: %d (score: %.3f)\n", 
+             optimal_k, silhouette_scores[best_k_idx]))
+  
+  return(optimal_k)
+}
+
+# Perform K-means clustering
+perform_kmeans_clustering <- function(X, n_clusters = NULL) {
+  if (is.null(n_clusters)) {
+    n_clusters <- find_optimal_k(X)
+  }
+  
+  km <- kmeans(X, centers=n_clusters, nstart=10)
+  labels <- km$cluster
+  
+  # Calculate metrics
+  sil <- silhouette(km$cluster, dist(X))
+  silhouette_score <- mean(sil[, "sil_width"])
+  
+  # Calinski-Harabasz index (using factoextra if available, otherwise skip)
+  ch_score <- tryCatch({
+    if (requireNamespace("fpc", quietly=TRUE)) {
+      fpc::calinhara(X, km$cluster)
+    } else {
+      NA
+    }
+  }, error = function(e) NA)
+  
+  info <- list(
+    method = "kmeans",
+    n_clusters = n_clusters,
+    inertia = km$tot.withinss,
+    silhouette_score = silhouette_score,
+    calinski_harabasz_score = ch_score,
+    centroids = km$centers
+  )
+  
+  cat(sprintf("K-means clustering: %d clusters, silhouette=%.3f\n", 
+             n_clusters, silhouette_score))
+  
+  return(list(labels=labels, info=info))
+}
+
+# Perform hierarchical clustering
+perform_hierarchical_clustering <- function(X, n_clusters = NULL, linkage = "ward.D2") {
+  if (is.null(n_clusters)) {
+    n_clusters <- find_optimal_k(X)
+  }
+  
+  dist_matrix <- dist(X)
+  hc <- hclust(dist_matrix, method=linkage)
+  labels <- cutree(hc, k=n_clusters)
+  
+  # Calculate metrics
+  sil <- silhouette(labels, dist_matrix)
+  silhouette_score <- mean(sil[, "sil_width"])
+  ch_score <- tryCatch({
+    if (requireNamespace("fpc", quietly=TRUE)) {
+      fpc::calinhara(X, labels)
+    } else {
+      NA
+    }
+  }, error = function(e) NA)
+  
+  info <- list(
+    method = "hierarchical",
+    n_clusters = n_clusters,
+    linkage = linkage,
+    silhouette_score = silhouette_score,
+    calinski_harabasz_score = ch_score
+  )
+  
+  cat(sprintf("Hierarchical clustering: %d clusters, silhouette=%.3f\n", 
+             n_clusters, silhouette_score))
+  
+  return(list(labels=labels, info=info))
+}
+
+# Perform DBSCAN clustering
+perform_dbscan_clustering <- function(X, eps = 0.5, minPts = 5) {
+  if (!requireNamespace("dbscan", quietly=TRUE)) {
+    stop("Package 'dbscan' is required for DBSCAN clustering. Install with: install.packages('dbscan')")
+  }
+  
+  db <- dbscan::dbscan(X, eps=eps, minPts=minPts)
+  labels <- db$cluster
+  
+  n_clusters <- length(unique(labels)) - sum(labels == 0)
+  n_noise <- sum(labels == 0)
+  
+  info <- list(
+    method = "dbscan",
+    n_clusters = n_clusters,
+    n_noise = n_noise,
     eps = eps,
     minPts = minPts
-  ))
+  )
+  
+  if (n_clusters > 1) {
+    dist_matrix <- dist(X)
+    sil <- silhouette(labels, dist_matrix)
+    silhouette_score <- mean(sil[, "sil_width"])
+    ch_score <- calinhara(X, labels)
+    
+    info$silhouette_score <- silhouette_score
+    info$calinski_harabasz_score <- ch_score
+    
+    cat(sprintf("DBSCAN clustering: %d clusters, %d noise points, silhouette=%.3f\n", 
+               n_clusters, n_noise, silhouette_score))
+  } else {
+    cat(sprintf("DBSCAN found %d clusters (mostly noise). Try adjusting eps or minPts.\n", n_clusters))
+  }
+  
+  return(list(labels=labels, info=info))
+}
+
+# Calculate cluster statistics
+calculate_cluster_statistics <- function(X, labels, metadata_df) {
+  stats <- list()
+  unique_labels <- sort(unique(labels))
+  
+  for (cluster_id in unique_labels) {
+    if (cluster_id == 0) next  # Skip noise points in DBSCAN
+    
+    cluster_mask <- labels == cluster_id
+    cluster_data <- X[cluster_mask, , drop=FALSE]
+    cluster_metadata <- metadata_df[cluster_mask, , drop=FALSE]
+    
+    stats[[as.character(cluster_id)]] <- list(
+      size = sum(cluster_mask),
+      mean_features = as.list(colMeans(cluster_data)),
+      std_features = as.list(apply(cluster_data, 2, sd)),
+      videos = unique(cluster_metadata$video_name),
+      animals = unique(cluster_metadata$animal_id),
+      n_videos = length(unique(cluster_metadata$video_name)),
+      n_animals = length(unique(cluster_metadata$animal_id)),
+      mean_duration = if ("duration_frames" %in% colnames(cluster_metadata)) {
+        mean(cluster_metadata$duration_frames)
+      } else NULL
+    )
+  }
+  
+  return(stats)
 }
 
 # Main execution
 main <- function() {
-  cat("============================================================\n")
-  cat("Behavior Bout Clustering Analysis\n")
-  cat("============================================================\n\n")
+  cat(sprintf("Loading features from %s\n", opt$input))
+  df <- read.csv(opt$input, stringsAsFactors=FALSE)
   
-  # Load features
-  cat(sprintf("Loading features from: %s\n", opt$input))
-  if (!file.exists(opt$input)) {
-    stop(sprintf("Input file not found: %s", opt$input))
+  if (nrow(df) == 0) {
+    stop("Input file is empty")
   }
   
-  df <- read.csv(opt$input, stringsAsFactors = FALSE)
-  cat(sprintf("Loaded %d bouts with %d columns\n", nrow(df), ncol(df)))
+  # Separate metadata and features
+  separated <- separate_metadata_and_features(df)
+  metadata_df <- separated$metadata
+  features_df <- separated$features
   
-  # Prepare features
-  cat("\nPreprocessing features...\n")
-  exclude_cols <- c("bout_id", "video_name", "animal_id", "start_frame", "end_frame", "behavior")
-  prep_result <- prepare_features(df, exclude_cols = exclude_cols)
+  # Handle missing values (use mean imputation to preserve all rows)
+  features_df <- handle_missing_values(features_df, strategy="mean")
   
-  processed_df <- prep_result$processed_df
-  feature_cols <- prep_result$feature_cols
+  # Update metadata to match (remove rows that were dropped)
+  metadata_df <- metadata_df[rownames(features_df), , drop=FALSE]
   
-  cat(sprintf("After preprocessing: %d features\n", length(feature_cols)))
+  # Convert to matrix and scale
+  X <- as.matrix(features_df)
   
-  # Extract feature matrix
-  feature_matrix <- as.matrix(processed_df[, feature_cols, drop = FALSE])
+  # Replace infinite values with 0
+  X[is.infinite(X)] <- 0
+  X[is.nan(X)] <- 0
   
-  # Remove any remaining non-finite values
-  feature_matrix[!is.finite(feature_matrix)] <- 0
+  X_scaled <- scale_features(X, method=opt$`scale-method`)
   
-  # Perform PCA
-  pca_result <- perform_pca(feature_matrix, variance_threshold = opt$`pca-variance`)
-  reduced_features <- pca_result$reduced_features
+  # Check for any remaining invalid values
+  if (any(!is.finite(X_scaled))) {
+    X_scaled[!is.finite(X_scaled)] <- 0
+    cat("Replaced remaining non-finite values with 0\n")
+  }
   
-  # Create output directory and clustering subdirectory
-  dir.create(opt$`output-dir`, showWarnings = FALSE, recursive = TRUE)
-  clustering_dir <- file.path(opt$`output-dir`, "clustering")
-  dir.create(clustering_dir, showWarnings = FALSE, recursive = TRUE)
-  
-  # Save PCA results (shared across all methods)
-  pca_file <- file.path(clustering_dir, "pca_results.RData")
-  save(pca_result, file = pca_file)
-  cat(sprintf("\nPCA results saved to: %s\n", pca_file))
+  cat(sprintf("Prepared %d samples with %d features\n", nrow(X_scaled), ncol(X_scaled)))
   
   # Perform clustering
-  cluster_results <- list()
-  
-  # Determine number of workers for parallel processing
-  n_workers <- if (is.null(opt$workers)) {
-    max(1, detectCores() - 1)
+  methods_to_run <- if (opt$method == "all") {
+    c("kmeans", "hierarchical", "dbscan")
   } else {
-    opt$workers
-  }
-  cat(sprintf("\nUsing %d parallel workers for clustering\n", n_workers))
-  
-  if (opt$method %in% c("all", "kmeans")) {
-    km_result <- cluster_kmeans(reduced_features, k = opt$`n-clusters`, n_workers = n_workers)
-    cluster_results$kmeans <- km_result
-    
-    # Create method-specific directory
-    kmeans_dir <- file.path(clustering_dir, "kmeans")
-    dir.create(kmeans_dir, showWarnings = FALSE, recursive = TRUE)
-    
-    # Save K-means assignments
-    assignments <- data.frame(
-      bout_id = processed_df$bout_id,
-      video_name = processed_df$video_name,
-      animal_id = processed_df$animal_id,
-      start_frame = processed_df$start_frame,
-      end_frame = processed_df$end_frame,
-      cluster = km_result$clusters
-    )
-    
-    output_file <- file.path(kmeans_dir, "cluster_assignments_kmeans.csv")
-    write.csv(assignments, output_file, row.names = FALSE)
-    cat(sprintf("K-means assignments saved to: %s\n", output_file))
+    opt$method
   }
   
-  if (opt$method %in% c("all", "hierarchical")) {
-    hier_result <- cluster_hierarchical(reduced_features, k = opt$`n-clusters`)
-    cluster_results$hierarchical <- hier_result
+  all_results <- list()
+  
+  for (method in methods_to_run) {
+    cat(sprintf("\nPerforming %s clustering...\n", method))
     
-    # Create method-specific directory
-    hierarchical_dir <- file.path(clustering_dir, "hierarchical")
-    dir.create(hierarchical_dir, showWarnings = FALSE, recursive = TRUE)
-    
-    # Save hierarchical assignments
-    assignments <- data.frame(
-      bout_id = processed_df$bout_id,
-      video_name = processed_df$video_name,
-      animal_id = processed_df$animal_id,
-      start_frame = processed_df$start_frame,
-      end_frame = processed_df$end_frame,
-      cluster = hier_result$clusters
-    )
-    
-    output_file <- file.path(hierarchical_dir, "cluster_assignments_hierarchical.csv")
-    write.csv(assignments, output_file, row.names = FALSE)
-    cat(sprintf("Hierarchical assignments saved to: %s\n", output_file))
+    tryCatch({
+      if (method == "kmeans") {
+        result <- perform_kmeans_clustering(X_scaled, n_clusters=opt$`n-clusters`)
+      } else if (method == "hierarchical") {
+        result <- perform_hierarchical_clustering(X_scaled, n_clusters=opt$`n-clusters`)
+      } else if (method == "dbscan") {
+        result <- perform_dbscan_clustering(X_scaled)
+      } else {
+        next
+      }
+      
+      # Calculate cluster statistics
+      cluster_stats <- calculate_cluster_statistics(X_scaled, result$labels, metadata_df)
+      result$info$cluster_statistics <- cluster_stats
+      
+      # Save results
+      results_df <- cbind(metadata_df, 
+                         cluster_id = result$labels,
+                         cluster_method = method)
+      
+      output_file <- file.path(opt$`output-dir`, sprintf("cluster_assignments_%s.csv", method))
+      write.csv(results_df, output_file, row.names=FALSE)
+      cat(sprintf("Saved cluster assignments to %s\n", output_file))
+      
+      # Save cluster statistics
+      stats_file <- file.path(opt$`output-dir`, sprintf("cluster_statistics_%s.json", method))
+      write_json(result$info, stats_file, pretty=TRUE)
+      cat(sprintf("Saved cluster statistics to %s\n", stats_file))
+      
+      all_results[[method]] <- result
+      
+    }, error = function(e) {
+      cat(sprintf("Error in %s clustering: %s\n", method, e$message))
+    })
   }
   
-  if (opt$method %in% c("all", "dbscan")) {
-    dbscan_result <- cluster_dbscan(reduced_features)
-    cluster_results$dbscan <- dbscan_result
-    
-    # Create method-specific directory
-    dbscan_dir <- file.path(clustering_dir, "dbscan")
-    dir.create(dbscan_dir, showWarnings = FALSE, recursive = TRUE)
-    
-    # Save DBSCAN assignments
-    assignments <- data.frame(
-      bout_id = processed_df$bout_id,
-      video_name = processed_df$video_name,
-      animal_id = processed_df$animal_id,
-      start_frame = processed_df$start_frame,
-      end_frame = processed_df$end_frame,
-      cluster = dbscan_result$clusters
-    )
-    
-    output_file <- file.path(dbscan_dir, "cluster_assignments_dbscan.csv")
-    write.csv(assignments, output_file, row.names = FALSE)
-    cat(sprintf("DBSCAN assignments saved to: %s\n", output_file))
-  }
-  
+  # Print summary
   cat("\n============================================================\n")
-  cat("Clustering complete!\n")
+  cat("Clustering Summary\n")
+  cat("============================================================\n")
+  
+  for (method in names(all_results)) {
+    info <- all_results[[method]]$info
+    cat(sprintf("\n%s:\n", toupper(method)))
+    cat(sprintf("  Clusters: %d\n", info$n_clusters))
+    if (!is.null(info$silhouette_score)) {
+      cat(sprintf("  Silhouette Score: %.3f\n", info$silhouette_score))
+    }
+    if (!is.null(info$calinski_harabasz_score)) {
+      cat(sprintf("  Calinski-Harabasz Score: %.2f\n", info$calinski_harabasz_score))
+    }
+  }
 }
 
-# Run main
-main()
+# Run main function
+if (!interactive()) {
+  main()
+}
 

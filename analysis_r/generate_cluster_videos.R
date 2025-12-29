@@ -1,245 +1,275 @@
 #!/usr/bin/env Rscript
-# Generate video montages for each cluster
+# Generate videos for each cluster using the Python video clipper.
 #
 # This script:
-# 1. Loads cluster assignments
-# 2. For each cluster, creates temporary annotation JSON files
-# 3. Calls generate_bouts_video.py to create video montages for each cluster
+# 1. Loads cluster assignments from all clustering methods
+# 2. Groups bouts by cluster ID
+# 3. Creates JSON files for each cluster
+# 4. Calls the Python video clipper to generate videos for each cluster
 #
-# Usage:
-#   Rscript analysis_r/generate_cluster_videos.R --clusters results/cluster_assignments_kmeans.csv --output-dir results/clustering/videos
+# Video Standards (inherited from generate_bouts_video.py):
+#   - Codec: libx264 + aac
+#   - Frame rate: 30 fps
+#   - Preset: fast
+#   - Font: /System/Library/Fonts/Helvetica.ttc (fontsize=20)
+#   - Bounding boxes: Yellow outline (t=3, color=yellow@1.0)
+#   - Text overlay: Bottom center with black semi-transparent background
+#   - Default workers: CPU cores - 1 (leaves one core free)
 
-# Add default library paths
+# Add default library paths (user library first)
 .libPaths(c("/Users/vkumar/Library/R/arm64/4.5/library", .libPaths()))
 
 suppressPackageStartupMessages({
   library(optparse)
-  library(jsonlite)
   library(dplyr)
+  library(jsonlite)
 })
 
 # Parse command line arguments
 option_list <- list(
   make_option(c("-c", "--clusters"), type="character", default=NULL,
-              help="Cluster assignments CSV file (required)"),
-  make_option(c("--output-dir"), type="character", default="results/clustering/videos",
-              help="Output directory for cluster videos (default: results/clustering/videos)"),
-  make_option(c("--method"), type="character", default=NULL,
-              help="Clustering method name (kmeans, hierarchical, dbscan). Auto-detected from filename if not provided."),
-  make_option(c("--annotations-dir"), type="character", default="jabs/annotations",
+              help="Input CSV file with cluster assignments (required)"),
+  make_option(c("-m", "--method"), type="character", default=NULL,
+              help="Clustering method name (e.g., kmeans, hierarchical, dbscan)"),
+  make_option(c("-a", "--annotations-dir"), type="character", default="jabs/annotations",
               help="Directory containing annotation JSON files"),
-  make_option(c("--video-dir"), type="character", default=".",
+  make_option(c("-v", "--video-dir"), type="character", default="jabs/videos",
               help="Directory containing video files"),
+  make_option(c("-o", "--output-dir"), type="character", default="cluster_videos",
+              help="Output directory for cluster videos"),
+  make_option(c("--video-clipper"), type="character", default="generate_bouts_video.py",
+              help="Path to Python video clipper script"),
   make_option(c("--behavior"), type="character", default="turn_left",
-              help="Behavior name (default: turn_left)"),
+              help="Behavior name for video clipping"),
   make_option(c("--workers"), type="integer", default=NULL,
               help="Number of parallel workers for video clipping"),
-  make_option(c("-v", "--verbose"), action="store_true", default=FALSE,
+  make_option(c("--keep-temp"), action="store_true", default=FALSE,
+              help="Keep temporary clip files"),
+  make_option(c("--verbose"), action="store_true", default=FALSE,
               help="Enable verbose logging")
 )
 
 opt <- parse_args(OptionParser(option_list=option_list))
 
-if (is.null(opt$clusters)) {
-  stop("--clusters argument is required")
+# Load cluster assignments
+load_cluster_assignments <- function(cluster_file) {
+  df <- read.csv(cluster_file, stringsAsFactors=FALSE)
+  return(df)
 }
 
-# Get default number of workers (CPU cores - 1)
-get_default_workers <- function() {
-  tryCatch({
-    result <- system("python3 -c 'import multiprocessing; print(multiprocessing.cpu_count() - 1)'", 
-                    intern = TRUE)
-    as.integer(result[1])
-  }, error = function(e) {
-    return(1)
-  })
-}
-
-# Create temporary annotation JSON files for cluster bouts
-create_cluster_annotations <- function(cluster_bouts, behavior_name, output_dir) {
+# Create annotation JSON files for a specific cluster (one per video)
+create_cluster_annotations <- function(cluster_df, cluster_id, annotations_dir) {
+  # Filter bouts for this cluster
+  cluster_bouts <- cluster_df[cluster_df$cluster_id == cluster_id, , drop=FALSE]
+  
+  if (nrow(cluster_bouts) == 0) {
+    cat(sprintf("No bouts found for cluster %d\n", cluster_id))
+    return(character(0))
+  }
+  
   # Group by video
   videos <- unique(cluster_bouts$video_name)
+  annotation_files <- character(0)
   
-  annotation_files <- character(length(videos))
-  
-  for (i in seq_along(videos)) {
-    video_name <- videos[i]
-    video_bouts <- cluster_bouts[cluster_bouts$video_name == video_name, ]
+  for (video_name in videos) {
+    video_bouts <- cluster_bouts[cluster_bouts$video_name == video_name, , drop=FALSE]
     
-    # Group by animal_id
+    # Group by animal
     animals <- unique(video_bouts$animal_id)
-    
     labels <- list()
+    
     for (animal_id in animals) {
-      animal_bouts <- video_bouts[video_bouts$animal_id == animal_id, ]
+      animal_bouts <- video_bouts[video_bouts$animal_id == animal_id, , drop=FALSE]
       
-      # Create bout list for this animal
-      bout_list <- lapply(seq_len(nrow(animal_bouts)), function(j) {
-        list(
-          start = animal_bouts$start_frame[j],
-          end = animal_bouts$end_frame[j],
+      # Create behavior bouts list
+      behavior_bouts <- list()
+      
+      for (i in seq_len(nrow(animal_bouts))) {
+        bout <- list(
+          start = as.integer(animal_bouts$start_frame[i]),
+          end = as.integer(animal_bouts$end_frame[i]),
           present = TRUE
         )
-      })
+        behavior_bouts[[length(behavior_bouts) + 1]] <- bout
+      }
       
-      # Initialize labels structure
       labels[[as.character(animal_id)]] <- list()
-      labels[[as.character(animal_id)]][[behavior_name]] <- bout_list
+      labels[[as.character(animal_id)]][[opt$behavior]] <- behavior_bouts
     }
     
-    # Create annotation structure
-    annotation <- list(
-      version = 1,
-      file = as.character(video_name)[1],
-      num_frames = NA,  # Will be determined by video clipper
+    # Create annotation structure (one file per video, matching expected format)
+    annotation_data <- list(
+      file = as.character(video_name)[1],  # Ensure scalar, not array
       labels = labels
     )
     
-    # Write to JSON file
-    video_basename <- tools::file_path_sans_ext(video_name)
-    annotation_file <- file.path(output_dir, sprintf("%s.json", video_basename))
-    write_json(annotation, annotation_file, auto_unbox = TRUE, pretty = TRUE)
-    annotation_files[i] <- annotation_file
+    # Create filename matching video name (without extension) + .json
+    video_basename <- tools::file_path_sans_ext(video_name)[1]
+    json_filename <- paste0(video_basename, ".json")
+    json_file <- file.path(annotations_dir, json_filename)
+    
+    # Write JSON file (auto_unbox=TRUE ensures scalars are not arrays)
+    write_json(annotation_data, json_file, pretty=TRUE, auto_unbox=TRUE)
+    annotation_files <- c(annotation_files, json_file)
+    
+    cat(sprintf("  Created annotation: %s (%d bouts)\n", json_filename, nrow(video_bouts)))
   }
+  
+  cat(sprintf("Created %d annotation files for cluster %d (total %d bouts)\n", 
+             length(annotation_files), cluster_id, nrow(cluster_bouts)))
   
   return(annotation_files)
 }
 
-# Main execution
-main <- function() {
-  cat("============================================================\n")
-  cat("Cluster Video Generation\n")
-  cat("============================================================\n\n")
+# Generate video for a cluster
+generate_cluster_video <- function(cluster_id, annotation_files, method_name) {
+  output_filename <- sprintf("cluster_%s_%d.mp4", method_name, cluster_id)
+  output_path <- file.path(opt$`output-dir`, output_filename)
   
-  # Detect method from filename if not provided
-  method <- opt$method
-  if (is.null(method)) {
-    filename <- basename(opt$clusters)
-    if (grepl("kmeans", filename, ignore.case = TRUE)) {
-      method <- "kmeans"
-    } else if (grepl("hierarchical", filename, ignore.case = TRUE)) {
-      method <- "hierarchical"
-    } else if (grepl("dbscan", filename, ignore.case = TRUE)) {
-      method <- "dbscan"
-    } else {
-      method <- "unknown"
-    }
-    cat(sprintf("Auto-detected method: %s\n", method))
+  # Note: annotation_files are already in the temp_annotations_dir from create_cluster_annotations
+  # So we can use that directory directly
+  temp_annotations_dir <- dirname(annotation_files[1])
+  
+  # Build command - use same standards as generate_bouts_video.py
+  # Default workers: n-1 cores (same as generate_bouts_video.py default)
+  # This matches the Python script's default: max(1, multiprocessing.cpu_count() - 1)
+  if (is.null(opt$workers)) {
+    # Calculate default: CPU cores - 1 (leave one core free for system responsiveness)
+    # Use Python to get CPU count (more reliable cross-platform)
+    cpu_cores_str <- system("python3 -c 'import multiprocessing; print(multiprocessing.cpu_count())'", intern=TRUE)
+    cpu_cores <- as.integer(cpu_cores_str[1])
+    default_workers <- max(1, cpu_cores - 1)
+    workers_arg <- sprintf("--workers %d", default_workers)
+  } else {
+    workers_arg <- sprintf("--workers %d", opt$workers)
   }
   
-  # Load cluster assignments
-  cat(sprintf("Loading cluster assignments from: %s\n", opt$clusters))
-  if (!file.exists(opt$clusters)) {
-    stop(sprintf("Cluster assignments file not found: %s", opt$clusters))
+  cmd <- sprintf("python3 %s --behavior %s --annotations-dir %s --video-dir %s --output %s %s",
+                opt$`video-clipper`,
+                opt$behavior,
+                temp_annotations_dir,
+                opt$`video-dir`,
+                output_path,
+                workers_arg)
+  
+  # Add optional arguments
+  if (opt$`keep-temp`) {
+    cmd <- paste(cmd, "--keep-temp")
   }
   
-  clusters_df <- read.csv(opt$clusters, stringsAsFactors = FALSE)
-  cat(sprintf("Loaded %d bout assignments\n", nrow(clusters_df)))
-  
-  # Check if metadata columns exist, if not load from filtered features
-  required_cols <- c("video_name", "animal_id", "start_frame", "end_frame")
-  if (!all(required_cols %in% names(clusters_df))) {
-    cat("Cluster assignments missing metadata. Loading from filtered features...\n")
-    # Try to find filtered features file in results directory
-    features_file <- "results/bout_features_filtered.csv"
-    if (!file.exists(features_file)) {
-      # Fallback to current directory
-      features_file <- "bout_features_filtered.csv"
-    }
-    if (!file.exists(features_file)) {
-      stop(sprintf("Features file not found. Checked: results/bout_features_filtered.csv and bout_features_filtered.csv. Cannot merge metadata."))
-    }
-    features_df <- read.csv(features_file, stringsAsFactors = FALSE)
-    clusters_df <- clusters_df %>%
-      left_join(features_df[, c("bout_id", required_cols)], by = "bout_id")
+  if (opt$verbose) {
+    cmd <- paste(cmd, "--verbose")
   }
   
-  # Get unique clusters
-  unique_clusters <- sort(unique(clusters_df$cluster))
-  cat(sprintf("Found %d clusters\n", length(unique_clusters)))
+  cat(sprintf("Generating video for cluster %d (%d annotation files)...\n", 
+             cluster_id, length(annotation_files)))
   
-  # Create method-specific output directory
-  method_output_dir <- file.path(opt$`output-dir`, method, "videos")
-  dir.create(method_output_dir, showWarnings = FALSE, recursive = TRUE)
-  cat(sprintf("Output directory: %s\n", method_output_dir))
-  
-  # Determine number of workers
-  n_workers <- if (is.null(opt$workers)) get_default_workers() else opt$workers
-  cat(sprintf("Using %d parallel workers\n", n_workers))
-  
-  # Python script path
-  python_script <- "generate_bouts_video.py"
-  if (!file.exists(python_script)) {
-    stop(sprintf("Python script not found: %s", python_script))
+  if (opt$verbose) {
+    cat(sprintf("Command: %s\n", cmd))
   }
   
-  video_files <- character(0)
+  # Execute command
+  result <- system(cmd, intern=FALSE)
   
-  # Generate video for each cluster
-  for (cluster_id in unique_clusters) {
-    cat(sprintf("\nProcessing cluster %d (%d bouts)...\n", cluster_id, 
-               sum(clusters_df$cluster == cluster_id)))
-    
-    # Get bouts for this cluster
-    cluster_bouts <- clusters_df[clusters_df$cluster == cluster_id, ]
-    
-    # Create temporary annotation directory
-    temp_annotation_dir <- tempfile(pattern = sprintf("cluster_%d_annotations_", cluster_id))
-    dir.create(temp_annotation_dir, showWarnings = FALSE, recursive = TRUE)
-    
-    # Create annotation files
-    annotation_files <- create_cluster_annotations(cluster_bouts, opt$behavior, temp_annotation_dir)
-    cat(sprintf("Created %d annotation file(s)\n", length(annotation_files)))
-    
-    # Output video filename (in method-specific directory)
-    output_video <- file.path(method_output_dir, sprintf("cluster_%d.mp4", cluster_id))
-    
-    # Build Python command
-    cmd_args <- c(
-      python_script,
-      "--behavior", opt$behavior,
-      "--annotations-dir", temp_annotation_dir,
-      "--video-dir", opt$`video-dir`,
-      "--output", output_video,
-      "--workers", as.character(n_workers)
-    )
-    
-    if (opt$verbose) {
-      cmd_args <- c(cmd_args, "--verbose")
-    }
-    
-    # Run Python script
-    cat("Calling Python video clipper...\n")
-    result <- system2("python3", cmd_args, stdout = if (opt$verbose) "" else TRUE, 
-                     stderr = if (opt$verbose) "" else TRUE)
-    
-    exit_code <- attr(result, "status")
-    if (!is.null(exit_code) && exit_code != 0) {
-      warning(sprintf("Video generation failed for cluster %d with exit code %d", cluster_id, exit_code))
-    } else {
-      # Check if output file was created
-      if (file.exists(output_video)) {
-        file_size <- file.info(output_video)$size
-        cat(sprintf("✓ Video created: %s (%.1f MB)\n", output_video, file_size / 1e6))
-        video_files <- c(video_files, output_video)
-      } else {
-        warning(sprintf("Output video file not found: %s", output_video))
-      }
-    }
-    
-    # Clean up temporary annotation directory
-    if (dir.exists(temp_annotation_dir)) {
-      unlink(temp_annotation_dir, recursive = TRUE)
-    }
+  if (result == 0) {
+    cat(sprintf("✓ Successfully created video: %s\n", output_path))
+    return(output_path)
+  } else {
+    cat(sprintf("✗ Failed to create video for cluster %d (exit code: %d)\n", cluster_id, result))
+    return(NULL)
   }
-  
-  cat("\n============================================================\n")
-  cat("Cluster video generation complete!\n")
-  cat(sprintf("Method: %s\n", method))
-  cat(sprintf("Videos successfully created: %d\n", length(video_files)))
-  cat(sprintf("Output directory: %s\n", method_output_dir))
 }
 
-# Run main
-main()
+# Main execution
+main <- function() {
+  if (is.null(opt$clusters)) {
+    stop("--clusters argument is required. Use --help for usage information.")
+  }
+  
+  if (is.null(opt$method)) {
+    # Try to infer method from filename
+    filename <- basename(opt$clusters)
+    if (grepl("kmeans", filename, ignore.case=TRUE)) {
+      opt$method <- "kmeans"
+    } else if (grepl("hierarchical", filename, ignore.case=TRUE)) {
+      opt$method <- "hierarchical"
+    } else if (grepl("dbscan", filename, ignore.case=TRUE)) {
+      opt$method <- "dbscan"
+    } else {
+      opt$method <- "unknown"
+    }
+    cat(sprintf("Inferred clustering method: %s\n", opt$method))
+  }
+  
+  cat(sprintf("Loading cluster assignments from %s\n", opt$clusters))
+  cluster_df <- load_cluster_assignments(opt$clusters)
+  
+  if (nrow(cluster_df) == 0) {
+    stop("No cluster assignments found")
+  }
+  
+  # Get unique cluster IDs (excluding noise/0 if it's DBSCAN)
+  unique_clusters <- sort(unique(cluster_df$cluster_id))
+  unique_clusters <- unique_clusters[unique_clusters >= 0]  # Include 0 for DBSCAN noise
+  
+  cat(sprintf("Found %d clusters: %s\n", length(unique_clusters), 
+             paste(unique_clusters, collapse=", ")))
+  
+  # Create output directory
+  dir.create(opt$`output-dir`, showWarnings=FALSE, recursive=TRUE)
+  dir.create(file.path(opt$`output-dir`, "temp_annotations"), showWarnings=FALSE, recursive=TRUE)
+  
+  # Process each cluster
+  video_files <- list()
+  
+  for (cluster_id in unique_clusters) {
+    cat(sprintf("\n=== Processing Cluster %d ===\n", cluster_id))
+    
+    # Create temp annotations directory
+    temp_ann_dir <- file.path(opt$`output-dir`, "temp_annotations", 
+                              sprintf("cluster_%s_%d", opt$method, cluster_id))
+    dir.create(temp_ann_dir, showWarnings=FALSE, recursive=TRUE)
+    
+    # Create annotation files for this cluster
+    annotation_files <- create_cluster_annotations(cluster_df, cluster_id, temp_ann_dir)
+    
+    if (length(annotation_files) == 0) {
+      next
+    }
+    
+    # Generate video
+    video_path <- generate_cluster_video(cluster_id, annotation_files, opt$method)
+    
+    if (!is.null(video_path)) {
+      video_files[[length(video_files) + 1]] <- list(
+        cluster_id = cluster_id,
+        video_path = video_path,
+        n_bouts = nrow(cluster_df[cluster_df$cluster_id == cluster_id, ])
+      )
+    }
+  }
+  
+  # Print summary
+  cat("\n============================================================\n")
+  cat("Cluster Video Generation Summary\n")
+  cat("============================================================\n")
+  cat(sprintf("Method: %s\n", opt$method))
+  cat(sprintf("Total clusters processed: %d\n", length(unique_clusters)))
+  cat(sprintf("Videos successfully created: %d\n", length(video_files)))
+  cat("\nGenerated videos:\n")
+  
+  for (video_info in video_files) {
+    cat(sprintf("  Cluster %d: %s (%d bouts)\n", 
+               video_info$cluster_id, 
+               basename(video_info$video_path),
+               video_info$n_bouts))
+  }
+  
+  cat(sprintf("\nAll videos saved to: %s\n", opt$`output-dir`))
+}
+
+# Run main function
+if (!interactive()) {
+  main()
+}
 

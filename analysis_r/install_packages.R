@@ -1,50 +1,67 @@
 #!/usr/bin/env Rscript
-# Install required R packages for behavior bout clustering and outlier analysis
+# Installation script for R analysis dependencies
 #
-# This script installs:
-# - Bioconductor packages (rhdf5)
-# - CRAN packages (dplyr, jsonlite, optparse, ggplot2, etc.)
-#
-# Usage:
+# Run this script to install all required packages:
 #   Rscript analysis_r/install_packages.R
 
-cat("Installing required R packages for behavior bout analysis...\n")
-cat("============================================================\n\n")
+cat("Installing R packages for behavior bout analysis...\n\n")
 
-# Note: HDF5 file reading is done in Python (h5py), not R
+# Install BiocManager if needed
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  cat("Installing BiocManager...\n")
+  install.packages("BiocManager", repos = "https://cran.r-project.org")
+}
+
+# Install Bioconductor packages
+cat("Installing Bioconductor packages (rhdf5)...\n")
+BiocManager::install("rhdf5", ask = FALSE, update = FALSE)
+
 # Install CRAN packages
-cat("\n[1/1] Installing CRAN packages...\n")
 cran_packages <- c(
-  "dplyr",           # Data manipulation
-  "jsonlite",        # JSON parsing
-  "optparse",        # Command-line arguments
-  "ggplot2",         # Plotting
-  "gridExtra",       # Additional plotting utilities
-  "factoextra",      # PCA and clustering visualization
-  "cluster",         # Clustering algorithms
-  "dbscan",          # DBSCAN and LOF
-  "MASS",            # Mahalanobis distance
-  "isotree",         # Isolation Forest
-  "pheatmap",        # Heatmap visualization
-  "tidyr",           # Data reshaping
-  "tibble",          # Data frames
-  "stringr",         # String manipulation
-  "DT",              # HTML table generation
-  "htmlwidgets",     # HTML widgets
-  "Rtsne"            # t-SNE for visualization (optional)
+  "getopt",      # Dependency for optparse
+  "optparse",    # Command-line argument parsing
+  "dplyr",       # Data manipulation
+  "jsonlite",    # JSON reading/writing
+  "ggplot2",     # Plotting
+  "Rtsne",       # t-SNE dimensionality reduction
+  "factoextra",  # Cluster analysis
+  "pheatmap",    # Heatmaps
+  "cluster",      # Clustering algorithms
+  "NbClust",     # Optimal cluster number
+  "gridExtra",   # Plot arrangement
+  "dbscan"       # DBSCAN clustering
 )
 
+cat("Installing CRAN packages...\n")
 for (pkg in cran_packages) {
-  if (!require(pkg, character.only = TRUE, quietly = TRUE)) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
     cat(sprintf("  Installing %s...\n", pkg))
-    install.packages(pkg, repos = "https://cran.r-project.org", dependencies = TRUE)
+    install.packages(pkg, repos = "https://cran.r-project.org")
   } else {
     cat(sprintf("  %s already installed\n", pkg))
   }
 }
 
-cat("\n============================================================\n")
-cat("Package installation complete!\n")
-cat("\nTo verify installation, run:\n")
-cat("  Rscript -e 'library(rhdf5); library(dplyr); library(ggplot2)'\n")
+# Verify installations
+cat("\nVerifying installations...\n")
+required_packages <- c("rhdf5", "optparse", "dplyr", "jsonlite", "ggplot2", 
+                       "Rtsne", "factoextra", "pheatmap", "cluster", 
+                       "NbClust", "gridExtra", "dbscan")
+
+all_ok <- TRUE
+for (pkg in required_packages) {
+  if (requireNamespace(pkg, quietly = TRUE)) {
+    cat(sprintf("  ✓ %s\n", pkg))
+  } else {
+    cat(sprintf("  ✗ %s (FAILED)\n", pkg))
+    all_ok <- FALSE
+  }
+}
+
+if (all_ok) {
+  cat("\n✓ All packages installed successfully!\n")
+} else {
+  cat("\n✗ Some packages failed to install. Please check error messages above.\n")
+  cat("You may need to run this script with appropriate permissions.\n")
+}
 
