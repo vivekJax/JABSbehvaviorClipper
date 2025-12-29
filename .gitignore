@@ -14,5 +14,9 @@ __pycache__/
 # Log files
 *.log
 
-# Output directories
-jabs/
+# Output directories (but allow annotations and project.json)
+jabs/*.mp4
+jabs/*.h5
+jabs/*.parquet
+!jabs/annotations/
+!jabs/project.json

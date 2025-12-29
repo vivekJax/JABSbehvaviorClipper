@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "file": "org-3-prod.study_426.cage_4469.2025-07-12.10.05.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 25,
+          "end": 34,
+          "present": false
+        },
+        {
+          "start": 36,
+          "end": 36,
+          "present": false
+        },
+        {
+          "start": 39,
+          "end": 39,
+          "present": false
+        },
+        {
+          "start": 41,
+          "end": 43,
+          "present": false
+        },
+        {
+          "start": 45,
+          "end": 45,
+          "present": false
+        },
+        {
+          "start": 48,
+          "end": 60,
+          "present": false
+        },
+        {
+          "start": 63,
+          "end": 65,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 25,
+          "end": 65,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_426/2025v3.3/stream/cage_4469/2025-07-12/10.05/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4469,
+      "date": "2025-07-12",
+      "org_id": 3,
+      "start_time": "10.05",
+      "study_id": 426,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_426/cage_4469/video/2025-07-12/10.05.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "vkumar"
+}

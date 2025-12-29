@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_410.cage_4479.2025-08-08.10.32.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 212,
+          "end": 223,
+          "present": false
+        },
+        {
+          "start": 226,
+          "end": 231,
+          "present": false
+        },
+        {
+          "start": 233,
+          "end": 233,
+          "present": false
+        },
+        {
+          "start": 237,
+          "end": 237,
+          "present": false
+        },
+        {
+          "start": 239,
+          "end": 242,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 213,
+          "end": 218,
+          "present": false
+        },
+        {
+          "start": 220,
+          "end": 222,
+          "present": false
+        },
+        {
+          "start": 264,
+          "end": 293,
+          "present": false
+        },
+        {
+          "start": 303,
+          "end": 333,
+          "present": false
+        },
+        {
+          "start": 392,
+          "end": 407,
+          "present": false
+        },
+        {
+          "start": 409,
+          "end": 410,
+          "present": false
+        },
+        {
+          "start": 414,
+          "end": 419,
+          "present": false
+        },
+        {
+          "start": 475,
+          "end": 491,
+          "present": false
+        },
+        {
+          "start": 493,
+          "end": 535,
+          "present": false
+        }
+      ]
+    },
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 212,
+          "end": 242,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 212,
+          "end": 222,
+          "present": false
+        },
+        {
+          "start": 263,
+          "end": 293,
+          "present": false
+        },
+        {
+          "start": 303,
+          "end": 333,
+          "present": false
+        },
+        {
+          "start": 392,
+          "end": 419,
+          "present": false
+        },
+        {
+          "start": 474,
+          "end": 535,
+          "present": false
+        }
+      ]
+    },
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_410/2025v3.3/stream/cage_4479/2025-08-08/10.32/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4479,
+      "date": "2025-08-08",
+      "org_id": 3,
+      "start_time": "10.32",
+      "study_id": 410,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_410/cage_4479/video/2025-08-08/10.32.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

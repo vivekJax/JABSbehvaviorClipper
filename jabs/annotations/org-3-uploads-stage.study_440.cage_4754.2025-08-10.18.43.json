@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_440.cage_4754.2025-08-10.18.43.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 631,
+          "end": 651,
+          "present": false
+        },
+        {
+          "start": 653,
+          "end": 654,
+          "present": false
+        },
+        {
+          "start": 656,
+          "end": 659,
+          "present": false
+        },
+        {
+          "start": 662,
+          "end": 671,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 103,
+          "end": 119,
+          "present": false
+        },
+        {
+          "start": 121,
+          "end": 143,
+          "present": false
+        },
+        {
+          "start": 426,
+          "end": 447,
+          "present": false
+        },
+        {
+          "start": 449,
+          "end": 459,
+          "present": false
+        },
+        {
+          "start": 462,
+          "end": 464,
+          "present": false
+        },
+        {
+          "start": 468,
+          "end": 472,
+          "present": false
+        },
+        {
+          "start": 474,
+          "end": 476,
+          "present": false
+        },
+        {
+          "start": 496,
+          "end": 501,
+          "present": false
+        },
+        {
+          "start": 504,
+          "end": 504,
+          "present": false
+        },
+        {
+          "start": 506,
+          "end": 507,
+          "present": false
+        },
+        {
+          "start": 511,
+          "end": 525,
+          "present": false
+        },
+        {
+          "start": 528,
+          "end": 528,
+          "present": false
+        },
+        {
+          "start": 530,
+          "end": 530,
+          "present": false
+        },
+        {
+          "start": 532,
+          "end": 532,
+          "present": false
+        },
+        {
+          "start": 534,
+          "end": 534,
+          "present": false
+        },
+        {
+          "start": 537,
+          "end": 537,
+          "present": false
+        },
+        {
+          "start": 544,
+          "end": 545,
+          "present": false
+        },
+        {
+          "start": 566,
+          "end": 567,
+          "present": false
+        },
+        {
+          "start": 572,
+          "end": 576,
+          "present": false
+        },
+        {
+          "start": 578,
+          "end": 598,
+          "present": false
+        },
+        {
+          "start": 600,
+          "end": 600,
+          "present": false
+        },
+        {
+          "start": 602,
+          "end": 602,
+          "present": false
+        },
+        {
+          "start": 605,
+          "end": 605,
+          "present": false
+        },
+        {
+          "start": 607,
+          "end": 611,
+          "present": false
+        },
+        {
+          "start": 613,
+          "end": 613,
+          "present": false
+        },
+        {
+          "start": 616,
+          "end": 636,
+          "present": false
+        },
+        {
+          "start": 646,
+          "end": 651,
+          "present": false
+        },
+        {
+          "start": 653,
+          "end": 654,
+          "present": false
+        },
+        {
+          "start": 656,
+          "end": 659,
+          "present": false
+        },
+        {
+          "start": 662,
+          "end": 706,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 682,
+          "end": 682,
+          "present": false
+        },
+        {
+          "start": 703,
+          "end": 703,
+          "present": false
+        },
+        {
+          "start": 708,
+          "end": 709,
+          "present": false
+        },
+        {
+          "start": 733,
+          "end": 734,
+          "present": false
+        },
+        {
+          "start": 740,
+          "end": 740,
+          "present": false
+        },
+        {
+          "start": 746,
+          "end": 746,
+          "present": false
+        },
+        {
+          "start": 753,
+          "end": 753,
+          "present": false
+        },
+        {
+          "start": 758,
+          "end": 758,
+          "present": false
+        },
+        {
+          "start": 766,
+          "end": 766,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 1238,
+          "end": 1251,
+          "present": false
+        },
+        {
+          "start": 1253,
+          "end": 1253,
+          "present": false
+        },
+        {
+          "start": 1255,
+          "end": 1284,
+          "present": false
+        },
+        {
+          "start": 1292,
+          "end": 1292,
+          "present": false
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 631,
+          "end": 671,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 103,
+          "end": 143,
+          "present": false
+        },
+        {
+          "start": 426,
+          "end": 476,
+          "present": false
+        },
+        {
+          "start": 496,
+          "end": 546,
+          "present": false
+        },
+        {
+          "start": 566,
+          "end": 636,
+          "present": false
+        },
+        {
+          "start": 646,
+          "end": 706,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 671,
+          "end": 711,
+          "present": false
+        },
+        {
+          "start": 731,
+          "end": 771,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 1238,
+          "end": 1298,
+          "present": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_440/2025v3.3/stream/cage_4754/2025-08-10/18.43/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4754,
+      "date": "2025-08-10",
+      "org_id": 3,
+      "start_time": "18.43",
+      "study_id": 440,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_440/cage_4754/video/2025-08-10/18.43.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

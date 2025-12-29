@@ -1,0 +1,806 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_410.cage_4483.2025-07-18.23.04.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 20,
+          "end": 24,
+          "present": false
+        },
+        {
+          "start": 26,
+          "end": 26,
+          "present": false
+        },
+        {
+          "start": 29,
+          "end": 33,
+          "present": false
+        },
+        {
+          "start": 35,
+          "end": 40,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "jumping": [
+        {
+          "start": 853,
+          "end": 854,
+          "present": false
+        },
+        {
+          "start": 856,
+          "end": 859,
+          "present": false
+        },
+        {
+          "start": 861,
+          "end": 863,
+          "present": false
+        },
+        {
+          "start": 865,
+          "end": 865,
+          "present": false
+        },
+        {
+          "start": 867,
+          "end": 867,
+          "present": false
+        },
+        {
+          "start": 873,
+          "end": 875,
+          "present": false
+        },
+        {
+          "start": 877,
+          "end": 877,
+          "present": false
+        },
+        {
+          "start": 879,
+          "end": 879,
+          "present": false
+        },
+        {
+          "start": 884,
+          "end": 885,
+          "present": false
+        },
+        {
+          "start": 889,
+          "end": 890,
+          "present": false
+        },
+        {
+          "start": 896,
+          "end": 896,
+          "present": false
+        },
+        {
+          "start": 900,
+          "end": 901,
+          "present": false
+        },
+        {
+          "start": 904,
+          "end": 904,
+          "present": false
+        },
+        {
+          "start": 908,
+          "end": 909,
+          "present": false
+        },
+        {
+          "start": 912,
+          "end": 913,
+          "present": false
+        },
+        {
+          "start": 916,
+          "end": 916,
+          "present": false
+        },
+        {
+          "start": 921,
+          "end": 921,
+          "present": false
+        },
+        {
+          "start": 923,
+          "end": 925,
+          "present": false
+        },
+        {
+          "start": 928,
+          "end": 929,
+          "present": false
+        },
+        {
+          "start": 932,
+          "end": 932,
+          "present": false
+        },
+        {
+          "start": 965,
+          "end": 966,
+          "present": false
+        },
+        {
+          "start": 968,
+          "end": 969,
+          "present": false
+        },
+        {
+          "start": 971,
+          "end": 971,
+          "present": false
+        },
+        {
+          "start": 973,
+          "end": 974,
+          "present": false
+        },
+        {
+          "start": 977,
+          "end": 980,
+          "present": false
+        },
+        {
+          "start": 982,
+          "end": 982,
+          "present": false
+        },
+        {
+          "start": 984,
+          "end": 986,
+          "present": false
+        },
+        {
+          "start": 989,
+          "end": 992,
+          "present": false
+        },
+        {
+          "start": 994,
+          "end": 995,
+          "present": false
+        },
+        {
+          "start": 999,
+          "end": 999,
+          "present": false
+        },
+        {
+          "start": 1001,
+          "end": 1011,
+          "present": false
+        },
+        {
+          "start": 1013,
+          "end": 1014,
+          "present": false
+        },
+        {
+          "start": 1019,
+          "end": 1020,
+          "present": false
+        },
+        {
+          "start": 1024,
+          "end": 1030,
+          "present": false
+        },
+        {
+          "start": 1033,
+          "end": 1033,
+          "present": false
+        },
+        {
+          "start": 1053,
+          "end": 1053,
+          "present": false
+        },
+        {
+          "start": 1057,
+          "end": 1057,
+          "present": false
+        },
+        {
+          "start": 1061,
+          "end": 1061,
+          "present": false
+        },
+        {
+          "start": 1063,
+          "end": 1063,
+          "present": false
+        },
+        {
+          "start": 1066,
+          "end": 1067,
+          "present": false
+        },
+        {
+          "start": 1069,
+          "end": 1069,
+          "present": false
+        },
+        {
+          "start": 1072,
+          "end": 1072,
+          "present": false
+        },
+        {
+          "start": 1079,
+          "end": 1080,
+          "present": false
+        },
+        {
+          "start": 1090,
+          "end": 1091,
+          "present": false
+        },
+        {
+          "start": 1126,
+          "end": 1126,
+          "present": false
+        },
+        {
+          "start": 1130,
+          "end": 1130,
+          "present": false
+        },
+        {
+          "start": 1133,
+          "end": 1135,
+          "present": false
+        },
+        {
+          "start": 1138,
+          "end": 1139,
+          "present": false
+        },
+        {
+          "start": 1144,
+          "end": 1145,
+          "present": false
+        },
+        {
+          "start": 1148,
+          "end": 1150,
+          "present": false
+        },
+        {
+          "start": 1155,
+          "end": 1155,
+          "present": false
+        },
+        {
+          "start": 1160,
+          "end": 1161,
+          "present": false
+        },
+        {
+          "start": 1166,
+          "end": 1168,
+          "present": false
+        },
+        {
+          "start": 1193,
+          "end": 1194,
+          "present": false
+        },
+        {
+          "start": 1200,
+          "end": 1200,
+          "present": false
+        },
+        {
+          "start": 1214,
+          "end": 1214,
+          "present": false
+        },
+        {
+          "start": 1217,
+          "end": 1218,
+          "present": false
+        },
+        {
+          "start": 1221,
+          "end": 1221,
+          "present": false
+        },
+        {
+          "start": 1226,
+          "end": 1227,
+          "present": false
+        },
+        {
+          "start": 1229,
+          "end": 1229,
+          "present": false
+        },
+        {
+          "start": 1232,
+          "end": 1233,
+          "present": false
+        },
+        {
+          "start": 1235,
+          "end": 1235,
+          "present": false
+        },
+        {
+          "start": 1237,
+          "end": 1237,
+          "present": false
+        },
+        {
+          "start": 1239,
+          "end": 1239,
+          "present": false
+        },
+        {
+          "start": 1243,
+          "end": 1244,
+          "present": false
+        },
+        {
+          "start": 1246,
+          "end": 1246,
+          "present": false
+        },
+        {
+          "start": 1248,
+          "end": 1251,
+          "present": false
+        },
+        {
+          "start": 1253,
+          "end": 1255,
+          "present": false
+        },
+        {
+          "start": 1257,
+          "end": 1257,
+          "present": false
+        },
+        {
+          "start": 1261,
+          "end": 1264,
+          "present": false
+        },
+        {
+          "start": 1266,
+          "end": 1267,
+          "present": false
+        },
+        {
+          "start": 1269,
+          "end": 1270,
+          "present": false
+        },
+        {
+          "start": 1272,
+          "end": 1273,
+          "present": false
+        },
+        {
+          "start": 1284,
+          "end": 1284,
+          "present": false
+        },
+        {
+          "start": 1290,
+          "end": 1291,
+          "present": false
+        },
+        {
+          "start": 1294,
+          "end": 1294,
+          "present": false
+        },
+        {
+          "start": 1297,
+          "end": 1299,
+          "present": false
+        },
+        {
+          "start": 1302,
+          "end": 1303,
+          "present": false
+        },
+        {
+          "start": 1307,
+          "end": 1307,
+          "present": false
+        },
+        {
+          "start": 1310,
+          "end": 1315,
+          "present": false
+        },
+        {
+          "start": 1319,
+          "end": 1319,
+          "present": false
+        },
+        {
+          "start": 1324,
+          "end": 1324,
+          "present": false
+        },
+        {
+          "start": 1326,
+          "end": 1326,
+          "present": false
+        },
+        {
+          "start": 1328,
+          "end": 1330,
+          "present": false
+        },
+        {
+          "start": 1333,
+          "end": 1333,
+          "present": false
+        },
+        {
+          "start": 1338,
+          "end": 1341,
+          "present": false
+        },
+        {
+          "start": 1344,
+          "end": 1345,
+          "present": false
+        },
+        {
+          "start": 1347,
+          "end": 1347,
+          "present": false
+        },
+        {
+          "start": 1349,
+          "end": 1349,
+          "present": false
+        },
+        {
+          "start": 1351,
+          "end": 1352,
+          "present": false
+        },
+        {
+          "start": 1523,
+          "end": 1523,
+          "present": false
+        },
+        {
+          "start": 1525,
+          "end": 1526,
+          "present": false
+        },
+        {
+          "start": 1529,
+          "end": 1530,
+          "present": false
+        },
+        {
+          "start": 1533,
+          "end": 1536,
+          "present": false
+        },
+        {
+          "start": 1538,
+          "end": 1538,
+          "present": false
+        },
+        {
+          "start": 1540,
+          "end": 1542,
+          "present": false
+        },
+        {
+          "start": 1545,
+          "end": 1548,
+          "present": false
+        },
+        {
+          "start": 1550,
+          "end": 1550,
+          "present": false
+        },
+        {
+          "start": 1552,
+          "end": 1554,
+          "present": false
+        },
+        {
+          "start": 1556,
+          "end": 1559,
+          "present": false
+        },
+        {
+          "start": 1564,
+          "end": 1566,
+          "present": false
+        },
+        {
+          "start": 1570,
+          "end": 1571,
+          "present": false
+        },
+        {
+          "start": 1578,
+          "end": 1578,
+          "present": false
+        },
+        {
+          "start": 1581,
+          "end": 1582,
+          "present": false
+        },
+        {
+          "start": 1584,
+          "end": 1584,
+          "present": false
+        },
+        {
+          "start": 1587,
+          "end": 1590,
+          "present": false
+        },
+        {
+          "start": 1593,
+          "end": 1593,
+          "present": false
+        },
+        {
+          "start": 1613,
+          "end": 1614,
+          "present": false
+        },
+        {
+          "start": 1617,
+          "end": 1619,
+          "present": false
+        },
+        {
+          "start": 1622,
+          "end": 1622,
+          "present": false
+        },
+        {
+          "start": 1629,
+          "end": 1629,
+          "present": false
+        },
+        {
+          "start": 1633,
+          "end": 1633,
+          "present": false
+        },
+        {
+          "start": 1640,
+          "end": 1643,
+          "present": false
+        },
+        {
+          "start": 1650,
+          "end": 1654,
+          "present": false
+        },
+        {
+          "start": 1658,
+          "end": 1659,
+          "present": false
+        },
+        {
+          "start": 1664,
+          "end": 1666,
+          "present": false
+        },
+        {
+          "start": 1673,
+          "end": 1674,
+          "present": false
+        },
+        {
+          "start": 1676,
+          "end": 1678,
+          "present": false
+        },
+        {
+          "start": 1681,
+          "end": 1681,
+          "present": false
+        },
+        {
+          "start": 1684,
+          "end": 1684,
+          "present": false
+        },
+        {
+          "start": 1686,
+          "end": 1686,
+          "present": false
+        },
+        {
+          "start": 1690,
+          "end": 1693,
+          "present": false
+        },
+        {
+          "start": 1713,
+          "end": 1738,
+          "present": false
+        },
+        {
+          "start": 1740,
+          "end": 1742,
+          "present": false
+        },
+        {
+          "start": 1744,
+          "end": 1748,
+          "present": false
+        },
+        {
+          "start": 1750,
+          "end": 1765,
+          "present": false
+        },
+        {
+          "start": 1767,
+          "end": 1771,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 744,
+          "end": 744,
+          "present": false
+        },
+        {
+          "start": 746,
+          "end": 748,
+          "present": false
+        },
+        {
+          "start": 750,
+          "end": 764,
+          "present": false
+        },
+        {
+          "start": 1305,
+          "end": 1305,
+          "present": false
+        },
+        {
+          "start": 1308,
+          "end": 1308,
+          "present": false
+        },
+        {
+          "start": 1311,
+          "end": 1312,
+          "present": false
+        },
+        {
+          "start": 1314,
+          "end": 1324,
+          "present": false
+        },
+        {
+          "start": 1326,
+          "end": 1334,
+          "present": false
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 20,
+          "end": 40,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "jumping": [
+        {
+          "start": 853,
+          "end": 933,
+          "present": false
+        },
+        {
+          "start": 963,
+          "end": 1033,
+          "present": false
+        },
+        {
+          "start": 1053,
+          "end": 1103,
+          "present": false
+        },
+        {
+          "start": 1123,
+          "end": 1183,
+          "present": false
+        },
+        {
+          "start": 1193,
+          "end": 1273,
+          "present": false
+        },
+        {
+          "start": 1283,
+          "end": 1353,
+          "present": false
+        },
+        {
+          "start": 1523,
+          "end": 1593,
+          "present": false
+        },
+        {
+          "start": 1613,
+          "end": 1693,
+          "present": false
+        },
+        {
+          "start": 1713,
+          "end": 1773,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 744,
+          "end": 764,
+          "present": false
+        },
+        {
+          "start": 1304,
+          "end": 1334,
+          "present": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_410/2025v3.3/stream/cage_4483/2025-07-18/23.04/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4483,
+      "date": "2025-07-18",
+      "org_id": 3,
+      "start_time": "23.04",
+      "study_id": 410,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_410/cage_4483/video/2025-07-18/23.04.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

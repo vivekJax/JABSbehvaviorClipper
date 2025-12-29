@@ -1,0 +1,219 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_410.cage_4479.2025-07-30.11.10.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {},
+    "1": {},
+    "2": {
+      "turn_left": [
+        {
+          "start": 338,
+          "end": 343,
+          "present": true
+        },
+        {
+          "start": 345,
+          "end": 345,
+          "present": true
+        },
+        {
+          "start": 361,
+          "end": 391,
+          "present": false
+        },
+        {
+          "start": 436,
+          "end": 466,
+          "present": false
+        },
+        {
+          "start": 478,
+          "end": 498,
+          "present": false
+        },
+        {
+          "start": 506,
+          "end": 532,
+          "present": false
+        },
+        {
+          "start": 534,
+          "end": 543,
+          "present": false
+        },
+        {
+          "start": 545,
+          "end": 546,
+          "present": false
+        },
+        {
+          "start": 587,
+          "end": 609,
+          "present": true
+        },
+        {
+          "start": 653,
+          "end": 663,
+          "present": true
+        },
+        {
+          "start": 665,
+          "end": 665,
+          "present": true
+        },
+        {
+          "start": 667,
+          "end": 680,
+          "present": true
+        },
+        {
+          "start": 756,
+          "end": 760,
+          "present": false
+        },
+        {
+          "start": 762,
+          "end": 763,
+          "present": false
+        },
+        {
+          "start": 765,
+          "end": 765,
+          "present": false
+        },
+        {
+          "start": 767,
+          "end": 769,
+          "present": false
+        },
+        {
+          "start": 773,
+          "end": 775,
+          "present": false
+        },
+        {
+          "start": 783,
+          "end": 783,
+          "present": false
+        },
+        {
+          "start": 788,
+          "end": 789,
+          "present": false
+        },
+        {
+          "start": 871,
+          "end": 871,
+          "present": false
+        },
+        {
+          "start": 875,
+          "end": 875,
+          "present": false
+        },
+        {
+          "start": 888,
+          "end": 888,
+          "present": false
+        },
+        {
+          "start": 890,
+          "end": 910,
+          "present": false
+        },
+        {
+          "start": 1047,
+          "end": 1067,
+          "present": false
+        },
+        {
+          "start": 1087,
+          "end": 1117,
+          "present": false
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {},
+    "1": {},
+    "2": {
+      "turn_left": [
+        {
+          "start": 338,
+          "end": 348,
+          "present": true
+        },
+        {
+          "start": 361,
+          "end": 391,
+          "present": false
+        },
+        {
+          "start": 436,
+          "end": 466,
+          "present": false
+        },
+        {
+          "start": 478,
+          "end": 498,
+          "present": false
+        },
+        {
+          "start": 506,
+          "end": 546,
+          "present": false
+        },
+        {
+          "start": 587,
+          "end": 609,
+          "present": true
+        },
+        {
+          "start": 653,
+          "end": 680,
+          "present": true
+        },
+        {
+          "start": 756,
+          "end": 796,
+          "present": false
+        },
+        {
+          "start": 870,
+          "end": 910,
+          "present": false
+        },
+        {
+          "start": 1047,
+          "end": 1067,
+          "present": false
+        },
+        {
+          "start": 1087,
+          "end": 1117,
+          "present": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_410/2025v3.3/stream/cage_4479/2025-07-30/11.10/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4479,
+      "date": "2025-07-30",
+      "org_id": 3,
+      "start_time": "11.10",
+      "study_id": 410,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_410/cage_4479/video/2025-07-30/11.10.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

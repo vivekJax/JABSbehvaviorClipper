@@ -1,0 +1,519 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_410.cage_4482.2025-07-27.01.54.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 469,
+          "end": 469,
+          "present": false
+        },
+        {
+          "start": 471,
+          "end": 481,
+          "present": false
+        },
+        {
+          "start": 483,
+          "end": 486,
+          "present": false
+        },
+        {
+          "start": 488,
+          "end": 497,
+          "present": false
+        },
+        {
+          "start": 517,
+          "end": 526,
+          "present": false
+        },
+        {
+          "start": 528,
+          "end": 547,
+          "present": false
+        },
+        {
+          "start": 579,
+          "end": 581,
+          "present": false
+        },
+        {
+          "start": 584,
+          "end": 584,
+          "present": false
+        },
+        {
+          "start": 586,
+          "end": 596,
+          "present": false
+        },
+        {
+          "start": 598,
+          "end": 602,
+          "present": false
+        },
+        {
+          "start": 604,
+          "end": 607,
+          "present": false
+        },
+        {
+          "start": 651,
+          "end": 651,
+          "present": false
+        },
+        {
+          "start": 653,
+          "end": 654,
+          "present": false
+        },
+        {
+          "start": 657,
+          "end": 677,
+          "present": false
+        },
+        {
+          "start": 697,
+          "end": 699,
+          "present": false
+        },
+        {
+          "start": 701,
+          "end": 703,
+          "present": false
+        },
+        {
+          "start": 709,
+          "end": 713,
+          "present": false
+        },
+        {
+          "start": 715,
+          "end": 726,
+          "present": false
+        },
+        {
+          "start": 728,
+          "end": 732,
+          "present": false
+        },
+        {
+          "start": 734,
+          "end": 741,
+          "present": false
+        },
+        {
+          "start": 743,
+          "end": 744,
+          "present": false
+        },
+        {
+          "start": 746,
+          "end": 747,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 143,
+          "end": 143,
+          "present": false
+        },
+        {
+          "start": 145,
+          "end": 145,
+          "present": false
+        },
+        {
+          "start": 147,
+          "end": 147,
+          "present": false
+        },
+        {
+          "start": 149,
+          "end": 149,
+          "present": false
+        },
+        {
+          "start": 152,
+          "end": 154,
+          "present": false
+        },
+        {
+          "start": 156,
+          "end": 158,
+          "present": false
+        },
+        {
+          "start": 161,
+          "end": 162,
+          "present": false
+        },
+        {
+          "start": 164,
+          "end": 170,
+          "present": false
+        },
+        {
+          "start": 190,
+          "end": 192,
+          "present": false
+        },
+        {
+          "start": 196,
+          "end": 202,
+          "present": false
+        },
+        {
+          "start": 205,
+          "end": 206,
+          "present": false
+        },
+        {
+          "start": 209,
+          "end": 214,
+          "present": false
+        },
+        {
+          "start": 216,
+          "end": 216,
+          "present": false
+        },
+        {
+          "start": 219,
+          "end": 219,
+          "present": false
+        },
+        {
+          "start": 270,
+          "end": 282,
+          "present": false
+        },
+        {
+          "start": 284,
+          "end": 285,
+          "present": false
+        },
+        {
+          "start": 289,
+          "end": 292,
+          "present": false
+        },
+        {
+          "start": 294,
+          "end": 295,
+          "present": false
+        },
+        {
+          "start": 297,
+          "end": 310,
+          "present": false
+        },
+        {
+          "start": 610,
+          "end": 612,
+          "present": false
+        },
+        {
+          "start": 614,
+          "end": 622,
+          "present": false
+        },
+        {
+          "start": 624,
+          "end": 626,
+          "present": false
+        },
+        {
+          "start": 628,
+          "end": 630,
+          "present": false
+        },
+        {
+          "start": 632,
+          "end": 636,
+          "present": false
+        },
+        {
+          "start": 639,
+          "end": 639,
+          "present": false
+        },
+        {
+          "start": 641,
+          "end": 645,
+          "present": false
+        },
+        {
+          "start": 830,
+          "end": 835,
+          "present": false
+        },
+        {
+          "start": 837,
+          "end": 848,
+          "present": false
+        },
+        {
+          "start": 851,
+          "end": 855,
+          "present": false
+        },
+        {
+          "start": 857,
+          "end": 859,
+          "present": false
+        },
+        {
+          "start": 861,
+          "end": 866,
+          "present": false
+        },
+        {
+          "start": 869,
+          "end": 870,
+          "present": false
+        },
+        {
+          "start": 1010,
+          "end": 1027,
+          "present": false
+        },
+        {
+          "start": 1029,
+          "end": 1035,
+          "present": false
+        },
+        {
+          "start": 1045,
+          "end": 1047,
+          "present": false
+        },
+        {
+          "start": 1050,
+          "end": 1050,
+          "present": false
+        },
+        {
+          "start": 1083,
+          "end": 1083,
+          "present": false
+        },
+        {
+          "start": 1085,
+          "end": 1112,
+          "present": false
+        },
+        {
+          "start": 1148,
+          "end": 1178,
+          "present": false
+        },
+        {
+          "start": 1222,
+          "end": 1231,
+          "present": true
+        },
+        {
+          "start": 1368,
+          "end": 1369,
+          "present": false
+        },
+        {
+          "start": 1371,
+          "end": 1378,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "jumping": [
+        {
+          "start": 1228,
+          "end": 1258,
+          "present": false
+        },
+        {
+          "start": 1387,
+          "end": 1401,
+          "present": false
+        },
+        {
+          "start": 1460,
+          "end": 1470,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 767,
+          "end": 787,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 1166,
+          "end": 1169,
+          "present": true
+        },
+        {
+          "start": 1458,
+          "end": 1469,
+          "present": false
+        },
+        {
+          "start": 1471,
+          "end": 1480,
+          "present": false
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 467,
+          "end": 497,
+          "present": false
+        },
+        {
+          "start": 517,
+          "end": 547,
+          "present": false
+        },
+        {
+          "start": 577,
+          "end": 607,
+          "present": false
+        },
+        {
+          "start": 647,
+          "end": 677,
+          "present": false
+        },
+        {
+          "start": 697,
+          "end": 747,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 140,
+          "end": 170,
+          "present": false
+        },
+        {
+          "start": 190,
+          "end": 220,
+          "present": false
+        },
+        {
+          "start": 270,
+          "end": 310,
+          "present": false
+        },
+        {
+          "start": 610,
+          "end": 650,
+          "present": false
+        },
+        {
+          "start": 830,
+          "end": 870,
+          "present": false
+        },
+        {
+          "start": 1010,
+          "end": 1050,
+          "present": false
+        },
+        {
+          "start": 1082,
+          "end": 1112,
+          "present": false
+        },
+        {
+          "start": 1148,
+          "end": 1178,
+          "present": false
+        },
+        {
+          "start": 1222,
+          "end": 1232,
+          "present": true
+        },
+        {
+          "start": 1368,
+          "end": 1378,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "jumping": [
+        {
+          "start": 1228,
+          "end": 1258,
+          "present": false
+        },
+        {
+          "start": 1387,
+          "end": 1416,
+          "present": false
+        },
+        {
+          "start": 1460,
+          "end": 1470,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 767,
+          "end": 787,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 1166,
+          "end": 1198,
+          "present": true
+        },
+        {
+          "start": 1450,
+          "end": 1480,
+          "present": false
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_410/2025v3.3/stream/cage_4482/2025-07-27/01.54/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4482,
+      "date": "2025-07-27",
+      "org_id": 3,
+      "start_time": "01.54",
+      "study_id": 410,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_410/cage_4482/video/2025-07-27/01.54.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

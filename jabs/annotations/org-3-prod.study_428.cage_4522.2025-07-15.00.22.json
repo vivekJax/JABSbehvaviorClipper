@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "file": "org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 102,
+          "end": 107,
+          "present": true
+        },
+        {
+          "start": 109,
+          "end": 123,
+          "present": true
+        },
+        {
+          "start": 126,
+          "end": 126,
+          "present": true
+        },
+        {
+          "start": 142,
+          "end": 151,
+          "present": false
+        },
+        {
+          "start": 246,
+          "end": 271,
+          "present": false
+        },
+        {
+          "start": 273,
+          "end": 296,
+          "present": false
+        },
+        {
+          "start": 307,
+          "end": 308,
+          "present": false
+        },
+        {
+          "start": 310,
+          "end": 310,
+          "present": false
+        },
+        {
+          "start": 312,
+          "end": 313,
+          "present": false
+        },
+        {
+          "start": 315,
+          "end": 319,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 102,
+          "end": 132,
+          "present": true
+        },
+        {
+          "start": 142,
+          "end": 162,
+          "present": false
+        },
+        {
+          "start": 246,
+          "end": 296,
+          "present": false
+        },
+        {
+          "start": 307,
+          "end": 327,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_428/2025v3.3/stream/cage_4522/2025-07-15/00.22/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4522,
+      "date": "2025-07-15",
+      "org_id": 3,
+      "start_time": "00.22",
+      "study_id": 428,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_428/cage_4522/video/2025-07-15/00.22.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "vkumar"
+}

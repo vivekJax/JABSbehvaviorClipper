@@ -1,0 +1,437 @@
+{
+  "version": 1,
+  "file": "org-9-uploads-stage.study_1174.cage_5991.2025-06-15.15.59.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "corner_jumping": [
+        {
+          "start": 280,
+          "end": 320,
+          "present": false
+        },
+        {
+          "start": 350,
+          "end": 390,
+          "present": false
+        }
+      ],
+      "turn_left": [
+        {
+          "start": 1292,
+          "end": 1294,
+          "present": false
+        },
+        {
+          "start": 1300,
+          "end": 1304,
+          "present": false
+        },
+        {
+          "start": 1306,
+          "end": 1320,
+          "present": false
+        },
+        {
+          "start": 1324,
+          "end": 1324,
+          "present": false
+        },
+        {
+          "start": 1327,
+          "end": 1332,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "corner_jumping": [
+        {
+          "start": 148,
+          "end": 151,
+          "present": true
+        },
+        {
+          "start": 161,
+          "end": 169,
+          "present": true
+        },
+        {
+          "start": 172,
+          "end": 181,
+          "present": true
+        },
+        {
+          "start": 183,
+          "end": 189,
+          "present": true
+        },
+        {
+          "start": 199,
+          "end": 209,
+          "present": true
+        },
+        {
+          "start": 389,
+          "end": 398,
+          "present": false
+        },
+        {
+          "start": 401,
+          "end": 401,
+          "present": false
+        },
+        {
+          "start": 411,
+          "end": 411,
+          "present": false
+        },
+        {
+          "start": 419,
+          "end": 420,
+          "present": false
+        },
+        {
+          "start": 422,
+          "end": 435,
+          "present": false
+        },
+        {
+          "start": 438,
+          "end": 438,
+          "present": false
+        }
+      ],
+      "turn_left": [
+        {
+          "start": 401,
+          "end": 401,
+          "present": true
+        },
+        {
+          "start": 447,
+          "end": 480,
+          "present": false
+        },
+        {
+          "start": 505,
+          "end": 514,
+          "present": false
+        },
+        {
+          "start": 543,
+          "end": 547,
+          "present": true
+        },
+        {
+          "start": 555,
+          "end": 556,
+          "present": true
+        },
+        {
+          "start": 690,
+          "end": 693,
+          "present": false
+        },
+        {
+          "start": 695,
+          "end": 699,
+          "present": false
+        },
+        {
+          "start": 701,
+          "end": 703,
+          "present": false
+        },
+        {
+          "start": 708,
+          "end": 708,
+          "present": false
+        },
+        {
+          "start": 710,
+          "end": 710,
+          "present": false
+        },
+        {
+          "start": 712,
+          "end": 713,
+          "present": false
+        },
+        {
+          "start": 720,
+          "end": 720,
+          "present": false
+        },
+        {
+          "start": 724,
+          "end": 726,
+          "present": false
+        },
+        {
+          "start": 730,
+          "end": 730,
+          "present": false
+        },
+        {
+          "start": 733,
+          "end": 733,
+          "present": false
+        },
+        {
+          "start": 736,
+          "end": 740,
+          "present": false
+        },
+        {
+          "start": 864,
+          "end": 865,
+          "present": true
+        },
+        {
+          "start": 868,
+          "end": 868,
+          "present": true
+        },
+        {
+          "start": 870,
+          "end": 872,
+          "present": true
+        },
+        {
+          "start": 1053,
+          "end": 1067,
+          "present": false
+        },
+        {
+          "start": 1069,
+          "end": 1072,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 641,
+          "end": 646,
+          "present": true
+        },
+        {
+          "start": 649,
+          "end": 649,
+          "present": true
+        },
+        {
+          "start": 662,
+          "end": 662,
+          "present": true
+        },
+        {
+          "start": 669,
+          "end": 676,
+          "present": true
+        },
+        {
+          "start": 678,
+          "end": 682,
+          "present": true
+        },
+        {
+          "start": 863,
+          "end": 865,
+          "present": true
+        },
+        {
+          "start": 868,
+          "end": 868,
+          "present": true
+        },
+        {
+          "start": 870,
+          "end": 871,
+          "present": true
+        },
+        {
+          "start": 907,
+          "end": 907,
+          "present": false
+        },
+        {
+          "start": 911,
+          "end": 915,
+          "present": false
+        },
+        {
+          "start": 917,
+          "end": 922,
+          "present": false
+        },
+        {
+          "start": 928,
+          "end": 928,
+          "present": false
+        },
+        {
+          "start": 930,
+          "end": 930,
+          "present": false
+        },
+        {
+          "start": 1029,
+          "end": 1035,
+          "present": false
+        },
+        {
+          "start": 1053,
+          "end": 1067,
+          "present": false
+        },
+        {
+          "start": 1069,
+          "end": 1072,
+          "present": false
+        },
+        {
+          "start": 1074,
+          "end": 1076,
+          "present": false
+        },
+        {
+          "start": 1079,
+          "end": 1080,
+          "present": false
+        },
+        {
+          "start": 1084,
+          "end": 1084,
+          "present": false
+        },
+        {
+          "start": 1086,
+          "end": 1088,
+          "present": false
+        }
+      ]
+    },
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {
+      "corner_jumping": [
+        {
+          "start": 280,
+          "end": 320,
+          "present": false
+        },
+        {
+          "start": 350,
+          "end": 390,
+          "present": false
+        }
+      ],
+      "turn_left": [
+        {
+          "start": 1292,
+          "end": 1332,
+          "present": false
+        }
+      ]
+    },
+    "1": {
+      "corner_jumping": [
+        {
+          "start": 144,
+          "end": 214,
+          "present": true
+        },
+        {
+          "start": 332,
+          "end": 342,
+          "present": true
+        },
+        {
+          "start": 389,
+          "end": 439,
+          "present": false
+        }
+      ],
+      "turn_left": [
+        {
+          "start": 400,
+          "end": 410,
+          "present": true
+        },
+        {
+          "start": 442,
+          "end": 482,
+          "present": false
+        },
+        {
+          "start": 505,
+          "end": 515,
+          "present": false
+        },
+        {
+          "start": 543,
+          "end": 556,
+          "present": true
+        },
+        {
+          "start": 690,
+          "end": 740,
+          "present": false
+        },
+        {
+          "start": 864,
+          "end": 872,
+          "present": true
+        },
+        {
+          "start": 1052,
+          "end": 1072,
+          "present": false
+        }
+      ],
+      "jumping": [
+        {
+          "start": 641,
+          "end": 653,
+          "present": true
+        },
+        {
+          "start": 662,
+          "end": 682,
+          "present": true
+        },
+        {
+          "start": 863,
+          "end": 871,
+          "present": true
+        },
+        {
+          "start": 907,
+          "end": 937,
+          "present": false
+        },
+        {
+          "start": 1027,
+          "end": 1097,
+          "present": false
+        }
+      ]
+    },
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-9-uploads-stage/pipeline/study_1174/retraining-for-hydra-update-0002/stream/cage_5991/2025-06-15/15.59/org.murine.assign-id.top:v3.6/assign-id.top.parquet",
+      "video_s3_url": "s3://org-9-uploads-stage/study/study_1174/cage_5991/video/2025-06-15/15.59.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

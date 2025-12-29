@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_410.cage_4481.2025-07-26.01.43.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1205,
+          "end": 1220,
+          "present": false
+        },
+        {
+          "start": 1222,
+          "end": 1235,
+          "present": false
+        },
+        {
+          "start": 1245,
+          "end": 1295,
+          "present": false
+        },
+        {
+          "start": 1315,
+          "end": 1365,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1205,
+          "end": 1235,
+          "present": false
+        },
+        {
+          "start": 1245,
+          "end": 1295,
+          "present": false
+        },
+        {
+          "start": 1315,
+          "end": 1365,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_410/2025v3.3/stream/cage_4481/2025-07-26/01.43/org.murine.assign-id.top:v3.3/assign-id.top.parquet",
+      "cage_id": 4481,
+      "date": "2025-07-26",
+      "org_id": 3,
+      "start_time": "01.43",
+      "study_id": 410,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_410/cage_4481/video/2025-07-26/01.43.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

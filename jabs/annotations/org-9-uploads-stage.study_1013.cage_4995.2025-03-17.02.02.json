@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "file": "org-9-uploads-stage.study_1013.cage_4995.2025-03-17.02.02.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1409,
+          "end": 1429,
+          "present": false
+        },
+        {
+          "start": 1539,
+          "end": 1569,
+          "present": false
+        },
+        {
+          "start": 1591,
+          "end": 1621,
+          "present": false
+        },
+        {
+          "start": 1674,
+          "end": 1694,
+          "present": false
+        },
+        {
+          "start": 1781,
+          "end": 1783,
+          "present": false
+        },
+        {
+          "start": 1786,
+          "end": 1786,
+          "present": false
+        },
+        {
+          "start": 1789,
+          "end": 1799,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {
+      "turn_left": [
+        {
+          "start": 583,
+          "end": 613,
+          "present": false
+        },
+        {
+          "start": 675,
+          "end": 725,
+          "present": false
+        },
+        {
+          "start": 795,
+          "end": 835,
+          "present": false
+        },
+        {
+          "start": 846,
+          "end": 876,
+          "present": false
+        },
+        {
+          "start": 886,
+          "end": 918,
+          "present": false
+        },
+        {
+          "start": 920,
+          "end": 925,
+          "present": false
+        },
+        {
+          "start": 927,
+          "end": 956,
+          "present": false
+        },
+        {
+          "start": 994,
+          "end": 1029,
+          "present": false
+        },
+        {
+          "start": 1051,
+          "end": 1063,
+          "present": true
+        },
+        {
+          "start": 1065,
+          "end": 1065,
+          "present": true
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {
+      "turn_left": [
+        {
+          "start": 1409,
+          "end": 1429,
+          "present": false
+        },
+        {
+          "start": 1539,
+          "end": 1569,
+          "present": false
+        },
+        {
+          "start": 1591,
+          "end": 1621,
+          "present": false
+        },
+        {
+          "start": 1674,
+          "end": 1694,
+          "present": false
+        },
+        {
+          "start": 1779,
+          "end": 1799,
+          "present": false
+        }
+      ]
+    },
+    "1": {},
+    "2": {
+      "turn_left": [
+        {
+          "start": 583,
+          "end": 613,
+          "present": false
+        },
+        {
+          "start": 675,
+          "end": 725,
+          "present": false
+        },
+        {
+          "start": 795,
+          "end": 835,
+          "present": false
+        },
+        {
+          "start": 846,
+          "end": 876,
+          "present": false
+        },
+        {
+          "start": 886,
+          "end": 956,
+          "present": false
+        },
+        {
+          "start": 994,
+          "end": 1029,
+          "present": false
+        },
+        {
+          "start": 1051,
+          "end": 1070,
+          "present": true
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-9-uploads-stage/pipeline/study_1013/retraining-for-hydra-update-0002/stream/cage_4995/2025-03-17/02.02/org.murine.assign-id.top:v3.6/assign-id.top.parquet",
+      "video_s3_url": "s3://org-9-uploads-stage/study/study_1013/cage_4995/video/2025-03-17/02.02.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "file": "org-9-uploads-stage.study_1013.cage_4988.2025-03-15.08.26.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {},
+    "1": {
+      "turn_left": [
+        {
+          "start": 6,
+          "end": 21,
+          "present": false
+        },
+        {
+          "start": 23,
+          "end": 24,
+          "present": false
+        },
+        {
+          "start": 26,
+          "end": 27,
+          "present": false
+        },
+        {
+          "start": 30,
+          "end": 33,
+          "present": false
+        },
+        {
+          "start": 35,
+          "end": 35,
+          "present": false
+        },
+        {
+          "start": 440,
+          "end": 450,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 40,
+          "end": 60,
+          "present": false
+        },
+        {
+          "start": 123,
+          "end": 149,
+          "present": false
+        },
+        {
+          "start": 172,
+          "end": 179,
+          "present": true
+        },
+        {
+          "start": 183,
+          "end": 184,
+          "present": true
+        },
+        {
+          "start": 187,
+          "end": 192,
+          "present": true
+        }
+      ]
+    }
+  },
+  "unfragmented_labels": {
+    "0": {},
+    "1": {
+      "turn_left": [
+        {
+          "start": 6,
+          "end": 36,
+          "present": false
+        },
+        {
+          "start": 440,
+          "end": 450,
+          "present": false
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 40,
+          "end": 60,
+          "present": false
+        },
+        {
+          "start": 123,
+          "end": 153,
+          "present": false
+        },
+        {
+          "start": 172,
+          "end": 192,
+          "present": true
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-9-uploads-stage/pipeline/study_1013/retraining-for-hydra-update-0002/stream/cage_4988/2025-03-15/08.26/org.murine.assign-id.top:v3.6/assign-id.top.parquet",
+      "video_s3_url": "s3://org-9-uploads-stage/study/study_1013/cage_4988/video/2025-03-15/08.26.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}

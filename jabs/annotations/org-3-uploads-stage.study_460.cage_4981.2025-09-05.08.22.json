@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_460.cage_4981.2025-09-05.08.22.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {},
+    "1": {
+      "turn_left": [
+        {
+          "start": 606,
+          "end": 625,
+          "present": false
+        },
+        {
+          "start": 627,
+          "end": 636,
+          "present": false
+        }
+      ]
+    },
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {},
+    "1": {
+      "turn_left": [
+        {
+          "start": 606,
+          "end": 636,
+          "present": false
+        }
+      ]
+    },
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_460/2025v3.4/stream/cage_4981/2025-09-05/08.22/org.murine.assign-id.top:v3.4/assign-id.top.parquet",
+      "cage_id": 4981,
+      "date": "2025-09-05",
+      "org_id": 3,
+      "start_time": "08.22",
+      "study_id": 460,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_460/cage_4981/video/2025-09-05/08.22.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "gbeane"
+}
