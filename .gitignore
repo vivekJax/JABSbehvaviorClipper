@@ -3,6 +3,9 @@ analysis_r/venv/
 __pycache__/
 *.pyc
 
+# OS files
+.DS_Store
+
 # Data files - exclude from repository
 *.mp4
 *.h5
