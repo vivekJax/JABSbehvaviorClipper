@@ -1,0 +1,15 @@
+# Virtual environments
+analysis_r/venv/
+__pycache__/
+*.pyc
+
+# Data files - exclude from repository
+*.mp4
+*.h5
+*.parquet
+
+# Log files
+*.log
+
+# Output directories
+jabs/
