@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "file": "org-3-uploads-stage.study_507.cage_5505.2025-10-16.16.07.mp4",
+  "num_frames": 1800,
+  "labels": {
+    "0": {},
+    "1": {
+      "turn_left": [
+        {
+          "start": 196,
+          "end": 213,
+          "present": false
+        },
+        {
+          "start": 215,
+          "end": 217,
+          "present": false
+        },
+        {
+          "start": 219,
+          "end": 226,
+          "present": false
+        },
+        {
+          "start": 311,
+          "end": 326,
+          "present": true
+        },
+        {
+          "start": 409,
+          "end": 410,
+          "present": true
+        },
+        {
+          "start": 412,
+          "end": 412,
+          "present": true
+        },
+        {
+          "start": 414,
+          "end": 417,
+          "present": true
+        },
+        {
+          "start": 419,
+          "end": 419,
+          "present": true
+        }
+      ]
+    },
+    "2": {}
+  },
+  "unfragmented_labels": {
+    "0": {},
+    "1": {
+      "turn_left": [
+        {
+          "start": 196,
+          "end": 226,
+          "present": false
+        },
+        {
+          "start": 311,
+          "end": 327,
+          "present": true
+        },
+        {
+          "start": 389,
+          "end": 399,
+          "present": true
+        },
+        {
+          "start": 409,
+          "end": 419,
+          "present": true
+        }
+      ]
+    },
+    "2": {}
+  },
+  "metadata": {
+    "project": {},
+    "video": {
+      "assign_id_s3_url": "s3://org-3-uploads-prod/pipeline/study_507/2025v3.5/stream/cage_5505/2025-10-16/16.07/org.murine.assign-id.top:v3.5/assign-id.top.parquet",
+      "cage_id": 5505,
+      "date": "2025-10-16",
+      "org_id": 3,
+      "start_time": "16.07",
+      "study_id": 507,
+      "video_s3_url": "s3://org-3-uploads-prod/study/study_507/cage_5505/video/2025-10-16/16.07.top.mp4"
+    }
+  },
+  "external_identities": {
+    "0": "S2",
+    "1": "S3",
+    "2": "S4"
+  },
+  "labeler": "vkumar"
+}
