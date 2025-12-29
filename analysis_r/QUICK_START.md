@@ -83,6 +83,14 @@ Rscript analysis_r/select_bouts.R \
 **For uncorrelated features:**
 - `--distance-metric euclidean` - Standard geometric distance (default)
 
+## Bout Selection: Unfragmented Labels
+
+The analysis uses **`unfragmented_labels`** from annotation JSON files, which contain the original bout boundaries as specified during labeling. This matches the bout counts shown in the JABS GUI.
+
+- **`unfragmented_labels`**: Original bout start/end frames (used by analysis)
+- **`labels`**: Fragmented bouts (broken up to exclude frames missing pose data)
+- All bouts (both `present=True` and `present=False`) are included for comprehensive clustering and outlier detection
+
 ## Note
 
 The Python analysis code in `analysis/` directory is preserved but not used. The R analysis in `analysis_r/` is the active analysis pipeline and does not affect the Python video clipping application.

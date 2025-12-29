@@ -124,6 +124,17 @@ Annotation files should be JSON files with the following structure:
         }
       ]
     }
+  },
+  "unfragmented_labels": {
+    "identity_id": {
+      "behavior_name": [
+        {
+          "start": 12,
+          "end": 32,
+          "present": true
+        }
+      ]
+    }
   }
 }
 ```
@@ -131,10 +142,15 @@ Annotation files should be JSON files with the following structure:
 **Key Fields:**
 - `file`: Name of the video file (must exist in video directory)
 - `num_frames`: Total number of frames in the video (optional, used for validation)
-- `labels`: Dictionary mapping identity IDs to behaviors
+- `labels`: Dictionary mapping identity IDs to behaviors (fragmented bouts - broken up to exclude frames missing pose)
+- `unfragmented_labels`: Dictionary mapping identity IDs to behaviors (original bout boundaries - matches GUI counts)
 - `behavior_name`: Name of the behavior (e.g., "turn_left", "jumping")
 - `start`/`end`: Frame numbers for the behavior bout
-- `present`: Boolean indicating if the behavior is present (only `true` bouts are extracted)
+- `present`: Boolean indicating if the behavior is present
+
+**Note for Analysis:**
+- The R analysis scripts (`analysis_r/`) use `unfragmented_labels` to match GUI bout counts
+- The Python video clipper (`generate_bouts_video.py`) uses `labels` and extracts only `present=true` bouts
 
 ## Pose Estimation Files
 

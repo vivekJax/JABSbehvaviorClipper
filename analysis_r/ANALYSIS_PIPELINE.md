@@ -20,6 +20,16 @@ Each step builds on the previous, creating a comprehensive analysis workflow.
 
 Extracts per-frame features from HDF5 files and aggregates them to bout-level statistics.
 
+### Bout Selection: Unfragmented Labels
+
+The script uses **`unfragmented_labels`** from annotation JSON files, which contain the original bout boundaries as specified during labeling. This matches the bout counts shown in the JABS GUI.
+
+**Important:**
+- **`unfragmented_labels`**: Original bout start/end frames (used by analysis) - matches GUI counts
+- **`labels`**: Fragmented bouts (broken up to exclude frames missing pose data)
+- All bouts (both `present=True` and `present=False`) are included for comprehensive analysis
+- If `unfragmented_labels` is not found, the script falls back to `labels` with a warning
+
 ### Why This Step Is Necessary
 
 **Problem**: 

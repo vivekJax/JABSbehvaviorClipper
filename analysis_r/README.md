@@ -77,8 +77,10 @@ Rscript analysis_r/extract_bout_features.R \
 - `--output`: Output CSV file (default: `bout_features.csv`)
 - `--verbose`: Enable verbose logging
 
+**Note:** The script uses `unfragmented_labels` from annotation files (original bout boundaries) to match GUI counts. All bouts (both `present=True` and `present=False`) are included for analysis.
+
 **Output:**
-- `bout_features.csv`: Feature matrix with bout metadata and aggregated features
+- `bout_features.csv`: Feature matrix with bout metadata and aggregated features (includes `present` column indicating behavior label)
 
 ### Step 2: Cluster Bouts
 
@@ -285,6 +287,16 @@ Rscript analysis_r/select_bouts.R \
 ```
 
 ## Feature Extraction Details
+
+### Bout Selection: Unfragmented Labels
+
+The analysis uses **`unfragmented_labels`** from annotation JSON files, which contain the original bout boundaries as specified during labeling. This matches the bout counts shown in the JABS GUI.
+
+**Important Notes:**
+- **`unfragmented_labels`**: Original bout start/end frames (used by analysis)
+- **`labels`**: Fragmented bouts (broken up to exclude frames missing pose data)
+- The analysis includes **all bouts** (both `present=True` and `present=False`) for comprehensive clustering and outlier detection
+- If `unfragmented_labels` is not found, the script falls back to `labels` with a warning
 
 ### Feature Aggregation
 
