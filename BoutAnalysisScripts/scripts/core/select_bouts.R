@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/core/select_bouts.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Select behavior bouts based on cluster analysis.
 #
 # This script allows selection of bouts by:

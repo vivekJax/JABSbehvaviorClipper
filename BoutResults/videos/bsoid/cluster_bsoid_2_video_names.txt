@@ -1,0 +1,17 @@
+# Video Name Mapping - Copy/paste video names from this file
+# Format: Clip_Index | Video_Name | Mouse_ID | Frame_Range
+# ================================================================================
+
+00000 | org-3-prod.study_443.cage_4823.2025-08-11.23.07.mp4 | Mouse 1 | Frames 654-666
+00001 | org-3-uploads-stage.study_410.cage_4479.2025-07-30.11.10.mp4 | Mouse 2 | Frames 338-348
+00002 | org-3-uploads-stage.study_410.cage_4480.2025-08-04.09.17.mp4 | Mouse 2 | Frames 1573-1583
+00003 | org-3-uploads-stage.study_427.cage_4488.2025-07-17.00.18.mp4 | Mouse 0 | Frames 947-967
+00004 | org-3-uploads-stage.study_448.cage_4864.2025-09-06.00.48.mp4 | Mouse 2 | Frames 1736-1746
+00005 | org-3-uploads-stage.study_448.cage_4865.2025-09-29.08.13.mp4 | Mouse 2 | Frames 1098-1108
+00006 | org-3-uploads-stage.study_460.cage_4977.2025-09-03.09.07.mp4 | Mouse 0 | Frames 697-717
+00007 | org-3-uploads-stage.study_460.cage_4977.2025-09-03.09.07.mp4 | Mouse 2 | Frames 1712-1729
+00008 | org-3-uploads-stage.study_460.cage_4986.2025-09-03.08.11.mp4 | Mouse 2 | Frames 1735-1745
+00009 | org-3-uploads-stage.study_476.cage_5056.2025-09-24.22.45.mp4 | Mouse 1 | Frames 624-644
+00010 | org-3-uploads-stage.study_476.cage_5057.2025-09-26.09.40.mp4 | Mouse 2 | Frames 697-717
+00011 | org-3-uploads-stage.study_476.cage_5057.2025-09-26.09.40.mp4 | Mouse 2 | Frames 1227-1250
+00012 | org-3-uploads-stage.study_507.cage_5502.2025-10-15.22.32.mp4 | Mouse 0 | Frames 812-827

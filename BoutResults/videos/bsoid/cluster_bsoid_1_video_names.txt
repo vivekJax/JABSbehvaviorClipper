@@ -1,0 +1,31 @@
+# Video Name Mapping - Copy/paste video names from this file
+# Format: Clip_Index | Video_Name | Mouse_ID | Frame_Range
+# ================================================================================
+
+00000 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 750-765
+00001 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 0 | Frames 769-784
+00002 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 1 | Frames 1384-1405
+00003 | org-3-prod.study_443.cage_4823.2025-08-11.23.22.mp4 | Mouse 0 | Frames 70-90
+00004 | org-3-uploads-stage.study_410.cage_4479.2025-07-30.11.10.mp4 | Mouse 2 | Frames 653-680
+00005 | org-3-uploads-stage.study_410.cage_4480.2025-08-02.03.41.mp4 | Mouse 2 | Frames 1662-1672
+00006 | org-3-uploads-stage.study_410.cage_4480.2025-08-04.09.17.mp4 | Mouse 2 | Frames 546-565
+00007 | org-3-uploads-stage.study_410.cage_4481.2025-08-01.22.32.mp4 | Mouse 1 | Frames 1153-1167
+00008 | org-3-uploads-stage.study_410.cage_4481.2025-08-01.22.32.mp4 | Mouse 1 | Frames 1394-1410
+00009 | org-3-uploads-stage.study_410.cage_4482.2025-07-30.05.49.mp4 | Mouse 2 | Frames 1539-1559
+00010 | org-3-uploads-stage.study_410.cage_4483.2025-07-16.13.28.mp4 | Mouse 1 | Frames 877-890
+00011 | org-3-uploads-stage.study_410.cage_4486.2025-07-12.00.06.mp4 | Mouse 1 | Frames 651-660
+00012 | org-3-uploads-stage.study_410.cage_4486.2025-07-12.00.06.mp4 | Mouse 1 | Frames 726-746
+00013 | org-3-uploads-stage.study_410.cage_4487.2025-08-13.16.39.mp4 | Mouse 2 | Frames 986-996
+00014 | org-3-uploads-stage.study_426.cage_4476.2025-07-26.23.44.mp4 | Mouse 0 | Frames 290-310
+00015 | org-3-uploads-stage.study_431.cage_4558.2025-08-04.08.38.mp4 | Mouse 2 | Frames 383-403
+00016 | org-3-uploads-stage.study_431.cage_4558.2025-08-04.08.38.mp4 | Mouse 2 | Frames 406-426
+00017 | org-3-uploads-stage.study_447.cage_4840.2025-08-16.23.16.mp4 | Mouse 0 | Frames 1410-1420
+00018 | org-3-uploads-stage.study_447.cage_4840.2025-08-23.14.43.mp4 | Mouse 2 | Frames 98-118
+00019 | org-3-uploads-stage.study_448.cage_4864.2025-09-06.00.48.mp4 | Mouse 0 | Frames 1523-1543
+00020 | org-3-uploads-stage.study_448.cage_4864.2025-09-06.00.48.mp4 | Mouse 0 | Frames 1614-1634
+00021 | org-3-uploads-stage.study_448.cage_4877.2025-08-30.02.22.mp4 | Mouse 2 | Frames 420-440
+00022 | org-3-uploads-stage.study_460.cage_4986.2025-09-04.04.04.mp4 | Mouse 1 | Frames 1284-1305
+00023 | org-3-uploads-stage.study_470.cage_5049.2025-09-09.00.30.mp4 | Mouse 0 | Frames 413-433
+00024 | org-9-uploads-stage.study_1174.cage_5991.2025-06-15.15.58.mp4 | Mouse 1 | Frames 1569-1583
+00025 | org-9-uploads-stage.study_1174.cage_5991.2025-06-15.16.00.mp4 | Mouse 1 | Frames 1732-1739
+00026 | org-9-uploads-stage.study_1175.cage_5999.2025-06-29.05.08.mp4 | Mouse 0 | Frames 1531-1550

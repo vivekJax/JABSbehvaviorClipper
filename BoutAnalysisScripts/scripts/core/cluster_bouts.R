@@ -1,9 +1,22 @@
 #!/usr/bin/env Rscript
-# Fix R environment issues
-tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/core/cluster_bouts.R) })
-# Fix R environment issues
-options(editor = NULL)
-options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
+# Fix R environment issues - set a valid editor or remove the option
+# The editor option must be valid or NULL for optparse to work
+tryCatch({
+  # Try to find a valid editor
+  if (system("which nano > /dev/null 2>&1", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0) {
+    options(editor = "nano")
+  } else if (system("which vim > /dev/null 2>&1", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0) {
+    options(editor = "vim")
+  } else {
+    # If no editor found, try to unset it
+    tryCatch({ options(editor = NULL) }, error = function(e) {})
+  }
+}, error = function(e) {
+  # If all else fails, try to unset
+  tryCatch({ options(editor = NULL) }, error = function(e2) {})
+})
+# Don't set defaultPackages as it's causing issues
+# options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Cluster behavior bouts based on extracted features.
 #
 # This script:
@@ -17,6 +30,8 @@ options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats
 .libPaths(c("/Users/vkumar/Library/R/arm64/4.5/library", .libPaths()))
 
 suppressPackageStartupMessages({
+  library(utils)  # Explicitly load utils for read.csv, write.csv, etc.
+  library(stats)  # Explicitly load stats for kmeans, dist, prcomp, etc.
   library(optparse)
   library(dplyr)
   library(cluster)
@@ -857,10 +872,17 @@ main <- function(cl = NULL) {
 }
 
 # Set up parallel backend after functions are defined
+# Try to create parallel cluster, but fall back to sequential if it fails (e.g., in sandboxed environments)
 if (n_cores_global > 1) {
-  cl <- makeCluster(n_cores_global)
-  clusterExport(cl, c("evaluate_k", "find_optimal_k", "kmeans", "silhouette", "dist"))
-  cat(sprintf("Using %d CPU cores for parallel processing\n", n_cores_global))
+  tryCatch({
+    cl <- makeCluster(n_cores_global)
+    clusterExport(cl, c("evaluate_k", "find_optimal_k", "kmeans", "silhouette", "dist"))
+    cat(sprintf("Using %d CPU cores for parallel processing\n", n_cores_global))
+  }, error = function(e) {
+    cat(sprintf("Warning: Could not create parallel cluster (%s). Falling back to sequential processing.\n", e$message))
+    cl <<- NULL
+    cat("Using sequential processing (1 core)\n")
+  })
 } else {
   cl <- NULL
   cat("Using sequential processing (1 core)\n")

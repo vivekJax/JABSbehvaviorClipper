@@ -1,9 +1,16 @@
 #!/usr/bin/env Rscript
-# Fix R environment issues
-tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/visualization/visualize_clusters_pdf.R) })
-# Fix R environment issues
-options(editor = NULL)
-options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
+# Fix R environment issues - set a valid editor or remove the option
+tryCatch({
+  if (system("which nano > /dev/null 2>&1", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0) {
+    options(editor = "nano")
+  } else if (system("which vim > /dev/null 2>&1", ignore.stdout = TRUE, ignore.stderr = TRUE) == 0) {
+    options(editor = "vim")
+  } else {
+    tryCatch({ options(editor = NULL) }, error = function(e) {})
+  }
+}, error = function(e) {
+  tryCatch({ options(editor = NULL) }, error = function(e2) {})
+})
 # Create PDF visualizations for clustering results
 #
 # Generates comprehensive PDF report with all visualizations
@@ -11,6 +18,8 @@ options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats
 .libPaths(c("/Users/vkumar/Library/R/arm64/4.5/library", .libPaths()))
 
 suppressPackageStartupMessages({
+  library(utils)  # Explicitly load utils for read.csv, write.csv, etc.
+  library(stats)  # Explicitly load stats for dist, prcomp, etc.
   library(optparse)
   library(dplyr)
   library(ggplot2)

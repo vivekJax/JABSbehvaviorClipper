@@ -4,6 +4,11 @@
     "2": {
       "turn_left": [
         {
+          "start": 12,
+          "end": 32,
+          "present": true
+        },
+        {
           "start": 66,
           "end": 76,
           "present": true

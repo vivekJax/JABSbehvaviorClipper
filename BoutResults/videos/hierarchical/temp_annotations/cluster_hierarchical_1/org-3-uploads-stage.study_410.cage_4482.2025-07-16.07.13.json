@@ -9,6 +9,15 @@
           "present": true
         }
       ]
+    },
+    "1": {
+      "turn_left": [
+        {
+          "start": 1549,
+          "end": 1569,
+          "present": true
+        }
+      ]
     }
   }
 }

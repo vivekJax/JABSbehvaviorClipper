@@ -1,9 +1,0 @@
-# Video Name Mapping - Copy/paste video names from this file
-# Format: Clip_Index | Video_Name | Mouse_ID | Frame_Range
-# ================================================================================
-
-00000 | org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4 | Mouse 1 | Frames 539-547
-00001 | org-3-prod.study_428.cage_4522.2025-07-15.00.22.mp4 | Mouse 1 | Frames 1317-1333
-00002 | org-3-prod.study_443.cage_4823.2025-08-11.23.07.mp4 | Mouse 1 | Frames 1328-1335
-00003 | org-3-prod.study_443.cage_4823.2025-08-11.23.16.mp4 | Mouse 1 | Frames 1411-1421
-00004 | org-3-prod.study_443.cage_4823.2025-08-11.23.22.mp4 | Mouse 0 | Frames 909-927
