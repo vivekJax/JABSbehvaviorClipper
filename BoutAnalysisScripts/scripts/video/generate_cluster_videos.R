@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/video/generate_cluster_videos.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Generate videos for each cluster using the Python video clipper.
 #
 # This script:
@@ -195,6 +200,8 @@ main <- function() {
       opt$method <- "hierarchical"
     } else if (grepl("dbscan", filename, ignore.case=TRUE)) {
       opt$method <- "dbscan"
+    } else if (grepl("bsoid", filename, ignore.case=TRUE)) {
+      opt$method <- "bsoid"
     } else {
       opt$method <- "unknown"
     }

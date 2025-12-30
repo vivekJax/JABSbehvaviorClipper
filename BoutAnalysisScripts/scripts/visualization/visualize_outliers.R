@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/visualization/visualize_outliers.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Generate visualizations for outlier detection analysis
 #
 # This script creates comprehensive plots for outlier results:

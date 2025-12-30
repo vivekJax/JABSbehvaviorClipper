@@ -27,7 +27,7 @@ This will:
 2. Create video of all bouts
 3. Detect outliers (multiple methods + consensus)
 4. Create video of outliers
-5. Apply PCA (95% variance) and cluster with multiple methods
+5. Apply PCA (95% variance) and cluster with hierarchical and B-SOID methods
 6. Generate PDF reports and cluster videos
 
 ## Main Scripts
@@ -94,7 +94,7 @@ python3 scripts/generate_bouts_video.py --behavior turn_left
 # Cluster bouts
 Rscript BoutAnalysisScripts/scripts/core/cluster_bouts.R \
   --input BoutResults/bout_features.csv \
-  --method kmeans
+  --method hierarchical
 
 # Detect outliers
 Rscript BoutAnalysisScripts/scripts/core/detect_outliers_consensus.R \

@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/visualization/visualize_clusters_pdf.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Create PDF visualizations for clustering results
 #
 # Generates comprehensive PDF report with all visualizations
@@ -64,6 +69,8 @@ if (method_value == "" || is.null(method_value) || nchar(method_value) == 0) {
       method_value <- "kmeans"
     } else if (grepl("_dbscan", cluster_basename, ignore.case=TRUE)) {
       method_value <- "dbscan"
+    } else if (grepl("_bsoid", cluster_basename, ignore.case=TRUE)) {
+      method_value <- "bsoid"
     }
   }
 }
@@ -126,6 +133,8 @@ main <- function() {
       method_name <- "kmeans"
     } else if (grepl("_dbscan", cluster_basename, ignore.case=TRUE)) {
       method_name <- "dbscan"
+    } else if (grepl("_bsoid", cluster_basename, ignore.case=TRUE)) {
+      method_name <- "bsoid"
     } else {
       method_name <- "unknown"
     }
@@ -300,7 +309,7 @@ main <- function() {
   # Page 5: Cluster heatmap
   unique_labels <- sort(unique(labels))
   # Filter out noise clusters (0 or negative) for heatmap if DBSCAN
-  if (method_name == "dbscan") {
+  if (method_name == "dbscan" || method_name == "bsoid") {
     valid_clusters <- unique_labels[unique_labels > 0]
     if (length(valid_clusters) == 0) {
       valid_clusters <- unique_labels  # Fallback to all clusters
@@ -373,6 +382,12 @@ main <- function() {
   dev.off()
   
   cat(sprintf("✓ PDF saved: %s\n", pdf_file))
+  
+  # Cleanup: Remove Rplots.pdf if it was accidentally created
+  if (file.exists("Rplots.pdf")) {
+    file.remove("Rplots.pdf")
+    cat("Note: Removed Rplots.pdf from working directory\n")
+  }
 }
 
 if (!interactive()) {

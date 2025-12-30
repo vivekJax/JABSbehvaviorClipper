@@ -93,7 +93,7 @@ We compute multiple statistics for each feature:
 
 **Why scale?**
 - **Distance metrics are scale-dependent**: Euclidean distance is dominated by features with larger scales
-- **Clustering algorithms are scale-sensitive**: K-means, hierarchical clustering assume equal feature importance
+- **Clustering algorithms are scale-sensitive**: Hierarchical clustering assumes equal feature importance
 - **Prevents bias**: Without scaling, some features dominate the analysis
 
 **Scaling Methods**:
@@ -170,37 +170,7 @@ Clustering is an **unsupervised learning** problem:
 
 ### Clustering Algorithms
 
-#### 1. K-Means Clustering
-
-**Method**:
-- Partition data into k clusters
-- Minimize within-cluster sum of squares (WCSS)
-- Iterative optimization (Lloyd's algorithm)
-
-**Why K-means?**
-- **Fast**: O(nkd) complexity, efficient for large datasets
-- **Interpretable**: Each cluster has a clear centroid
-- **Scalable**: Works well with many samples
-- **Standard**: Most widely used clustering algorithm
-
-**Limitations**:
-- Assumes **spherical clusters** (equal variance in all directions)
-- Requires **k** to be specified
-- Sensitive to **initialization** (solved by multiple restarts)
-
-**Optimal k Selection**:
-- **Elbow method**: Plot WCSS vs k, find "elbow"
-- **Silhouette score**: Measure of cluster quality
-  - Range: [-1, 1]
-  - Higher = better separation
-  - We use this for automatic k selection
-
-**Why silhouette score?**
-- **Internal validation**: Doesn't require ground truth
-- **Balanced**: Considers both cohesion (within-cluster) and separation (between-cluster)
-- **Standard metric**: Widely accepted in clustering literature
-
-#### 2. Hierarchical Clustering (Agglomerative)
+#### 1. Hierarchical Clustering (Agglomerative)
 
 **Method**:
 - Start with each point as its own cluster
@@ -209,45 +179,60 @@ Clustering is an **unsupervised learning** problem:
 
 **Linkage Methods**:
 - **Ward's method** (default): Minimizes within-cluster variance
-  - **Why Ward?**: Produces compact, spherical clusters (similar to K-means)
+  - **Why Ward?**: Produces compact, spherical clusters
   - **Best for**: Well-separated clusters of similar size
 
 **Why hierarchical?**
 - **No k required**: Can examine dendrogram to choose k
 - **Flexible**: Can handle non-spherical clusters
 - **Interpretable**: Dendrogram shows cluster relationships
-- **Complementary**: Different assumptions than K-means
+- **Statistically robust**: Well-established method with clear statistical foundation
+
+**Optimal k Selection**:
+- **Silhouette score**: Primary criterion for optimal k selection
+  - Range: [-1, 1]
+  - Higher = better separation
+  - We use this for automatic k selection
+- **Elbow method**: Secondary criterion (within-cluster sum of squares)
+- **Multi-criteria approach**: Combines both methods for robust selection
+
+**Why silhouette score?**
+- **Internal validation**: Doesn't require ground truth
+- **Balanced**: Considers both cohesion (within-cluster) and separation (between-cluster)
+- **Standard metric**: Widely accepted in clustering literature
 
 **Limitations**:
 - **Computational cost**: O(n² log n) or O(n³) depending on linkage
 - **Greedy**: Merges are final (no backtracking)
 
-#### 3. DBSCAN
+#### 2. B-SOID (Behavioral Segmentation of Open Field in DeepLabCut)
 
 **Method**:
-- Density-based clustering
-- Groups points in dense regions
-- Marks sparse points as noise
+- **UMAP**: Non-linear dimensionality reduction (preserves local and global structure)
+- **HDBSCAN**: Hierarchical density-based clustering (handles varying densities)
+- Based on: https://github.com/YttriLab/B-SOID
+
+**Why B-SOID?**
+- **Non-linear**: UMAP captures complex manifolds better than PCA
+- **Automatic**: Discovers number of clusters automatically
+- **Noise handling**: Identifies outliers as noise points (cluster 0)
+- **Flexible shapes**: Can find clusters of varying densities and shapes
+- **Behavioral analysis**: Specifically designed for behavioral data analysis
 
 **Parameters**:
-- **eps**: Maximum distance for neighbors
-- **minPts**: Minimum points to form a cluster
+- **n_components**: UMAP embedding dimensions (default: 10, adaptive)
+- **min_samples**: Minimum points for HDBSCAN cluster (adaptive based on data)
 
-**Why DBSCAN?**
-- **No k required**: Discovers number of clusters automatically
-- **Handles noise**: Identifies outliers as noise points
-- **Flexible shapes**: Can find non-spherical clusters
-- **Robust**: Less sensitive to initialization
+**Advantages**:
+- **Better for complex data**: Non-linear dimensionality reduction captures non-linear relationships
+- **Robust to noise**: HDBSCAN handles noise better than DBSCAN
+- **No k required**: Automatically discovers number of clusters
+- **Behavioral focus**: Designed specifically for behavioral segmentation
 
 **Limitations**:
-- **Parameter sensitive**: eps and minPts are critical
-- **Density variation**: Struggles with varying densities
-- **High-dimensional**: "Curse of dimensionality" affects distance metrics
-
-**Why we include it?**
-- Provides alternative perspective
-- Can identify noise/outliers
-- Useful when clusters have irregular shapes
+- **Computational cost**: UMAP + HDBSCAN is more expensive than simple methods
+- **Parameter tuning**: May require adjustment for different datasets
+- **Noise points**: Some points may be marked as noise (cluster 0)
 
 ### Cluster Validation
 

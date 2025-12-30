@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/core/run_full_analysis.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Run complete behavior bout analysis pipeline.
 #
 # This script runs the entire analysis pipeline:

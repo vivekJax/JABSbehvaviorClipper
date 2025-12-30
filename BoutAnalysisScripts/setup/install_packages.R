@@ -29,7 +29,8 @@ cran_packages <- c(
   "cluster",      # Clustering algorithms
   "NbClust",     # Optimal cluster number
   "gridExtra",   # Plot arrangement
-  "dbscan"       # DBSCAN clustering
+  "dbscan",      # DBSCAN clustering
+  "uwot"         # UMAP for B-SOID clustering
 )
 
 cat("Installing CRAN packages...\n")
@@ -46,7 +47,7 @@ for (pkg in cran_packages) {
 cat("\nVerifying installations...\n")
 required_packages <- c("rhdf5", "optparse", "dplyr", "jsonlite", "ggplot2", 
                        "Rtsne", "factoextra", "pheatmap", "cluster", 
-                       "NbClust", "gridExtra", "dbscan")
+                       "NbClust", "gridExtra", "dbscan", "uwot")
 
 all_ok <- TRUE
 for (pkg in required_packages) {

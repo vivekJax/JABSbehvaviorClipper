@@ -3,6 +3,18 @@
 #
 # Uses multiple outlier detection methods and consensus voting
 
+# Fix R environment issues - set valid editor before loading packages
+tryCatch({
+  options(editor = "vim")
+}, error = function(e) {
+  # If that fails, try to unset it
+  tryCatch({
+    options(editor = NULL)
+  }, error = function(e2) {
+    # Ignore if both fail
+  })
+})
+
 .libPaths(c("/Users/vkumar/Library/R/arm64/4.5/library", .libPaths()))
 
 suppressPackageStartupMessages({

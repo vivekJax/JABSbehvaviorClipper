@@ -10,4 +10,5 @@ cluster
 NbClust
 gridExtra
 dbscan
+uwot
 

@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/visualization/visualize_clusters.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Create comprehensive visualizations of behavior bout clusters.
 #
 # This script generates:
@@ -412,10 +417,24 @@ main <- function() {
   plot_bout_timeline(clusters_df, file.path(opt$`output-dir`, "bout_timeline.png"))
   
   cat("Visualization complete!\n")
+  
+  # Cleanup: Remove Rplots.pdf if it was accidentally created
+  if (file.exists("Rplots.pdf")) {
+    file.remove("Rplots.pdf")
+    cat("Note: Removed Rplots.pdf from working directory\n")
+  }
 }
 
 # Run main function
 if (!interactive()) {
   main()
+  
+  # Final cleanup: close any remaining graphics devices and remove Rplots.pdf
+  while (dev.cur() != 1) {
+    dev.off()
+  }
+  if (file.exists("Rplots.pdf")) {
+    file.remove("Rplots.pdf")
+  }
 }
 

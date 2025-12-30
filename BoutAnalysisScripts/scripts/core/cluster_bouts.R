@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+# Fix R environment issues
+tryCatch({ options(editor = "vim") }, error = function(e) { tryCatch({ options(editor = NULL) }, error = function(e2) BoutAnalysisScripts/scripts/core/cluster_bouts.R) })
+# Fix R environment issues
+options(editor = NULL)
+options(defaultPackages = c("datasets", "utils", "grDevices", "graphics", "stats", "methods"))
 # Cluster behavior bouts based on extracted features.
 #
 # This script:
@@ -25,8 +30,8 @@ suppressPackageStartupMessages({
 option_list <- list(
   make_option(c("-i", "--input"), type="character", default="bout_features.csv",
               help="Input CSV file with bout features (default: bout_features.csv)"),
-  make_option(c("-m", "--method"), type="character", default="kmeans",
-              help="Clustering method: kmeans, hierarchical, dbscan, gmm, or all (default: kmeans)"),
+  make_option(c("-m", "--method"), type="character", default="hierarchical",
+              help="Clustering method: hierarchical, bsoid, or all (default: hierarchical)"),
   make_option(c("-k", "--n-clusters"), type="integer", default=NULL,
               help="Number of clusters (auto-detect if not specified)"),
   make_option(c("-s", "--scale-method"), type="character", default="standard",
@@ -567,6 +572,151 @@ perform_dbscan_clustering <- function(X, eps = NULL, minPts = NULL) {
   return(list(labels=labels, info=info))
 }
 
+# Perform B-SOID-style clustering (UMAP + HDBSCAN)
+# Based on: https://github.com/YttriLab/B-SOID
+# B-SOID uses UMAP for non-linear dimensionality reduction followed by HDBSCAN clustering
+perform_bsoid_clustering <- function(X, n_components = 10, min_samples = NULL) {
+  if (!requireNamespace("uwot", quietly=TRUE)) {
+    stop("Package 'uwot' is required for B-SOID clustering (UMAP). Install with: install.packages('uwot')")
+  }
+  if (!requireNamespace("dbscan", quietly=TRUE)) {
+    stop("Package 'dbscan' is required for B-SOID clustering (HDBSCAN). Install with: install.packages('dbscan')")
+  }
+  
+  n_samples <- nrow(X)
+  n_dimensions <- ncol(X)
+  
+  # Adaptive n_components: use smaller embedding for smaller datasets
+  if (n_components > n_samples) {
+    n_components <- max(2, min(10, floor(n_samples / 2)))
+    cat(sprintf("B-SOID: Adjusted n_components to %d (dataset has %d samples)\n", n_components, n_samples))
+  }
+  
+  # Adaptive min_samples for HDBSCAN (similar to DBSCAN)
+  if (is.null(min_samples)) {
+    min_samples <- max(5, min(2 * n_components, floor(n_samples * 0.05)))
+    cat(sprintf("B-SOID: Using adaptive min_samples=%d (based on %d samples, %d UMAP components)\n", 
+                min_samples, n_samples, n_components))
+  }
+  
+  cat("B-SOID: Step 1 - Applying UMAP for non-linear dimensionality reduction...\n")
+  cat(sprintf("  Input: %d samples, %d features\n", n_samples, n_dimensions))
+  cat(sprintf("  Output: %d samples, %d UMAP components\n", n_samples, n_components))
+  
+  # Apply UMAP (non-linear dimensionality reduction)
+  # UMAP parameters based on B-SOID defaults and best practices
+  tryCatch({
+    X_umap <- uwot::umap(
+      X,
+      n_components = n_components,
+      n_neighbors = min(15, max(5, floor(n_samples * 0.1))),  # Adaptive neighbors
+      min_dist = 0.1,  # B-SOID default
+      metric = "euclidean",
+      n_threads = 1,  # Let R handle parallelization
+      verbose = FALSE
+    )
+    
+    cat(sprintf("B-SOID: UMAP completed. Reduced %d features -> %d components\n", 
+                n_dimensions, n_components))
+  }, error = function(e) {
+    stop(sprintf("B-SOID: UMAP failed: %s", e$message))
+  })
+  
+  # Replace any infinite/NaN values
+  X_umap[!is.finite(X_umap)] <- 0
+  
+  cat("B-SOID: Step 2 - Applying HDBSCAN clustering on UMAP embedding...\n")
+  
+  # Apply HDBSCAN (hierarchical density-based clustering)
+  # HDBSCAN is better than DBSCAN as it finds clusters of varying densities
+  # Note: R's dbscan::hdbscan only uses minPts parameter
+  tryCatch({
+    hdb <- dbscan::hdbscan(
+      X_umap,
+      minPts = min_samples
+    )
+    
+    labels <- hdb$cluster
+    
+    # HDBSCAN uses 0 for noise points (same as DBSCAN)
+    unique_clusters <- unique(labels)
+    n_clusters <- length(unique_clusters[unique_clusters != 0])
+    n_noise <- sum(labels == 0)
+    noise_ratio <- n_noise / n_samples
+    
+    cat(sprintf("B-SOID: HDBSCAN completed. Found %d clusters, %d noise points (%.1f%%)\n", 
+                n_clusters, n_noise, noise_ratio * 100))
+    
+    # If only noise or 1 cluster, try with reduced parameters
+    if (n_clusters <= 1 && min_samples > 4) {
+      cat("B-SOID: Only 1 cluster found, trying with reduced min_samples...\n")
+      min_samples_reduced <- max(4, min_samples - 2)
+      
+      hdb_reduced <- dbscan::hdbscan(
+        X_umap,
+        minPts = min_samples_reduced
+      )
+      
+      labels_reduced <- hdb_reduced$cluster
+      unique_clusters_reduced <- unique(labels_reduced)
+      n_clusters_reduced <- length(unique_clusters_reduced[unique_clusters_reduced != 0])
+      n_noise_reduced <- sum(labels_reduced == 0)
+      noise_ratio_reduced <- n_noise_reduced / n_samples
+      
+      if (n_clusters_reduced > n_clusters && noise_ratio_reduced < 0.9) {
+        labels <- labels_reduced
+        n_clusters <- n_clusters_reduced
+        n_noise <- n_noise_reduced
+        noise_ratio <- noise_ratio_reduced
+        min_samples <- min_samples_reduced
+        cat(sprintf("B-SOID: Updated to %d clusters with min_samples=%d (%.1f%% noise)\n",
+                    n_clusters, min_samples, noise_ratio * 100))
+      }
+    }
+    
+  }, error = function(e) {
+    stop(sprintf("B-SOID: HDBSCAN failed: %s", e$message))
+  })
+  
+  # Calculate metrics (on original feature space, not UMAP space)
+  info <- list(
+    method = "bsoid",
+    n_clusters = n_clusters,
+    n_noise = n_noise,
+    noise_ratio = noise_ratio,
+    n_umap_components = n_components,
+    min_samples = min_samples
+  )
+  
+  if (n_clusters > 1) {
+    # Calculate silhouette score on original feature space
+    dist_matrix <- dist(X)
+    sil <- silhouette(labels, dist_matrix)
+    silhouette_score <- mean(sil[, "sil_width"])
+    
+    ch_score <- tryCatch({
+      if (requireNamespace("fpc", quietly=TRUE)) {
+        fpc::calinhara(X, labels)
+      } else {
+        NA
+      }
+    }, error = function(e) NA)
+    
+    info$silhouette_score <- silhouette_score
+    info$calinski_harabasz_score <- ch_score
+    
+    cat(sprintf("B-SOID clustering: %d clusters, %d noise points (%.1f%%), silhouette=%.3f\n", 
+                n_clusters, n_noise, noise_ratio * 100, silhouette_score))
+  } else {
+    cat(sprintf("B-SOID found %d clusters (mostly noise). Consider adjusting parameters.\n", n_clusters))
+  }
+  
+  # Store UMAP embedding for visualization
+  info$umap_embedding <- X_umap
+  
+  return(list(labels=labels, info=info))
+}
+
 # Calculate cluster statistics
 calculate_cluster_statistics <- function(X, labels, metadata_df) {
   stats <- list()
@@ -635,7 +785,7 @@ main <- function(cl = NULL) {
   
   # Perform clustering
   methods_to_run <- if (opt$method == "all") {
-    c("kmeans", "hierarchical", "dbscan")
+    c("hierarchical", "bsoid")
   } else {
     opt$method
   }
@@ -646,13 +796,12 @@ main <- function(cl = NULL) {
     cat(sprintf("\nPerforming %s clustering...\n", method))
     
     tryCatch({
-      if (method == "kmeans") {
-        result <- perform_kmeans_clustering(X_scaled, n_clusters=opt$`n-clusters`, cl=cl)
-      } else if (method == "hierarchical") {
+      if (method == "hierarchical") {
         result <- perform_hierarchical_clustering(X_scaled, n_clusters=opt$`n-clusters`, cl=cl)
-      } else if (method == "dbscan") {
-        result <- perform_dbscan_clustering(X_scaled)
+      } else if (method == "bsoid") {
+        result <- perform_bsoid_clustering(X_scaled)
       } else {
+        cat(sprintf("Warning: Unknown method '%s', skipping...\n", method))
         next
       }
       
@@ -695,6 +844,14 @@ main <- function(cl = NULL) {
     }
     if (!is.null(info$calinski_harabasz_score)) {
       cat(sprintf("  Calinski-Harabasz Score: %.2f\n", info$calinski_harabasz_score))
+    }
+    if (method == "bsoid" && !is.null(info$n_umap_components)) {
+      cat(sprintf("  UMAP Components: %d\n", info$n_umap_components))
+    }
+    if (method == "bsoid") {
+      if (!is.null(info$n_noise)) {
+        cat(sprintf("  Noise Points: %d (%.1f%%)\n", info$n_noise, info$noise_ratio * 100))
+      }
     }
   }
 }

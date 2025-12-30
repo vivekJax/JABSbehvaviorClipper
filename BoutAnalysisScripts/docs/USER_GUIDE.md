@@ -125,15 +125,15 @@ Rscript BoutAnalysisScripts/scripts/extract_bout_features.R \
 ### 2. Cluster Bouts
 
 ```bash
-Rscript BoutAnalysisScripts/scripts/cluster_bouts.R \
-  --features BoutResults/bout_features.csv \
-  --method kmeans \
+Rscript BoutAnalysisScripts/scripts/core/cluster_bouts.R \
+  --input BoutResults/bout_features.csv \
+  --method hierarchical \
   --output-dir BoutResults/clustering
 ```
 
 **Options**:
-- `--features`: Input CSV with features
-- `--method`: `kmeans`, `hierarchical`, `dbscan`, or `all` (default: `kmeans`)
+- `--input`: Input CSV with features
+- `--method`: `hierarchical`, `bsoid`, or `all` (default: `hierarchical`)
 - `--n-clusters`: Number of clusters (auto-detect if not specified)
 - `--output-dir`: Output directory (default: current directory)
 - `--ncores`: Number of parallel cores (default: CPU cores - 1)
@@ -145,9 +145,9 @@ Rscript BoutAnalysisScripts/scripts/cluster_bouts.R \
 ### 3. Visualize Clusters
 
 ```bash
-Rscript BoutAnalysisScripts/scripts/visualize_clusters.R \
+Rscript BoutAnalysisScripts/scripts/visualization/visualize_clusters_pdf.R \
   --features BoutResults/bout_features.csv \
-  --clusters BoutResults/clustering/cluster_assignments_kmeans.csv \
+  --clusters BoutResults/clustering/hierarchical/cluster_assignments_hierarchical.csv \
   --output-dir BoutResults/clustering
 ```
 
