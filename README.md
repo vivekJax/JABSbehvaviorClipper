@@ -1,5 +1,7 @@
 # JABS Behavior Clipper
 
+[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 **Automated analysis pipeline for discovering sub-types within animal behaviors.**
 The goal of this app is to anlayze the annotated behaviors in a JABS projects to discover labeling styles, errors, behavior subclasses. It operates on the human labeled bouts in a project. 
 
