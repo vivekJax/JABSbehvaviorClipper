@@ -45,6 +45,7 @@ This runs: feature extraction → clustering → visualization → outlier detec
 - **[USER_GUIDE.md](USER_GUIDE.md)** - Complete usage guide with examples
 - **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Statistical methodology and technical details
 - **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Common issues and solutions
+- **[TRAJECTORY_PLOTTING.md](TRAJECTORY_PLOTTING.md)** - Trajectory plotting: centroid calculation and visualization
 
 ## Installation
 
