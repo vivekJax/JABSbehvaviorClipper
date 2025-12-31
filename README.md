@@ -1,6 +1,38 @@
 # JABS Behavior Clipper
 
-Complete analysis pipeline for behavior bout clustering and outlier detection.
+**Automated analysis pipeline for discovering sub-types within animal behaviors.**
+
+## What This Tool Does
+
+JABS Behavior Clipper takes labeled animal behavior data from the [JAX Animal Behavior System (JABS)](https://jax.org/jabs) and automatically discovers distinct movement patterns within a single behavior category. For example, if you have 200 labeled instances of "grooming" behavior, this tool will:
+
+1. **Extract movement features** from pose estimation data (body position, velocity, acceleration, angles)
+2. **Remove outliers** using multiple statistical methods with consensus voting
+3. **Cluster similar bouts** to reveal sub-types (e.g., face grooming vs. body grooming)
+4. **Generate visualizations** including trajectory plots, cluster summaries, and video montages
+
+### Why Use This?
+
+Behavior labels in JABS are often broad categories. A "left turn" might include sharp pivots, gradual curves, or turns while exploring. This tool reveals the hidden structure within your labeled behaviors, helping you:
+
+- **Discover behavioral sub-types** you didn't know existed
+- **Validate labeling consistency** by identifying outliers
+- **Quantify behavioral variation** across animals or conditions
+- **Generate publication-ready figures** and video examples
+
+### Input → Output
+
+```
+INPUT                                    OUTPUT
+─────                                    ──────
+• JABS annotation files (.json)    →    • Clustered behavior groups
+• Pose estimation data (.h5)       →    • Video montages per cluster  
+• Source videos (.mp4)             →    • Trajectory visualizations
+                                        • Statistical reports (PDF)
+                                        • Outlier identification
+```
+
+---
 
 ## Example Results
 
