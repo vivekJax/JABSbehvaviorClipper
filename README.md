@@ -24,6 +24,16 @@ Combined trajectories showing bounding box centroid (viridis), nose keypoint (co
 
 *Red star indicates lixit (water spout) location. Grey lines connect nose to tail for body orientation.*
 
+### Behavior Video Clips
+
+Example behavior bouts from B-SOID clusters (click to view full size):
+
+| Cluster 2 | Cluster 6 |
+|:---------:|:---------:|
+| ![Cluster 2](docs/examples/cluster_bsoid_2_preview.gif) | ![Cluster 6](docs/examples/cluster_bsoid_6_preview.gif) |
+
+*Each cluster contains behaviorally similar bouts identified by the B-SOID algorithm.*
+
 ---
 
 ## Quick Start
