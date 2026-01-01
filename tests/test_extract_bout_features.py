@@ -27,7 +27,16 @@ class TestComputeCacheKey:
     """Tests for compute_cache_key function."""
     
     def test_cache_key_consistency(self, temp_dir, sample_annotation_data):
-        """Test that cache key is consistent for same inputs."""
+        """
+        Test that cache key is consistent for same inputs.
+        
+        WHAT IT DOES: Verifies that calling compute_cache_key() with the same inputs
+        produces the same hash key.
+        
+        WHY IT MATTERS: Cache keys must be deterministic. If the same inputs produce
+        different keys, caching breaks and we waste computation time re-extracting
+        features unnecessarily. This test ensures cache invalidation works correctly.
+        """
         annotations_dir = os.path.join(temp_dir, "annotations")
         os.makedirs(annotations_dir, exist_ok=True)
         
@@ -41,7 +50,15 @@ class TestComputeCacheKey:
         assert key1 == key2
     
     def test_cache_key_different_behavior(self, temp_dir, sample_annotation_data):
-        """Test that cache key differs for different behaviors."""
+        """
+        Test that cache key differs for different behaviors.
+        
+        WHAT IT DOES: Ensures that different behaviors produce different cache keys.
+        
+        WHY IT MATTERS: If two behaviors share the same cache key, they would incorrectly
+        share cached results, leading to wrong feature data being used for analysis.
+        This would cause clustering and outlier detection to use incorrect features.
+        """
         annotations_dir = os.path.join(temp_dir, "annotations")
         os.makedirs(annotations_dir, exist_ok=True)
         
@@ -59,7 +76,18 @@ class TestLoadAnnotations:
     """Tests for load_annotations function."""
     
     def test_load_annotations_basic(self, mock_annotations_dir, sample_annotation_data):
-        """Test loading annotations with unfragmented_labels."""
+        """
+        Test loading annotations with unfragmented_labels.
+        
+        WHAT IT DOES: Tests loading annotations using unfragmented_labels (the preferred
+        source that matches GUI counts). Verifies correct number of bouts, behavior names,
+        present flags, bout IDs, and frame ranges.
+        
+        WHY IT MATTERS: This is the foundation of the entire pipeline. If annotation
+        loading fails or returns wrong data, all downstream analysis is incorrect.
+        We verify: correct bout count, correct behavior names, only present=True bouts,
+        sequential bout IDs starting from 0, and correct frame ranges.
+        """
         bouts = load_annotations(mock_annotations_dir, "turn_left")
         
         assert len(bouts) == 3  # 2 from identity 0, 1 from identity 1
