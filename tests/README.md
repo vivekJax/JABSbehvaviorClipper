@@ -15,6 +15,15 @@ tests/
 └── test_e2e_pipeline.py          # End-to-end integration tests
 ```
 
+## Test Explanations
+
+For detailed explanations of what each test does and why it matters, see:
+- **[TEST_EXPLANATIONS.md](TEST_EXPLANATIONS.md)** - Comprehensive guide to all tests
+
+Each test includes:
+- **WHAT IT DOES**: Description of the test's behavior
+- **WHY IT MATTERS**: Explanation of why this test is important for code quality
+
 ## Running Tests
 
 ### Prerequisites

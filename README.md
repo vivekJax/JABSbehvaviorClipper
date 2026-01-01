@@ -245,6 +245,9 @@ Comprehensive unit tests and end-to-end tests are available in the `tests/` dire
 ### Quick Test Run
 
 ```bash
+# Validate tests pass (recommended before committing)
+./check_tests_pass.sh
+
 # Run all unit tests (fast)
 ./run_tests.sh
 
@@ -261,7 +264,24 @@ pytest tests/ --cov=scripts --cov-report=html
 - **Integration Tests**: Test component interactions
 - **End-to-End Tests**: Test complete pipeline execution
 
-See [tests/README.md](tests/README.md) for detailed testing documentation.
+### Test Documentation
+
+- **[tests/README.md](tests/README.md)** - Testing guide and usage
+- **[tests/TEST_EXPLANATIONS.md](tests/TEST_EXPLANATIONS.md)** - Detailed explanations of what each test does and why it matters
+
+### Ensuring Tests Pass
+
+Before committing changes, run:
+```bash
+./check_tests_pass.sh
+```
+
+This validates:
+1. Test file syntax is correct
+2. All unit tests pass
+3. No regressions introduced
+
+Tests are automatically run in CI/CD (GitHub Actions) on every push.
 
 ## Notes
 
