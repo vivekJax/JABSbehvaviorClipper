@@ -13,11 +13,6 @@
     "1": {
       "turn_left": [
         {
-          "start": 559,
-          "end": 579,
-          "present": true
-        },
-        {
           "start": 1418,
           "end": 1458,
           "present": true

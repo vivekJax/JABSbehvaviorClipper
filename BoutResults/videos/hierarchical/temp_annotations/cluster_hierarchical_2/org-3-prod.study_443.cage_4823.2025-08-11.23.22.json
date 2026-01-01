@@ -4,8 +4,32 @@
     "0": {
       "turn_left": [
         {
-          "start": 582,
-          "end": 594,
+          "start": 70,
+          "end": 90,
+          "present": true
+        },
+        {
+          "start": 339,
+          "end": 352,
+          "present": true
+        },
+        {
+          "start": 909,
+          "end": 927,
+          "present": true
+        },
+        {
+          "start": 1262,
+          "end": 1275,
+          "present": true
+        }
+      ]
+    },
+    "2": {
+      "turn_left": [
+        {
+          "start": 1042,
+          "end": 1061,
           "present": true
         }
       ]

@@ -1,6 +1,6 @@
 # Behavioral Bout Analysis Report: Turn Left Behavior
 
-**Analysis Date:** December 29, 2025  
+**Analysis Date:** December 30, 2025  
 **Behavior:** turn_left  
 **Analysis Pipeline:** JABS Behavior Clipper with Hierarchical and B-SOID Clustering
 
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-This report presents a comprehensive analysis of behavioral bout clustering for the "turn_left" behavior using a multi-stage pipeline that includes feature extraction, outlier detection, dimensionality reduction, and unsupervised clustering. The analysis identified 243 behavioral bouts from video recordings, removed 18 outliers (7.4%) through consensus-based detection, and applied two complementary clustering methods: hierarchical clustering and B-SOID (Behavioral Segmentation of Open Field in DeepLabCut). The hierarchical clustering method identified 3 distinct clusters, while B-SOID identified 6 clusters with 110 noise points (48.9% of the dataset), providing complementary perspectives on behavioral structure.
+This report presents a comprehensive analysis of behavioral bout clustering for the "turn_left" behavior using a multi-stage pipeline that includes feature extraction, outlier detection, dimensionality reduction, and unsupervised clustering. The analysis identified 243 behavioral bouts from video recordings, removed 18 outliers (7.4%) through consensus-based detection, and applied two complementary clustering methods: hierarchical clustering and B-SOID (Behavioral Segmentation of Open Field in DeepLabCut). The hierarchical clustering method identified 2 distinct clusters, while B-SOID identified 6 clusters with 113 noise points (50.2% of the dataset), providing complementary perspectives on behavioral structure.
 
 ---
 
@@ -135,40 +135,36 @@ Two complementary clustering methods were applied to the cleaned dataset (225 bo
 **Optimal k selection:**
 - **Primary criterion:** Silhouette score (maximized)
 - **Secondary criterion:** Elbow method (within-cluster sum of squares)
-- **Selected k:** 3 clusters
+- **Selected k:** 2 clusters
 
 **Parameters:**
 - **Linkage method:** Ward.D2 (minimizes within-cluster variance)
 - **Distance metric:** Euclidean distance on PCA-transformed features
-- **Optimal k:** 3 clusters (automatically determined)
-- **Silhouette score:** 0.256 (moderate cluster quality)
+- **Optimal k:** 2 clusters (automatically determined)
+- **Silhouette score:** 0.298 (moderate cluster quality)
 
 **Statistical rationale:**
 - Ward's method produces compact, spherical clusters similar to K-means but with hierarchical structure
-- Silhouette score of 0.256 indicates moderate but acceptable cluster separation
+- Silhouette score of 0.298 indicates moderate but acceptable cluster separation
 - Multi-criteria approach (silhouette + elbow) ensures robust k selection
 
 #### 4.1.2 Results
 
 **Cluster composition:**
-- **Cluster 1:** 201 bouts (89.3% of dataset)
-  - Mean duration: 20.2 frames
-  - Represented across 72 videos
+- **Cluster 1:** 208 bouts (92.4% of dataset)
+  - Mean duration: 20.3 frames
+  - Represented across 75 videos
   - 3 animals represented
-- **Cluster 2:** 7 bouts (3.1% of dataset)
-  - Mean duration: 23.1 frames
-  - Represented across 5 videos
-  - 3 animals represented
-- **Cluster 3:** 17 bouts (7.6% of dataset)
+- **Cluster 2:** 17 bouts (7.6% of dataset)
   - Mean duration: 19.6 frames
   - Represented across 8 videos
   - 3 animals represented
 
 **Cluster quality metrics:**
-- **Silhouette score:** 0.256 (moderate quality)
+- **Silhouette score:** 0.298 (moderate quality)
   - Interpretation: Clusters are reasonably well-separated, though some overlap may exist
   - Range: [-1, 1], where 1 indicates perfect separation
-  - A score of 0.256 suggests acceptable but not perfect cluster separation
+  - A score of 0.298 suggests acceptable but not perfect cluster separation
 
 ### 4.2 B-SOID Clustering
 
@@ -198,36 +194,36 @@ Two complementary clustering methods were applied to the cleaned dataset (225 bo
 
 **Cluster composition:**
 - **Total clusters identified:** 6 clusters (excluding noise)
-- **Noise points (cluster 0):** 110 bouts (48.9% of dataset)
-- **Clustered bouts:** 115 bouts (51.1% of dataset)
+- **Noise points (cluster 0):** 113 bouts (50.2% of dataset)
+- **Clustered bouts:** 112 bouts (49.8% of dataset)
 
 **Cluster sizes:**
-- **Cluster 0 (Noise):** 110 bouts (48.9% of dataset)
-- **Cluster 1:** 27 bouts (12.0% of dataset, 23.5% of clustered bouts)
-- **Cluster 2:** 13 bouts (5.8% of dataset, 11.3% of clustered bouts)
-- **Cluster 3:** 23 bouts (10.2% of dataset, 20.0% of clustered bouts)
-- **Cluster 4:** 18 bouts (8.0% of dataset, 15.7% of clustered bouts)
-- **Cluster 5:** 22 bouts (9.8% of dataset, 19.1% of clustered bouts)
-- **Cluster 6:** 12 bouts (5.3% of dataset, 10.4% of clustered bouts)
+- **Cluster 0 (Noise):** 113 bouts (50.2% of dataset)
+- **Cluster 1:** 27 bouts (12.0% of dataset, 24.1% of clustered bouts)
+- **Cluster 2:** 14 bouts (6.2% of dataset, 12.5% of clustered bouts)
+- **Cluster 3:** 30 bouts (13.3% of dataset, 26.8% of clustered bouts)
+- **Cluster 4:** 13 bouts (5.8% of dataset, 11.6% of clustered bouts)
+- **Cluster 5:** 14 bouts (6.2% of dataset, 12.5% of clustered bouts)
+- **Cluster 6:** 14 bouts (6.2% of dataset, 12.5% of clustered bouts)
 
 **Cluster quality metrics:**
-- **Silhouette score:** -0.029 (poor cluster separation)
-- **Noise ratio:** 48.9% (high proportion of noise points)
+- **Silhouette score:** -0.056 (poor cluster separation)
+- **Noise ratio:** 50.2% (high proportion of noise points)
 
 **Interpretation:**
-The B-SOID clustering identified a more granular structure with 6 distinct clusters, but with a high proportion of noise points (48.9%). This suggests:
+The B-SOID clustering identified a more granular structure with 6 distinct clusters, but with a high proportion of noise points (50.2%). This suggests:
 
 1. **High behavioral variability:** The turn_left behavior exhibits substantial variation, with many bouts not forming dense clusters
 2. **Multiple behavioral variants:** The 6 identified clusters may represent distinct execution styles or contextual variations of turn_left
-3. **Noise interpretation:** The 110 noise points (48.9%) likely represent:
+3. **Noise interpretation:** The 113 noise points (50.2%) likely represent:
    - Bouts with intermediate characteristics between clusters
    - Unique behavioral variants that don't form dense groups
    - Transitional behaviors or ambiguous cases
 
 **Comparison with hierarchical clustering:**
-- Hierarchical clustering identified 3 broad clusters with well-separated separation (silhouette: 0.256)
-- B-SOID identified 6 finer-grained clusters but with poor separation (silhouette: -0.029)
-- The high noise ratio in B-SOID (48.9%) suggests that the behavioral space may be more continuous than discrete, with many intermediate cases
+- Hierarchical clustering identified 2 broad clusters with well-separated separation (silhouette: 0.298)
+- B-SOID identified 6 finer-grained clusters but with poor separation (silhouette: -0.056)
+- The high noise ratio in B-SOID (50.2%) suggests that the behavioral space may be more continuous than discrete, with many intermediate cases
 
 **UMAP embedding:**
 The UMAP transformation reduced the 486-dimensional feature space to 10 dimensions while preserving non-linear relationships. The embedding captures complex behavioral manifolds that linear methods (PCA) might miss, making it particularly suitable for behavioral data with non-linear structure.
@@ -292,18 +288,18 @@ Similar visualization suite as hierarchical clustering, adapted for B-SOID:
 ### 5.3 Cluster Videos
 
 **Hierarchical clustering videos:**
-- `cluster_hierarchical_1.mp4`: 201 bouts (Cluster 1)
-- `cluster_hierarchical_2.mp4`: 7 bouts (Cluster 2)
-- `cluster_hierarchical_3.mp4`: 17 bouts (Cluster 3)
+- `cluster_hierarchical_1.mp4`: 208 bouts (Cluster 1)
+- `cluster_hierarchical_2.mp4`: 17 bouts (Cluster 2)
+- `cluster_hierarchical_3.mp4`: 0 bouts (Cluster 3)
 
 **B-SOID clustering videos:**
-- `cluster_bsoid_0.mp4`: 110 bouts (Noise cluster)
+- `cluster_bsoid_0.mp4`: 113 bouts (Noise cluster)
 - `cluster_bsoid_1.mp4`: 27 bouts (Cluster 1)
-- `cluster_bsoid_2.mp4`: 13 bouts (Cluster 2)
-- `cluster_bsoid_3.mp4`: 23 bouts (Cluster 3)
-- `cluster_bsoid_4.mp4`: 18 bouts (Cluster 4)
-- `cluster_bsoid_5.mp4`: 22 bouts (Cluster 5)
-- `cluster_bsoid_6.mp4`: 12 bouts (Cluster 6)
+- `cluster_bsoid_2.mp4`: 14 bouts (Cluster 2)
+- `cluster_bsoid_3.mp4`: 30 bouts (Cluster 3)
+- `cluster_bsoid_4.mp4`: 13 bouts (Cluster 4)
+- `cluster_bsoid_5.mp4`: 14 bouts (Cluster 5)
+- `cluster_bsoid_6.mp4`: 14 bouts (Cluster 6)
 
 **Total videos generated:** 3 hierarchical + 7 B-SOID = 10 videos
 
@@ -332,25 +328,24 @@ Each video contains concatenated clips of all bouts in the cluster, with:
 
 | Metric | Value |
 |--------|-------|
-| Number of clusters | 3 |
-| Silhouette score | 0.256 |
+| Number of clusters | 2 |
+| Silhouette score | 0.298 |
 | Linkage method | Ward.D2 |
-| Cluster 1 size | 201 bouts (89.3%) |
-| Cluster 2 size | 7 bouts (3.1%) |
-| Cluster 3 size | 17 bouts (7.6%) |
+| Cluster 1 size | 208 bouts (92.4%) |
+| Cluster 2 size | 17 bouts (7.6%) |
 
 ### 6.3 B-SOID Clustering Summary
 
 | Metric | Value |
 |--------|-------|
 | Number of clusters | 6 |
-| Noise points | 110 (48.9%) |
-| Clustered bouts | 115 (51.1%) |
-| Silhouette score | -0.029 |
+| Noise points | 113 (50.2%) |
+| Clustered bouts | 112 (49.8%) |
+| Silhouette score | -0.056 |
 | UMAP components | 10 |
 | min_samples (HDBSCAN) | Adaptive |
-| Largest cluster | 27 bouts (Cluster 1, 12.0%) |
-| Smallest cluster | 12 bouts (Cluster 6, 5.3%) |
+| Largest cluster | 30 bouts (Cluster 3, 13.3%) |
+| Smallest cluster | 13 bouts (Cluster 4, 5.8%) |
 
 ---
 
@@ -366,24 +361,24 @@ PCA successfully reduced the feature space from 486 to 64 dimensions while retai
 
 **Clustering comparison:**
 The two clustering methods provide complementary perspectives:
-- **Hierarchical clustering:** Identifies 3 broad, well-separated clusters (silhouette: 0.256), suggesting a structured structure in the behavioral space
-- **B-SOID:** Identifies 6 finer-grained clusters but with poor separation (silhouette: -0.029) and high noise (48.9%), suggesting a more continuous or multi-modal behavioral space
+- **Hierarchical clustering:** Identifies 2 broad, well-separated clusters (silhouette: 0.298), suggesting a binary structure in the behavioral space
+- **B-SOID:** Identifies 6 finer-grained clusters but with poor separation (silhouette: -0.056) and high noise (50.2%), suggesting a more continuous or multi-modal behavioral space
 
 ### 7.2 Biological Interpretation
 
 **Hierarchical clustering results:**
-The identification of 3 distinct clusters suggests that turn_left behavior may exist in multiple distinct forms:
+The identification of 2 distinct clusters suggests that turn_left behavior may exist in two primary forms:
 1. **Standard variant:** The dominant execution style
-2. Additional variants: Distinct execution styles, with significantly different feature patterns
+2. Variant form: Distinct execution style, with significantly different feature patterns
 
 **B-SOID results:**
 The identification of 6 clusters with high noise suggests:
 1. **Behavioral diversity:** turn_left behavior exhibits substantial variation
 2. **Multiple execution styles:** The 6 clusters may represent distinct ways of performing the behavior
-3. **Continuous variation:** The high noise ratio (48.9%) suggests that many bouts fall between discrete clusters, indicating a more continuous behavioral space
+3. **Continuous variation:** The high noise ratio (50.2%) suggests that many bouts fall between discrete clusters, indicating a more continuous behavioral space
 
 **Noise points in B-SOID:**
-The 110 noise points (48.9%) likely represent:
+The 113 noise points (50.2%) likely represent:
 - Transitional behaviors between clusters
 - Unique execution styles that don't form dense groups
 - Ambiguous cases that could belong to multiple clusters
@@ -400,7 +395,7 @@ The 110 noise points (48.9%) likely represent:
    - B-SOID assumes clusters have sufficient density to be identified
    - Both methods may miss clusters that don't meet these assumptions
 
-4. **Noise interpretation:** The high noise ratio in B-SOID (48.9%) makes interpretation challenging. These noise points may represent valid behavioral variation that doesn't form discrete clusters.
+4. **Noise interpretation:** The high noise ratio in B-SOID (50.2%) makes interpretation challenging. These noise points may represent valid behavioral variation that doesn't form discrete clusters.
 
 5. **Temporal context:** The analysis treats each bout independently. Temporal relationships between bouts (e.g., sequences, transitions) are not considered.
 
@@ -424,13 +419,13 @@ This analysis successfully applied a comprehensive pipeline to identify behavior
 
 1. **Outlier detection:** Consensus-based approach identified and removed 18 anomalous bouts (7.4%), improving data quality for clustering.
 
-2. **Hierarchical clustering:** Identified 3 distinct behavioral clusters with moderate separation (silhouette: 0.256), suggesting a structured structure with multiple variants.
+2. **Hierarchical clustering:** Identified 2 distinct behavioral clusters with moderate separation (silhouette: 0.298), suggesting a binary structure with a dominant variant.
 
-3. **B-SOID clustering:** Identified 6 finer-grained clusters but with poor separation (silhouette: -0.029) and high noise (48.9%), suggesting a more continuous or multi-modal behavioral space.
+3. **B-SOID clustering:** Identified 6 finer-grained clusters but with poor separation (silhouette: -0.056) and high noise (50.2%), suggesting a more continuous or multi-modal behavioral space.
 
 4. **Complementary methods:** The two clustering approaches provide different perspectives on behavioral structure, with hierarchical clustering emphasizing broad patterns and B-SOID emphasizing fine-grained variation.
 
-5. **Behavioral diversity:** Both methods indicate substantial variation in turn_left behavior, with hierarchical clustering suggesting a structured structure and B-SOID suggesting a more continuous space with multiple modes.
+5. **Behavioral diversity:** Both methods indicate substantial variation in turn_left behavior, with hierarchical clustering suggesting a binary structure and B-SOID suggesting a more continuous space with multiple modes.
 
 The analysis provides a foundation for understanding behavioral structure in turn_left behavior and demonstrates the value of applying multiple clustering methods to gain complementary insights into behavioral organization.
 
@@ -480,7 +475,7 @@ All analysis outputs are organized in the `BoutResults/` directory:
 **Python:**
 - pandas, numpy: Data manipulation
 - h5py: HDF5 file reading
-- multiprocessing: Parallel processing (7 workers)
+- multiprocessing: Parallel processing (9 workers)
 
 **R:**
 - optparse: Command-line argument parsing
@@ -494,7 +489,7 @@ All analysis outputs are organized in the `BoutResults/` directory:
 
 ### 10.2 Computational Resources
 
-- **CPU cores used:** 7 (n-1 cores, leaving 1 core free)
+- **CPU cores used:** 9 (n-1 cores, leaving 1 core free)
 - **Parallel processing:** Applied to feature extraction, clustering, and video generation
 - **Memory:** Sufficient for dataset size (225 bouts)
 
@@ -507,6 +502,6 @@ All analysis outputs are organized in the `BoutResults/` directory:
 
 ---
 
-**Report generated:** December 29, 2025  
+**Report generated:** December 30, 2025  
 **Analysis pipeline version:** 1.0.0  
 **Contact:** See project documentation for details

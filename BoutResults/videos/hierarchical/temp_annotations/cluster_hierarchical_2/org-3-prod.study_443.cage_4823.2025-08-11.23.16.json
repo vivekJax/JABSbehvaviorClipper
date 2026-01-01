@@ -4,13 +4,18 @@
     "0": {
       "turn_left": [
         {
-          "start": 431,
-          "end": 451,
+          "start": 719,
+          "end": 742,
           "present": true
         },
         {
-          "start": 989,
-          "end": 1011,
+          "start": 750,
+          "end": 765,
+          "present": true
+        },
+        {
+          "start": 769,
+          "end": 784,
           "present": true
         }
       ]
@@ -18,8 +23,8 @@
     "1": {
       "turn_left": [
         {
-          "start": 1384,
-          "end": 1405,
+          "start": 1552,
+          "end": 1571,
           "present": true
         }
       ]
