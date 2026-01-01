@@ -238,6 +238,31 @@ For complete documentation, see the [Documentation Registry](docs/documentation_
 - **Technical**: Statistical methodology, distance metrics, implementation details
 - **API Reference**: Script documentation, parameter references
 
+## Testing
+
+Comprehensive unit tests and end-to-end tests are available in the `tests/` directory.
+
+### Quick Test Run
+
+```bash
+# Run all unit tests (fast)
+./run_tests.sh
+
+# Or using pytest directly
+pytest tests/ -v -m "not slow and not e2e"
+
+# Run with coverage
+pytest tests/ --cov=scripts --cov-report=html
+```
+
+### Test Structure
+
+- **Unit Tests**: Test individual functions and modules
+- **Integration Tests**: Test component interactions
+- **End-to-End Tests**: Test complete pipeline execution
+
+See [tests/README.md](tests/README.md) for detailed testing documentation.
+
 ## Notes
 
 - All scripts use `unfragmented_labels` from annotation JSON files
